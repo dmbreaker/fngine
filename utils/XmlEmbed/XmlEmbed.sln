@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlEmbed", "XmlEmbed\XmlEmbed.csproj", "{FF855B6C-1FCD-4A28-A960-02F66F14369D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FF855B6C-1FCD-4A28-A960-02F66F14369D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF855B6C-1FCD-4A28-A960-02F66F14369D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF855B6C-1FCD-4A28-A960-02F66F14369D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF855B6C-1FCD-4A28-A960-02F66F14369D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
