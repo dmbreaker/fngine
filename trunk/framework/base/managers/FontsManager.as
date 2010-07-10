@@ -35,19 +35,22 @@
 		public function GetDefaultFont():ImageFont
 		{
 			trace( mDefaultFontName );
-			return new mFonts[mDefaultFontName]( mDefaultFontName );
+			return GetFont( mDefaultFontName );
 		}
 		// ============================================================
 		public function GetFont( name:String ):ImageFont
 		{
-			if ( mFonts[name] )
-				return new mFonts[name]( name );
+			var item:* = mFonts[name];
+			if ( item )
+			{
+				return new ImageFont( name, RM.GetImage( item.image ), item.xml );
+			}
 			return null;
 		}
 		// ============================================================
-		public function AppendFont( name:String, font:Class ):void 
+		public function AppendFont( name:String, xml_name:String, image_name:String ):void 
 		{
-			mFonts[name] = font;
+			mFonts[name] = {xml:xml_name, image:image_name};
 		}
 		// ============================================================
 		public function SetDefault( name:String ):void 

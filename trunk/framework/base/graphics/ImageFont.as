@@ -5,6 +5,7 @@
 	import flash.geom.Rectangle;
 	import base.utils.Key;
 	import base.types.*;
+	import base.parsers.CharDataXmlParser;
 	
 	/**
 	 * ...
@@ -26,11 +27,12 @@
 		
 		internal var mMaxCharHeight:int = 0;
 		// ============================================================
-		public function ImageFont( name:String, bmd:BitmapData, char_data:Array )
+		public function ImageFont( name:String, bmd:BitmapData, xml_name:String )
 		{
 			Name = name;
 			mBitmapData = bmd.clone();	// чтобы операции над одним шрифтом не отражлись на других контролах
-			mCharsData = char_data;
+			
+			mCharsData = new CharDataXmlParser().Parse( xml_name );
 			
 			// определим самый высокий символ - на него будем ориентироваться при учете высоты строк:
 			for (var i:int = 0; i < mCharsData.length; i++)
