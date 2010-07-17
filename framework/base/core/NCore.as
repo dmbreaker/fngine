@@ -142,23 +142,35 @@
 			RestartOutTimer();
 		}
 		// ============================================================
+		/*
+		 *  Called on event ADDED_TO_STAGE
+		 */
 		private function OnAdded(e:Event):void
 		{
 			XmlManager.Instance.CompleteDispatcher.addEventListener(XmlManager.XMLS_LOADED, onXmlsLoaded, false, 0, true);
-			InitXMLs();
+			//InitXMLs();
 			XmlManager.Instance.LoadXmls();
 		}
 		// ============================================================
-		protected function InitXMLs():void 
+		/*protected function InitXMLs():void 
 		{
 			throw Error("XML's are not initialized (override InitXMLs(), or remove super.InitXMLs())");
-		}
+		}*/
 		// ============================================================
+		/*
+		 * Initialize your fonts in overriden InitFonts method
+		 * Sample:
+		 * 	FontsManager.Instance.AppendFont( "SomeFont", "font_default", "font" );
+		 * 	FontsManager.Instance.SetDefault( "SomeFont" );			// don't forget to set default font
+		 */
 		protected function InitFonts():void
 		{
 			throw Error("Fonts are not initialized (override InitFonts(), or remove super.InitFonts())");
 		}
 		// ============================================================
+		/*
+		 * Called on event XmlManager.XMLS_LOADED (when all game xml are loded)
+		 */
 		private function onXmlsLoaded(e:Event):void 
 		{
 			InitFonts();
@@ -223,12 +235,18 @@
 			}
 		}
 		// ============================================================
+		/*
+		 * Switching to previous scene
+		 */
 		public function SwitchToPrevious():void
 		{
 			if ( mPreviousSceneName )
 				SwitchTo( mPreviousSceneName );
 		}
 		// ============================================================
+		/*
+		 * Get NScene by its name
+		 */
 		public function GetScene( name:String ):NScene
 		{
 			if( mScenes[name] )
@@ -308,6 +326,10 @@
 			return mBGImage;
 		}
 		// ============================================================
+		/*
+		 * Set image of NCore base Sprite (we need some BG image,
+		 * 	but redraw BG in every frame of NScene is too slow, BGImage of NCore works faster)
+		 */
 		public function set BGImage( img:BitmapData ):void
 		{
 			mBGImage = img;
@@ -328,7 +350,7 @@
 		// ============================================================
 		// ============================================================
 		/**
-		 * Используется в основном для показа MsgBox'ов
+		 * Use it to show pseudo-modal NScene like MessageBox (non fullscreen)
 		 */
 		public function ShowModal( sceneName:String, callback:Function ):void
 		{
@@ -551,13 +573,13 @@
 		// ============================================================
 		public function get IsProfilerEnabled():Boolean
 		{
-			// TODO: в релизе сделать FALSE
+			// TODO: make it FALSE in release
 			return false;
 		}
 		// ============================================================
 		public function get IsFGLVersion():Boolean
 		{
-			// TODO: в релизе сделать FALSE
+			// TODO: make it FALSE in release
 			return false;
 		}
 		// ============================================================
