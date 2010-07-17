@@ -75,7 +75,14 @@ package base.managers
 			{
 				var str:String = v.toString();
 				str = str.substr( "Embed_".length );
-				mReleaseNames.push( str );
+				CONFIG::debug
+				{
+					AddXML( str );
+				}
+				CONFIG::release
+				{
+					mReleaseNames.push( str );
+				}
 			}
 		}
 		// ============================================================
@@ -104,7 +111,7 @@ package base.managers
 					mXmlsCache[name] = xml;
 				}
 			
-				// отправить сообщение об окончании загрузки XML
+				// send event-message that XML was loaded
 				CompleteDispatcher.dispatchEvent( new Event(XMLS_LOADED) );
 			}
 		}
