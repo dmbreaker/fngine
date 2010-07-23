@@ -46,6 +46,11 @@
 		private var mIsFreezed:Boolean = true;
 		private var mIsPaused:Boolean = false;
 		// ============================================================
+		protected var mLayers:Vector.<Sprite> = new Vector.<Sprite>();
+		protected var mMainLayerIndex:int = 0;
+		protected var mBottommostLayerIndex:int = 0;
+		protected var mTopmostLayerIndex:int = 0;
+		// ============================================================
 
 		public var RealFPS:Number = 0;
 		private var FramesCount:Number = 0;
@@ -109,6 +114,8 @@
 			//mGraphix = mSprGraphix;
 			mGraphix = mBmpGraphix;
 			
+			InitializeLayers();
+			
 			addEventListener( Event.ENTER_FRAME, OnEnterFrame, false, 0, true );
 			addEventListener( MouseEvent.MOUSE_MOVE, onMouseMove, false, 0, true );
 			addEventListener( MouseEvent.CLICK, OnMouseClick, false, 0, true );
@@ -132,6 +139,44 @@
 			
 			OnSceneCyclePreStart();
 			Start();
+		}
+		// ============================================================
+		/*
+		 * Initializes NScene layers (every layer is a Sprite)
+		 */
+		protected function InitializeLayers():void 
+		{
+			var sprite:Sprite = new Sprite();
+			sprite.mouseEnabled = false;
+			addChild( sprite );
+			mLayers.push( sprite );	// bottom layer
+			mBottommostLayerIndex = 0;
+			
+			sprite = new Sprite();
+			sprite.mouseEnabled = false;
+			addChild( sprite );
+			mLayers.push( sprite );	// center layer (main)
+			mMainLayerIndex = 1;
+			
+			sprite = new Sprite();
+			sprite.mouseEnabled = false;
+			addChild( sprite );
+			mLayers.push( sprite );	// top layer (over)
+			mTopmostLayerIndex = 2;
+		}
+		// ============================================================
+		public function GetLayer( index:int ):Sprite
+		{
+			if ( mLayers.length == 0 )
+				return null;
+			
+			if ( index <= 0 )
+				return mLayers[0];
+				
+			if ( index >= mLayers.length )
+				return mLayers[mLayers.length - 1]
+				
+			return mLayers[index];
 		}
 		// ============================================================
 		protected function OnInit():void	// for overriding
@@ -348,7 +393,9 @@
 				AfterDraw( mGraphix, fdiff );
 			//SimpleProfiler.Stop( "Draw" );
 			
-				mGraphix.BlitOn( graphics, 0, 0 );
+				//mGraphix.BlitOn( graphics, 0, 0 );
+				// попытка добавить слои, чтобы отрисовка стала быстрее
+				mGraphix.BlitOn( mLayers[mMainLayerIndex].graphics, 0, 0 );
 				
 				prevFramesTime = t;
 				FramesCount++;
