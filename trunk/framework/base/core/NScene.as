@@ -12,6 +12,7 @@
 	import base.utils.SimpleProfiler;
 	import base.tweening.NTweener;
 	import base.effects.NEffectTweener;
+	import flash.display.MovieClip;
 	
 	import flash.geom.Point;
 	import flash.display.Sprite;
@@ -50,6 +51,7 @@
 		protected var mMainLayerIndex:int = 0;
 		protected var mBottommostLayerIndex:int = 0;
 		protected var mTopmostLayerIndex:int = 0;
+		//protected var mDefaultRenderTargetIndex:int = 0;
 		// ============================================================
 
 		public var RealFPS:Number = 0;
@@ -57,7 +59,7 @@
 		//public static const MsPerQuant:int = 15;	// milliseconds per quant
 		public static const MsPerQuant:int = 20;	// milliseconds per quant
 		//public static const MsPerFrame:int = 30;	// milliseconds per frame
-		public static const MsPerFrame:int = 20;	// milliseconds per frame
+		public static const MsPerFrame:int = 30;	// milliseconds per frame
 		public static const KeysRepeatTime:int = 200;	// milliseconds per KeyPress
 		public var prevQuantsTime:int;
 		public var prevPrecisionQuantsTime:int;
@@ -109,7 +111,7 @@
 			Width = NCore.Instance.WindowWidth;
 			Height = NCore.Instance.WindowHeight;
 			
-			mBmpGraphix = new BitmapGraphix( Width, Height, false )
+			mBmpGraphix = new BitmapGraphix( Width, Height, true );
 			//addChild( mSprGraphix );
 			//mGraphix = mSprGraphix;
 			mGraphix = mBmpGraphix;
@@ -146,23 +148,30 @@
 		 */
 		protected function InitializeLayers():void 
 		{
+			mLayers.length = 0;
+			
 			var sprite:Sprite = new Sprite();
 			sprite.mouseEnabled = false;
+			sprite.cacheAsBitmap = true;
 			addChild( sprite );
 			mLayers.push( sprite );	// bottom layer
 			mBottommostLayerIndex = 0;
 			
 			sprite = new Sprite();
 			sprite.mouseEnabled = false;
+			sprite.cacheAsBitmap = false;
 			addChild( sprite );
 			mLayers.push( sprite );	// center layer (main)
 			mMainLayerIndex = 1;
 			
 			sprite = new Sprite();
 			sprite.mouseEnabled = false;
+			sprite.cacheAsBitmap = true;
 			addChild( sprite );
 			mLayers.push( sprite );	// top layer (over)
 			mTopmostLayerIndex = 2;
+			
+			//mDefaultRenderTargetIndex = mMainLayerIndex;
 		}
 		// ============================================================
 		public function GetLayer( index:int ):Sprite
