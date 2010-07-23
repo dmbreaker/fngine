@@ -19,9 +19,14 @@
 	public class BitmapGraphix extends NBitmapData implements IGraphix
 	{
 		// ============================================================
-		private var mOffsetX:Number;
-		private var mOffsetY:Number;
+		private var mOffsetX:Number = 0;
+		private var mOffsetY:Number = 0;
 		private var mClearRect:Rectangle;
+		
+		private var mClearBitmap:NBitmapData;
+		
+		private var mBlur:BlurFilter = new BlurFilter();
+		private var mZeroPoint:Point = new Point();
 		
 		private var mIsLocked:Boolean = false;
 		// ============================================================
@@ -29,13 +34,17 @@
 		{
 			super(_width, _height, true, fillColor);
 			mClearRect = new Rectangle( 0, 0, _width, _height );
+			
+			mClearBitmap = new NBitmapData( _width, _height, transparent, fillColor );
 		}
 		// ============================================================
 		// ============================================================
 		/* INTERFACE base.graphics.IGraphix */
 		public override function Clear():void
 		{
-			this.fillRect( mClearRect, 0x00000000 );
+			//this.fillRect( mClearRect, 0x000000 );
+			this.copyPixels( mClearBitmap, mClearRect, mZeroPoint, mClearBitmap, mZeroPoint, false );
+			//this.copyChannel( mClearBitmap, mClearRect, mZeroPoint, BitmapDataChannel.ALPHA, BitmapDataChannel.ALPHA );
 		}
 		// ============================================================
 		//private var mColorTransform:ColorTransform = new ColorTransform();
@@ -310,12 +319,12 @@
 		{
 			matrix.translate( sx, sy );
 			
-			if ( mIsLocked )
+			if ( !mIsLocked )
 			{
-				unlock();
-				mIsLocked = false;
+				lock();
+				mIsLocked = true;
 			}
-			
+
 			g.clear();
 			//lock();
 			g.beginBitmapFill( this, matrix, false, false );
@@ -323,10 +332,10 @@
 			g.endFill();
 			//unlock();
 			
-			if ( !mIsLocked )
+			if ( mIsLocked )
 			{
-				lock();
-				mIsLocked = true;
+				unlock();
+				mIsLocked = false;
 			}
 			
 			matrix.translate( -sx, -sy );
@@ -359,8 +368,6 @@
 			dispose();
 		}
 		// ============================================================
-		private var mBlur:BlurFilter = new BlurFilter();
-		private var mZeroPoint:Point = new Point();
 		public function DoBlur():void
 		{
 			applyFilter( this, this.rect, mZeroPoint, mBlur );
