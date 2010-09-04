@@ -100,7 +100,7 @@
 			buttonMode = true;
 			mouseChildren = false;
 			
-			cacheAsBitmap = false;
+			cacheAsBitmap = true;// false;
 		}
 		// ============================================================
 		protected function OnAdded(e:Event = null):void
@@ -159,7 +159,7 @@
 			
 			sprite = new Sprite();
 			sprite.mouseEnabled = false;
-			sprite.cacheAsBitmap = false;
+			sprite.cacheAsBitmap = true;// false;
 			addChild( sprite );
 			mLayers.push( sprite );	// center layer (main)
 			mMainLayerIndex = 1;
@@ -374,12 +374,12 @@
 					
 				while ( accumulator >= MsPerQuant )	// если время кадра пришло
 				{
-				//SimpleProfiler.Start( "Logic" );
+				SimpleProfiler.Start( "Logic" );
 					mQuantgets.Quant( MsPerQuant );
 					NTweener.Quant( MsPerQuant );
 					NEffectTweener.Quant( MsPerQuant );
 					Quant( MsPerQuant );
-				//SimpleProfiler.Stop( "Logic" );
+				SimpleProfiler.Stop( "Logic" );
 					if ( mNeedDestroy )
 						OnDestroy();
 					accumulator -= MsPerQuant;
@@ -394,13 +394,17 @@
 			
 			if ( fdiff >= MsPerFrame && mStartedQuants && visible )
 			{
+			SimpleProfiler.Start( "DrawClear" );
 				mGraphix.Clear();
+			SimpleProfiler.Stop( "DrawClear" );
 				
-			//SimpleProfiler.Start( "Draw" );
+			SimpleProfiler.Start( "Draw" );
+				mGraphix.lock();			// лочим главный битмап
 				BeforeDraw( mGraphix, fdiff );
 				mWidgets.Draw( mGraphix, fdiff );
 				AfterDraw( mGraphix, fdiff );
-			//SimpleProfiler.Stop( "Draw" );
+				mGraphix.unlock();
+			SimpleProfiler.Stop( "Draw" );
 			
 				//mGraphix.BlitOn( graphics, 0, 0 );
 				// попытка добавить слои, чтобы отрисовка стала быстрее
@@ -433,7 +437,7 @@
 				}
 			}
 
-			if ( NCore.Instance.DebugEnabled )
+			//if ( NCore.Instance.DebugEnabled )
 			{
 				if ( visible )
 				{
@@ -443,6 +447,8 @@
 						if ( fps_diff > 10000 )
 						{
 							trace( "FPS: " + RealFPS );
+							trace( "PROFILING:\n" + SimpleProfiler.GetFullStatistics() );
+							SimpleProfiler.ResetAll();
 							FramesCount = 0;
 							startFPSTime = curTime;
 						}

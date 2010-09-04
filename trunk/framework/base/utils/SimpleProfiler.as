@@ -20,24 +20,40 @@
 			mChecksCount[label] = 0;
 		}
 		
+		public static function ResetAll():void
+		{
+			var label:String;
+			
+			for ( label in mTotal )
+			{
+				Reset(label);
+			}
+		}
+		
 		public static function Start( label:String ):void
 		{
-			if ( NCore.Instance.IsProfilerEnabled == true )
+			//CONFIG::debug
 			{
-				if( mTotal[label] == null )
-					Reset(label);
-				
-				mChecksCount[label] = mChecksCount[label] + 1;
-				mStartTime[label] = getTimer();
+				if ( NCore.Instance.IsProfilerEnabled == true )
+				{
+					if( mTotal[label] == null )
+						Reset(label);
+					
+					mChecksCount[label] = mChecksCount[label] + 1;
+					mStartTime[label] = getTimer();
+				}
 			}
 		}
 		
 		public static function Stop( label:String ):void
 		{
-			if ( NCore.Instance.IsProfilerEnabled == true )
+			//CONFIG::debug
 			{
-				var time:int = getTimer();
-				mTotal[label] = mTotal[label] + (time - mStartTime[label]);
+				if ( NCore.Instance.IsProfilerEnabled == true )
+				{
+					var time:int = getTimer();
+					mTotal[label] = mTotal[label] + (time - mStartTime[label]);
+				}
 			}
 		}
 		
@@ -64,10 +80,20 @@
 		{
 			var result:String = "";
 			var label:String;
+			var total_time:int = 0;
+			
 			for ( label in mTotal )
 			{
-				var average_time:Number = mTotal[label] / mChecksCount[label];
-				var tmp:String = label + ": " + average_time.toFixed(3) + " (" + mChecksCount[label] + "/" + mTotal[label] + ")\r\n";
+				total_time += mTotal[label];
+			}
+			
+			for ( label in mTotal )
+			{
+				var checks:int = mChecksCount[label];
+				var average_time:Number = (checks>0) ? mTotal[label] / mChecksCount[label] : 0;
+				var average_total_time:String = (mTotal[label] / total_time).toFixed(3);
+				var tmp:String = label + ": " + average_total_time + "/" + average_time.toFixed(3) +
+									" (" + mChecksCount[label] + "/" + mTotal[label] + ")\r\n";
 				result += tmp;
 			}
 			

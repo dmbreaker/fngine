@@ -2,8 +2,10 @@
 {
 	import base.types.*;
 	import base.utils.SimpleProfiler;
+	import flash.display.BlendMode;
 	import flash.filters.BlurFilter;
 	import flash.filters.ColorMatrixFilter;
+	import flash.geom.Matrix;
 	
 	import flash.display.BitmapData;
 	import flash.geom.ColorTransform;
@@ -44,9 +46,7 @@
 		// ============================================================
 		public function ResetColorTransform():void
 		{
-			//var ct:ColorTransform = new ColorTransform( 1, 1, 1, 1, r, g, b );
-			//this.colorTransform( this.rect, ct );
-			this.colorTransform( this.rect, null );
+			this.colorTransform( this.rect, new ColorTransform() );
 		}
 		// ============================================================
 		public function AlphaBlend( alpha:Number ):void
@@ -81,6 +81,11 @@
 			applyFilter( this, rect, new Point(), new BlurFilter( blurX, blurY, blurCount ) );
 		}
 		// ============================================================
+		public function BlurMe( blurX:int, blurY:int, blurCount:int ):void 
+		{
+			applyFilter( this, rect, new Point(), new BlurFilter( blurX, blurY, blurCount ) );
+		}
+		// ============================================================
 		public function MakeGrayScale( k:Number = 1, a:Number = 1 ):void 
 		{
 			var val:Number = 0.33 * k;
@@ -98,7 +103,9 @@
 		public function Clone():NBitmapData 
 		{
 			var nbmd:NBitmapData = new NBitmapData( width, height, transparent, 0 );
+			nbmd.lock();
 			nbmd.copyPixels( this, rect, new Point() );
+			nbmd.unlock();
 			return nbmd;
 		}
 		// ============================================================
@@ -422,6 +429,67 @@
 		{
 			//return int( a * percent + b * (1 - percent) + 0.5 );
 			return int( a + (b - a) * (1 - percent) + 0.5 );
+		}
+		// ============================================================
+		// ============================================================
+		// ============================================================
+		protected var mOffsetX:Number = 0;
+		protected var mOffsetY:Number = 0;
+		protected var part_r:Rectangle = new Rectangle();
+		protected var startPnt:Point = new Point();
+		protected var mBitmapColTr:ColorTransform = new ColorTransform(1, 1, 1, 1);
+		protected var mDrawMatrix:Matrix = new Matrix(1, 0, 0, 1);
+		public function DrawImageNoAlpha(bmd:BitmapData, sx:Number, sy:Number):void
+		{
+			if ( !bmd )
+			{
+				trace( "### !!! BitmapGraphix: bmd is NULL" );
+				return;
+			}
+			
+			startPnt.x = sx + mOffsetX;
+			startPnt.y = sy + mOffsetY;
+			
+			copyPixels( bmd, bmd.rect, startPnt, null, null, false );
+		}
+		// ============================================================
+		public function DrawImageFast(bmd:BitmapData, sx:Number, sy:Number):void
+		{
+			if ( !bmd )
+			{
+				trace( "### !!! BitmapGraphix: bmd is NULL" );
+				return;
+			}
+			
+			startPnt.x = sx + mOffsetX;
+			startPnt.y = sy + mOffsetY;
+			
+			copyPixels( bmd, bmd.rect, startPnt, null, null, true );
+		}
+		// ============================================================
+		public function DrawImage(bmd:BitmapData, sx:Number, sy:Number, alpha:Number = 1):void
+		{
+			if ( alpha <= 0 )
+				return;
+				
+			if ( !bmd )
+			{
+				trace( "### !!! BitmapGraphix: bmd is NULL" );
+				return;
+			}
+			
+			mDrawMatrix.tx = sx + mOffsetX;
+			mDrawMatrix.ty = sy + mOffsetY;
+				
+			if ( alpha == 1 )
+			{
+				draw(bmd, mDrawMatrix, null, BlendMode.NORMAL, null, true );
+			}
+			else
+			{
+				mBitmapColTr.alphaMultiplier = alpha;
+				draw(bmd, mDrawMatrix, mBitmapColTr, BlendMode.NORMAL, null, true );
+			}
 		}
 		// ============================================================
 	}

@@ -60,12 +60,31 @@
 			if ( src )
 			{
 				var shadow:NBitmapData = new NBitmapData( src.width, src.height, true, 0 );
+				shadow.lock();
 				shadow.copyPixels( src, shadow.rect, new Point() );
 				shadow.ShadowMe( blurX, blurY, blursCount );
+				shadow.unlock();
 				mImages[name] = shadow;
 			}
 			else
 				trace( "shadow source image null:", name );
+		}
+		// ============================================================
+		public static function SaveImageTransformAlpha( name:String, srcImage:String, alpha:Number, blurX:int=8, blurY:int=8, blursCount:int=3 ):void
+		{
+			var src:BitmapData = GetImage( srcImage );
+			if ( src )
+			{
+				var shadow:NBitmapData = new NBitmapData( src.width, src.height, true, 0 );
+				shadow.lock();
+				shadow.copyPixels( src, shadow.rect, new Point() );
+				shadow.BlurMe( blurX, blurY, blursCount );
+				shadow.AlphaBlend(alpha);
+				shadow.unlock();
+				mImages[name] = shadow;
+			}
+			else
+				trace( "shadow alpha source image null:", name );
 		}
 		// ============================================================
 		public static function SaveBitmapData( name:String, image:BitmapData ):void
