@@ -1,30 +1,21 @@
 ﻿package base.core
 {
 	import base.BaseGlobal;
+	import base.externals.TweenLite;
 	import base.managers.XmlManager;
 	import base.modelview.WidgetsManager;
 	import base.utils.NSaver;
 	import base.utils.NSettings;
-	import base.externals.TweenLite;
-	
 	import flash.display.BitmapData;
-	import flash.events.TimerEvent;
-	import flash.filters.BevelFilter;
-	import flash.filters.BitmapFilter;
-	import flash.filters.BlurFilter;
-	import flash.filters.ColorMatrixFilter;
-	import flash.filters.ConvolutionFilter;
-	import flash.filters.GlowFilter;
-	import flash.ui.ContextMenu;
-	import flash.utils.Timer;
-	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.geom.Rectangle;
 	import flash.events.MouseEvent;
-	import flash.display.BlendMode;
+	import flash.events.TimerEvent;
+	import flash.ui.ContextMenu;
 	import flash.utils.Dictionary;
+	import flash.utils.Timer;
 	import mx.effects.easing.Linear;
+	
 	
 	/**
 	 * ...
@@ -581,6 +572,21 @@
 		{
 			// TODO: make it FALSE in release
 			return false;
+		}
+		// ============================================================
+		public static function Trace( text:String ):void 
+		{
+			/*
+			if ( BaseGlobal.DebugEnabled )
+			{
+				var ds:NDebugScene = NDebugScene(NCore.Instance.GetScene("debug_screen"));
+				ds.AppendTextLine( text );
+			}
+			else
+				trace( text );
+			*/
+				
+			trace(text);
 		}
 		// ============================================================
 		/*private function SetFilters( sprite:Sprite, filters:Array ):void

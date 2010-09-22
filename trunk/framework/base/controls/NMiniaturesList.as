@@ -1,6 +1,7 @@
 ﻿package base.controls 
 {
 	import base.controls.NBaseTooltip;
+	import base.core.NCore;
 	import base.externals.bulkloader.BulkLoader;
 	import base.externals.bulkloader.loadingtypes.LoadingItem;
 	import base.graphics.BitmapGraphix;
@@ -11,7 +12,7 @@
 	import flash.events.Event;
 	import flash.system.LoaderContext;
 	/**
-	 * ...
+	 * Incomplete!
 	 * @author dmbreaker
 	 */
 	public class NMiniaturesList extends Control
@@ -22,12 +23,12 @@
 		private var mDataSourceArray:Array;
 		
 		private var mFullLength:Number = 0;
-		private var mMaxShiftLength:Number = 0;	// mFullLength - щирина контрола
+		private var mMaxShiftLength:Number = 0;	// (mFullLength - control_width)
 		private var mMiniatureTemplate:NMiniature = new NMiniature();
 		private var mTemplateLength:Number;
 		public var mCurrentShift:Number = 0;
 		private var mIsHorizontal:Boolean = true;	// false - vertical
-		private var mSpan:Number = 4;	// расстояние между миниатюрами
+		private var mSpan:Number = 4;	// distance between miniatures
 		
 		private var mBuffer:NBitmapData;
 		
@@ -288,7 +289,7 @@
 		// ============================================================
 		private function OnBulkLoadError(e:ErrorEvent):void 
 		{
-			BlastCore.Trace( "MiniaturesList.BulkLoader error: " + e.text );
+			NCore.Trace( "MiniaturesList.BulkLoader error: " + e.text );
 		}
 		// ============================================================
 		// ============================================================
@@ -301,6 +302,9 @@
 				return false;
 		}
 		// ============================================================
+		/*
+		 * Incomplete: need to extract InitData info
+		 */
 		override public function GetTooltip(mouse_pos:NPoint):NBaseTooltip 
 		{
 			if ( !mDataSourceArray )

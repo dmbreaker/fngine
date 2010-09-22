@@ -1,5 +1,6 @@
 ﻿package base.controls 
 {
+	import base.core.NCore;
 	import base.externals.bulkloader.BulkLoader;
 	import base.externals.bulkloader.loadingtypes.LoadingItem;
 	import base.graphics.BitmapGraphix;
@@ -310,7 +311,7 @@
 		// ============================================================
 		private function OnBulkLoadError(e:ErrorEvent):void 
 		{
-			BlastCore.Trace( "ImagetMatrix.BulkLoader error: " + e.text );
+			NCore.Trace( "ImagetMatrix.BulkLoader error: " + e.text );
 		}
 		// ============================================================
 		

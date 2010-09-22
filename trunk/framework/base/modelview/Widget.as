@@ -23,9 +23,9 @@
 		//public var Size:NSize = new NSize();
 		protected var mHandCursor:Boolean = false;
 		
-		public var IsClickable:Boolean = true;	// пока не работает - нужно переделать WidgetContainer
+		public var IsClickable:Boolean = true;	// can handle clicks?
 		public var IsMouseOver:Boolean = false;
-		public var IsActiveWidget:Boolean = true;	// участвует ли в поиске виджетов, взаимодействует ли с мышью и т.д. (для того, чтобы Tooltip не обрабатывал действия мыши)
+		public var IsActiveWidget:Boolean = true;	// interactive widget or not (non-interactive doesn't interact with mouse: non-clickable, has no tolltip, etc)
 		// ============================================================
 		protected var mVisible:Boolean = true;
 		protected var mEnabled:Boolean = true;
@@ -42,6 +42,9 @@
 			return mName;
 		}
 		// ============================================================
+		/*
+		 * Is this widget UI-Control (interactive) or it's just a widget
+		 */
 		public function get IsControl():Boolean
 		{
 			return false;
@@ -106,7 +109,7 @@
 		}
 		// ============================================================
 		/**
-		 * Метод нужен для того, чтобы контролы могли в будущем отлавливать изменение размеров
+		 * If you'll override this method - you can catch widget Resize
 		 * @param	w
 		 * @param	h
 		 */
@@ -127,6 +130,9 @@
 			return Rect.Height;
 		}
 		// ============================================================
+		/*
+		 * Initializes position of widget and all of its childs.
+		 */
 		public function InitPosition( x:Number, y:Number ):void
 		{
 			var sx:Number = x - Rect.Position.x;
@@ -144,6 +150,9 @@
 		// ============================================================
 
 		// ============================================================
+		/*
+		 * Does widget contains point?
+		 */
 		public function Contains( x:Number, y:Number ):Boolean
 		{
 			var wx:Number = Rect.Position.x;
@@ -159,6 +168,9 @@
 			return false;
 		}
 		// ============================================================
+		/*
+		 * Does widget contains point relative to widgets left-top corner
+		 */
 		public function ContainsRelative( x:Number, y:Number ):Boolean
 		{
 			if ( x >= 0 && x < Rect.Width )
@@ -180,7 +192,7 @@
 			//return ( widget ) ? widget : this;
 			
 			if( IsActiveWidget )
-			return FindWidgetFromPosition( x, y ) || this;
+				return FindWidgetFromPosition( x, y ) || this;
 			else
 				return null;
 		}
@@ -236,7 +248,9 @@
 			return mDragCatchPos;
 		}
 		// ============================================================
-		// Используется для отображения тултипов:
+		/*
+		 * If widget has tooltip text - it needs tooltip
+		 */
 		public function get NeedTooltip():Boolean
 		{
 			if ( mTooltipText )	// если есть текст
@@ -252,7 +266,6 @@
 			return false;
 		}
 		// ============================================================
-		// Используется для отображения тултипов:
 		public function get TooltipText():String
 		{
 			return mTooltipText;
@@ -263,7 +276,6 @@
 			mTooltipText = text;
 		}
 		// ============================================================
-		// Используется для отображения тултипов:
 		public function GetTooltip( mouse_pos:NPoint ):NBaseTooltip
 		{
 			if ( NeedTooltip )
@@ -279,7 +291,7 @@
 		{
 			return mHandCursor;
 		}
-		
+		// ============================================================
 		public function set HandCursor( value:Boolean ):void
 		{
 			mHandCursor = value;
