@@ -178,8 +178,9 @@
 				
 				mMouseOverWidget = widget;		// запомним новое значение
 				
-				// если виджет существует, если он видимый, если "Enabled" и взаимодействует с мышью
-				if ( mMouseOverWidget && mMouseOverWidget.Visible && mMouseOverWidget.Enabled && mMouseOverWidget.IsActiveWidget )
+				// if widget exist, visible, enabled and interact with mouse:
+				if ( mMouseOverWidget && mMouseOverWidget.Visible &&
+						mMouseOverWidget.Enabled && mMouseOverWidget.IsActiveWidget )
 				{
 					mMouseOverWidget.OnMouseIn();			// сообщим виджету, что мышь над ним
 					mMouseOverWidget.IsMouseOver = true;
@@ -198,7 +199,8 @@
 			else
 			{
 				// некоторым "хитрым" контролам требуется самостоятельно управлять тултипами:
-				if ( mMouseOverWidget && mMouseOverWidget.Visible && mMouseOverWidget.Enabled && mMouseOverWidget.IsActiveWidget )
+				if ( mMouseOverWidget && mMouseOverWidget.Visible &&
+						mMouseOverWidget.Enabled && mMouseOverWidget.IsActiveWidget )
 				{
 					mLocalMousePos.CopySubtraction( mGlobalMousePos, mMouseOverWidget.Rect.Position );
 					if ( mMouseOverWidget.NeedChangeTooltip( mLocalMousePos, CurrentTooltip ) )

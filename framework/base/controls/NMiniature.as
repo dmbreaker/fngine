@@ -1,5 +1,6 @@
 ﻿package base.controls 
 {
+	import base.core.NCore;
 	import base.externals.bulkloader.BulkLoader;
 	import base.externals.bulkloader.loadingtypes.LoadingItem;
 	import base.graphics.NBitmapData;
@@ -14,7 +15,7 @@
 	import flash.utils.getQualifiedClassName;
 	
 	/**
-	 * ...
+	 * Incomplete!
 	 * @author dmbreaker
 	 */
 	public class NMiniature
@@ -50,7 +51,7 @@
 						{
 							img = bmp.bitmapData;
 							data.image = img;
-							BlastCore.Trace( "image loaded" );
+							NCore.Trace( "image loaded" );
 						}
 					}
 				}

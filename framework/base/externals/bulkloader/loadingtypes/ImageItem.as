@@ -66,7 +66,7 @@ package base.externals.bulkloader.loadingtypes {
 	        	// though. Oh boy:
 				
 				/*if( cnt++ < 5 )
-					BlastCore.Trace( "security2: " + e.message + " - " + e.name );*/
+					NCore.Trace( "security2: " + e.message + " - " + e.name );*/
 	        	_content = loader;
 	        	super.onCompleteHandler(evt);
 	        	// I am really unsure whether I should throw this event
