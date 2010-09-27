@@ -1,7 +1,7 @@
 package base.controls 
 {
 	import base.graphics.BitmapGraphix;
-	import base.graphics.NBitmapData;
+	import base.types.NRect;
 	/**
 	 * Incomplete
 	 * @author dmbreaker
@@ -13,11 +13,12 @@ package base.controls
 		
 		private var mFullLength:Number = 0;
 		private var mMaxShiftLength:Number = 0;	// (mFullLength - control_width)
-		public var mCurrentShift:Number = 0;
+		public var mCurrentShift:Number = 0;	// current shift of controls inside NControlsList container
 		private var mIsHorizontal:Boolean = true;	// false - vertical
 		private var mSpan:Number = 4;	// distance between controls
 		
-		private var mBuffer:NBitmapData;
+		//private var mBuffer:NBitmapData;
+		private var mBuffer:BitmapGraphix;
 		// ============================================================
 		public function NControlsList( name:String ) 
 		{
@@ -58,6 +59,10 @@ package base.controls
 						mFullLength += control.Width + mSpan;
 					else
 						mFullLength += control.Height + mSpan;
+						
+					// инициализим так, будто бы добавляем, но по факту не добавляем
+					control.InitParent( Parent, ParentScene );
+					control.OnAdded( Parent );
 				}
 			}
 			
@@ -68,7 +73,7 @@ package base.controls
 			if ( mMaxShiftLength < 0 )
 				mMaxShiftLength = 0;
 			
-			mCurrentShift = -mFullLength;
+			mCurrentShift = 0;// -mFullLength;
 			//Invalidate();
 		}
 		// ============================================================
@@ -93,7 +98,7 @@ package base.controls
 			{
 				if ( !Rect.Size.IsEmpty )
 				{
-					mBuffer = new NBitmapData( Rect.Width, Rect.Height );
+					mBuffer = new BitmapGraphix( Rect.Width, Rect.Height );
 					Invalidate();
 				}
 				else
@@ -109,41 +114,117 @@ package base.controls
 				
 				if ( mControls )
 				{
-					var spos:Number = mCurrentShift;
+					var spos:Number = mCurrentShift;	// position of next control
 					//var template_length:Number;
-					//var control_length:Number;
-					/*if ( mIsHorizontal )
+					var control_length:Number;	// length of NControlsList
+					if ( mIsHorizontal )
 					{
-						template_length = mMiniatureTemplate.Size.Width;
 						control_length = Width;
 					}
 					else
 					{
-						template_length = mMiniatureTemplate.Size.Height;
 						control_length = Height;
-					}*/
+					}
 					
-					/*for each( var control:Control in mControls )
+					for each( var control:Control in mControls )
 					{
 						if ( control )
 						{
-							if ( (spos + template_length) < 0 )		// если картинка за левой/верхней границей
+							if ( (spos + GetControlLength(control)) < 0 )		// если картинка за левой/верхней границей
 								continue;
 							else if ( spos >= control_length )		// картинка за пределами правой/нижней границы
 								break;
 							else	// картинка попадает в область контрола
 							{
-								if( mIsHorizontal )
-									mMiniatureTemplate.Draw( mBuffer, spos, 0, data );
+								if ( mIsHorizontal )
+								{
+									mBuffer.AddOffset( spos, 0 );
+									control.Draw(mBuffer, 0);
+									mBuffer.AddOffset( -spos, 0 );
+								}
 								else
-									mMiniatureTemplate.Draw( mBuffer, 0, spos, data );
+								{
+									mBuffer.AddOffset( 0, spos );
+									control.Draw(mBuffer, 0);
+									mBuffer.AddOffset( 0, -spos );
+								}
 							}
 							
-							spos += template_length + mSpan;
+							spos += GetControlLength(control) + mSpan;
 						}
-					}*/
+					}
 				}
 			}
+		}
+		// ============================================================
+		private function GetControlLength( control:Control ):int
+		{
+			if ( mIsHorizontal )
+				return control.Width;
+			else
+				return control.Height;
+		}
+		// ============================================================
+		public function GetControl(x:Number, y:Number, relativePos:*):Control
+		{
+			var pos:int = mCurrentShift;
+
+			for each( var control:Control in mControls )
+			{
+				var r:NRect = control.Rect;
+				if ( mIsHorizontal )
+				{
+					r.Position.x = pos;
+					if ( r.Contains( x, y ) )
+					{
+						relativePos.x = x - pos;
+						relativePos.y = y;
+						return control;
+					}
+				}
+				else
+				{
+					r.Position.y = pos;
+					if ( r.Contains( x, y ) )
+					{
+						relativePos.x = x;
+						relativePos.y = y - pos;
+						return control;
+					}
+				}
+
+				pos += GetControlLength(control) + mSpan;
+			}
+			
+			return null;
+		}
+		// ============================================================
+		override public function OnMouseDown(x:Number, y:Number):void 
+		{
+			var resultPos:* = {};
+			var control:Control = GetControl( x, y, resultPos );
+			if( control )
+				control.OnMouseDown( resultPos.x, resultPos.y );
+				
+			Invalidate();
+		}
+		// ============================================================
+		override public function OnMouseUp(x:Number, y:Number):void 
+		{
+			var resultPos:* = {};
+			var control:Control = GetControl( x, y, resultPos );
+			if( control )
+				control.OnMouseUp( resultPos.x, resultPos.y );
+				
+			Invalidate();
+		}
+		// ============================================================
+		override public function OnMouseMove(x:Number, y:Number):void 
+		{
+			/*var resultPos:* = {};
+			var control:Control = GetControl( x, y, resultPos );
+			if( control )
+				control.OnMouseMove( resultPos.x, resultPos.y );*/
 		}
 		// ============================================================
 	}
