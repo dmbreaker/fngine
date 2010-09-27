@@ -108,6 +108,15 @@
 			if ( pnt.y < miny ) pnt.y = miny;
 		}
 		// ============================================================
+		public function Contains( x:int, y:int ):Boolean
+		{
+			if ( x >= Position.x && x < Position.x + Size.Width )
+				if ( y >= Position.y && y < Position.y + Size.Height )
+					return true;
+
+			return false;
+		}
+		// ============================================================
 	}
 	
 }
