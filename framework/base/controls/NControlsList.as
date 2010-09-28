@@ -1,6 +1,7 @@
 package base.controls 
 {
 	import base.graphics.BitmapGraphix;
+	import base.types.NPoint;
 	import base.types.NRect;
 	/**
 	 * Incomplete
@@ -19,6 +20,7 @@ package base.controls
 		
 		//private var mBuffer:NBitmapData;
 		private var mBuffer:BitmapGraphix;
+		private var mCurMousePos:NPoint = new NPoint();
 		// ============================================================
 		public function NControlsList( name:String ) 
 		{
@@ -83,6 +85,7 @@ package base.controls
 			super.Draw(g, diff_ms);
 
 			EnsureBuffer();
+			UpdateMouseOverEvent( diff_ms );
 			
 			if ( mBuffer )
 			{
@@ -131,7 +134,10 @@ package base.controls
 						if ( control )
 						{
 							if ( (spos + GetControlLength(control)) < 0 )		// если картинка за левой/верхней границей
+							{
+								spos += GetControlLength(control) + mSpan;
 								continue;
+							}
 							else if ( spos >= control_length )		// картинка за пределами правой/нижней границы
 								break;
 							else	// картинка попадает в область контрола
@@ -221,10 +227,49 @@ package base.controls
 		// ============================================================
 		override public function OnMouseMove(x:Number, y:Number):void 
 		{
+			mCurMousePos.Init( x, y );
+			
 			/*var resultPos:* = {};
 			var control:Control = GetControl( x, y, resultPos );
 			if( control )
 				control.OnMouseMove( resultPos.x, resultPos.y );*/
+		}
+		// ============================================================
+		private function UpdateMouseOverEvent( ms:int ):void 
+		{
+			if ( IsMouseOver )
+			{
+				var pos:int = 0;
+				var length:int = 0;
+				
+				if ( mIsHorizontal )
+				{
+					pos = mCurMousePos.x;
+					length = Width;
+				}
+				else
+				{
+					pos = mCurMousePos.y;
+					length = Height;
+				}
+				
+				if ( pos < 0.2 * length )
+					Scroll( 4 );
+				else if ( pos > 0.8 * length )
+					Scroll( -4 );
+			}
+		}
+		// ============================================================
+		public function Scroll( length:int ):void
+		{
+			mCurrentShift += length;
+			
+			if ( mCurrentShift > 0 )
+				mCurrentShift = 0;
+			if ( mCurrentShift < -(mFullLength - Width) )
+				mCurrentShift = -(mFullLength - Width);
+				
+			Invalidate();
 		}
 		// ============================================================
 	}
