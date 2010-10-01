@@ -43,7 +43,7 @@
 			var item:* = mFonts[name];
 			if ( item )
 			{
-				return new ImageFont( name, RM.GetImage( item.image ), item.xml );
+				return new ImageFont( name, ResourceManager.GetImage( item.image ), item.xml );
 			}
 			return null;
 		}
