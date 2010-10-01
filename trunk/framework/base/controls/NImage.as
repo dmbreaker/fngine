@@ -5,6 +5,7 @@
 	import base.graphics.BitmapGraphix;
 	import base.graphics.IGraphix;
 	import base.graphics.NAnimatedBitmap;
+	import base.managers.ResourceManager;
 	import base.types.*;
 	import base.core.NScene;
 	import base.utils.Methods;
@@ -29,9 +30,9 @@
 			mCanHasFocus = false;
 			mCanCatchClicks = false;
 			if( settings.image )
-				mImage = RM.GetImage( settings.image );
+				mImage = ResourceManager.GetImage( settings.image );
 			else if ( settings.anim )
-				mAnimImage = RM.GetAnimation( settings.anim );
+				mAnimImage = ResourceManager.GetAnimation( settings.anim );
 			
 			if ( rect )
 			{

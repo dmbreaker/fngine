@@ -1,6 +1,7 @@
 ﻿package base.controls
 {
 	import base.core.NStyle;
+	import base.managers.ResourceManager;
 	import base.modelview.Widget;
 	import flash.display.BitmapData;
 	import flash.events.Event;
@@ -98,7 +99,7 @@
 		protected function GM( obj:* ):BitmapData
 		{
 			if ( obj is String )
-				return RM.GetImage( obj );
+				return ResourceManager.GetImage( obj );
 			else
 				return obj;
 		}

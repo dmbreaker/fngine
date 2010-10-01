@@ -6,7 +6,7 @@
 	import base.graphics.IGraphix;
 	import base.types.*;
 	import base.core.NScene;
-	import SndPlayer;
+	//import SndPlayer;
 	
 	import base.BaseGlobal;
 	
