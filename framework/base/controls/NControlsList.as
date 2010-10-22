@@ -253,6 +253,9 @@ package base.controls
 					length = Height;
 				}
 				
+				if ( mFullLength <= length )	// ничего не двигаем, если элементов меньше, чем длина контрола
+					return;
+				
 				if ( pos < 0.2 * length )
 					Scroll( 4 );
 				else if ( pos > 0.8 * length )
