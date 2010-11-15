@@ -70,7 +70,7 @@
 			
 			var r:Number = Math.sqrt( sr );
 			
-			// сместим всею фигуру в ноль координат:
+			// сместим всю фигуру в ноль координат:
 			for each( p in InitialPoints )
 				p.Sub( center );
 			for each( p in Points )
