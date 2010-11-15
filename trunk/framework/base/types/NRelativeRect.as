@@ -11,7 +11,7 @@
 		// ============================================================
 		//public var Position:NPoint;
 		protected var Position:NPoint;
-		public var Shift:NSize = new NSize();
+		public var Shift:NPoint = new NPoint();
 		public var Size:NSize = new NSize();
 		// ============================================================
 		public function NRelativeRect( relPoint:NPoint, _shiftX:Number, _shiftY:Number, _width:Number = 0, _height:Number = 0 )
@@ -40,22 +40,22 @@
 		// ============================================================
 		public function get Left():Number
 		{
-			return Position.x + Shift.Width;
+			return Position.x + Shift.x;
 		}
 		// ============================================================
 		public function get Right():Number
 		{
-			return Position.x + Size.Width + Shift.Width;
+			return Position.x + Size.Width + Shift.x;
 		}
 		// ============================================================
 		public function get Bottom():Number
 		{
-			return Position.y + Size.Height + Shift.Height;
+			return Position.y + Size.Height + Shift.y;
 		}
 		// ============================================================
 		public function get Top():Number
 		{
-			return Position.y + Shift.Height;
+			return Position.y + Shift.y;
 		}
 		// ============================================================
 		public function get Width():Number
@@ -82,7 +82,7 @@
 		// ============================================================
 		public function Clone():NRelativeRect
 		{
-			return new NRelativeRect( Position, Shift.Width, Shift.Height, Size.Width, Size.Height );
+			return new NRelativeRect( Position, Shift.x, Shift.y, Size.Width, Size.Height );
 		}
 		// ============================================================
 	}
