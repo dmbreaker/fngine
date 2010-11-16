@@ -161,6 +161,12 @@
 				return x * (1.27323954 - 0.405284735 * x);
 		}
 		// ============================================================
+		public function SinCos( x:Number, result:TwoNumbers ):void 
+		{
+			result.First = Math.sin(x);
+			result.Second = Math.cos(x);
+		}
+		// ============================================================
 	}
 
 }
