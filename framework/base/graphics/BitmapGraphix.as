@@ -137,11 +137,7 @@
 			var hw:int = bmd.width >> 1;
 			var hh:int = bmd.height >> 1;
 			
-			mDrawMatrix.tx = sx + mOffsetX - hw;
-			mDrawMatrix.ty = sy + mOffsetY - hh;
-			//draw(bmd, mDrawMatrix, mBitmapColTr, BlendMode.NORMAL, null, true );
-			//copyPixels( bmd, bmd.rect, new Point(sx+mOffsetX,sy+mOffsetY) );
-			mTmpCenterPoint.Init( sx - hw, sy - hh );
+			mTmpCenterPoint.Init( sx - hw + mOffsetX, sy - hh + mOffsetY );
 			
 			copyPixels( bmd, bmd.rect, mTmpCenterPoint, null, null, true );
 		}
