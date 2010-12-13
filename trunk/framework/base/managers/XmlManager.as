@@ -124,6 +124,14 @@ package base.managers
 			return null;
 		}
 		// ============================================================
+		public function GetXMLRaw( name:String ):*
+		{
+			if ( mXmlsCache[name] != undefined && mXmlsCache[name] )
+				return mXmlsCache[name];
+			
+			return null;
+		}
+		// ============================================================
 		// ============================================================
 	}
 
