@@ -9,7 +9,7 @@ package base.utils.settings
 	public class StringsLoader
 	{
 		// ============================================================
-		private var mStrings:AvDictionary = new AvDictionary();
+		static private var mStrings:AvDictionary = new AvDictionary();
 		// ============================================================
 		// ============================================================
 		public function StringsLoader() 
@@ -30,6 +30,14 @@ package base.utils.settings
 				
 				mStrings.Add( id, text );
 			}
+		}
+		// ============================================================
+		public static function GetString(id:String):String
+		{
+			if ( mStrings.ContainsKey(id) )
+				return mStrings.GetValue( id );
+			else
+				return "";
 		}
 		// ============================================================
 	}
