@@ -27,8 +27,8 @@
 		// ============================================================
 		public function Init( first:NPoint, last:NPoint, halfHeight:Number, speedDirection:NVec, dist:Number = -1 ):void 
 		{
-			FirstPoint = first;
-			LastPoint = last;
+			FirstPoint.CopyFrom(first);
+			LastPoint.CopyFrom(last);
 			HalfHeight = halfHeight;
 			
 			SpeedDirection = speedDirection;
