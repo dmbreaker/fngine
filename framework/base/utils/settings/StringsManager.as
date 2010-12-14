@@ -6,13 +6,13 @@ package base.utils.settings
 	 * ...
 	 * @author dmbreaker
 	 */
-	public class StringsLoader
+	public class StringsManager
 	{
 		// ============================================================
 		static private var mStrings:AvDictionary = new AvDictionary();
 		// ============================================================
 		// ============================================================
-		public function StringsLoader() 
+		public function StringsManager() 
 		{
 			
 		}
@@ -33,6 +33,14 @@ package base.utils.settings
 		}
 		// ============================================================
 		public static function GetString(id:String):String
+		{
+			if ( mStrings.ContainsKey(id) )
+				return mStrings.GetValue( id );
+			else
+				return "";
+		}
+		// ============================================================
+		public static function GString(id:String):String
 		{
 			if ( mStrings.ContainsKey(id) )
 				return mStrings.GetValue( id );
