@@ -316,6 +316,8 @@
 					CreateCBox( el );
 				else if ( el.@type == "image" )
 					CreateImage( el );
+				else if ( el.@type == "progress" )
+					CreateProgress( el );
 			}
 			
 			for each( el in actions )
@@ -339,7 +341,7 @@
 				AddWidget( btn );
 			}
 			else
-				trace( "### Parse error:", el.toXMLString() );
+				trace( "### CreateButton: Parse error:", el.toXMLString() );
 		}
 		// ============================================================
 		protected function CreateText( el:XML ):void
@@ -349,7 +351,7 @@
 			if ( txt )
 				AddWidget( txt );
 			else
-				trace( "### Parse error:", el.toXMLString() );
+				trace( "### CreateText: Parse error:", el.toXMLString() );
 		}
 		// ============================================================
 		protected function CreateCBox( el:XML ):void
@@ -361,7 +363,7 @@
 				AddWidget( cbox );
 			}
 			else
-				trace( "### Parse error:", el.toXMLString() );
+				trace( "### CreateCBox: Parse error:", el.toXMLString() );
 		}
 		// ============================================================
 		protected function CreateImage( el:XML ):void
@@ -373,7 +375,19 @@
 				AddWidget( img );
 			}
 			else
-				trace( "### Parse error:", el.toXMLString() );
+				trace( "### CreateImage: Parse error:", el.toXMLString() );
+		}
+		// ============================================================
+		protected function CreateProgress( el:XML ):void
+		{
+			var img:NProgress = NProgress.Create( el );
+			
+			if ( img )
+			{
+				AddWidget( img );
+			}
+			else
+				trace( "### CreateProgress: Parse error:", el.toXMLString() );
 		}
 		// ============================================================
 		// ============================================================
