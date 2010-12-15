@@ -395,6 +395,16 @@
 			mCurrentTime = nbmd.mCurrentTime;
 		}
 		// ============================================================
+		public function get FrameWidth():int
+		{
+			return int(mFrameSize.Width);
+		}
+		// ============================================================
+		public function get FrameHeight():int
+		{
+			return int(mFrameSize.Height);
+		}
+		// ============================================================
 	}
 	
 }
