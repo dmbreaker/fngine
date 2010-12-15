@@ -99,7 +99,18 @@
 		protected function GM( obj:* ):BitmapData
 		{
 			if ( obj is String )
-				return ResourceManager.GetImage( obj );
+			{
+				var objID:String = String(obj);
+				var index:int = objID.indexOf(",");
+				if ( index > 0 )
+				{
+					var animID:String = objID.substring( 0, index );
+					var frame:String = objID.substring( index + 1 );
+					return ResourceManager.GetAnimation( animID ).GetFrame( int(frame) );
+				}
+				else
+					return ResourceManager.GetImage( objID );
+			}
 			else
 				return obj;
 		}

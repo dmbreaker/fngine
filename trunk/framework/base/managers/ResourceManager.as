@@ -111,6 +111,12 @@
 			mAnimations[name] = new NAnimatedBitmap( bmd, fsize, fcount, time, settings );
 		}
 		// ============================================================
+		public static function SaveStripe( name:String, image:*, settings:* = null, fcount:int = 0, alpha:* = null ):void
+		{
+			var bmd:BitmapData = MixinAlpha( image as Bitmap, alpha as Bitmap );
+			mAnimations[name] = new NAnimatedBitmap( bmd, null, fcount, 1, settings );
+		}
+		// ============================================================
 		public static function SaveAnimationShadow( name:String, srcAnim:String, blurX:int=8, blurY:int=8, blursCount:int=3 ):void
 		{
 			var src:NAnimatedBitmap = GetAnimation( srcAnim );

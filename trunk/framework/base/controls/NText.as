@@ -145,7 +145,7 @@
 				if ( mBuffer )
 					mBuffer.Clear();
 				
-				if ( mText && mBuffer )
+				if ( mText && mBuffer && mFont )
 				{
 					mBuffer.DrawText( mText, mFont, rect, HorAlign, VerAlign );
 					mBuffer.TransformColor( mR, mG, mB );
@@ -159,7 +159,7 @@
 			{
 				if( !Rect.Size.IsEmpty )
 					mBuffer = new NBitmapData( Rect.Size.Width, Rect.Size.Height );
-				else if( txt != null )
+				else if( txt != null && mFont != null )
 				{
 					var size:NSize = mFont.MeasureStringSize( txt );
 					if( !size.IsEmpty )

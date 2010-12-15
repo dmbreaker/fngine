@@ -27,13 +27,15 @@
 		private var mRTimePerFrame:Number;
 		private var mFrameSize:NSize;
 		private var mAnimSpeedMultiplier:Number = 1;
+		
+		private var mIsVertical:Boolean = false;
 		// ============================================================
 		//private var mHalfWidth:Number;
 		public var mHalfWidth:Number;
 		//private var mHalfHeight:Number;
 		public var mHalfHeight:Number;
 		// ============================================================
-		private var mFrames:Array = new Array();
+		private var mFrames:Array = new Array();//<NBitmapData>
 		// ============================================================
 		private var mPrevFrameIndex:int = 0;
 		private var mPrevFrame:NBitmapData = null;
@@ -50,39 +52,63 @@
 		// ============================================================
 		public function Set( animation:BitmapData, frameSize:NSize = null, framesCount:int = 1, animTime:Number = 1, settings:* = null ):void
 		{
+			var is_ver:Boolean = false;
+			var columns:int = 1;
+			var rows:int = 1;
+			
 			mAnimationSource = animation;
-			mDifferentFramesCount = framesCount;
+			if( framesCount > 0 )
+				mDifferentFramesCount = framesCount;
 			mAnimationTime = animTime;
 			
 			if( frameSize != null )
 				mFrameSize = frameSize;
-			else
-				mFrameSize = new NSize( animation.width, animation.height );
 			mCurrentFrame = 0;
 			
 			mFrames.length = 0;
 			mCurrentTime = 0;
 			
-			mHalfWidth = mFrameSize.Width * 0.5;
-			mHalfHeight = mFrameSize.Height * 0.5;
-			
 			var i:int;
 			var framesSequence:Array = null;
 			
-			if ( settings )
+			if ( settings )				// если есть доп. настройки
 			{
-				if ( settings.sequence )
-					framesSequence = settings.sequence;
-				else
+				if ( settings.mode )
 				{
-					framesSequence = new Array(framesCount);
-					for ( i = 0; i < framesCount; i++ )
+					var mode:String = settings.mode;
+					is_ver = ( mode == "ver" || mode == "v" || mode == "vertical" );
+				}
+				if ( settings.cols )
+					columns = settings.cols;
+				if ( settings.rows )
+					rows = settings.rows;
+				if ( framesCount <= 0 )
+				{
+					framesCount = columns * rows;
+					mDifferentFramesCount = framesCount;
+				}
+				
+				mIsVertical = is_ver;
+				
+				if( frameSize == null )
+				{
+					mFrameSize = new NSize( animation.width/columns, animation.height/rows );
+				}
+				
+				if ( settings.sequence )	// если в настройках указана последовательность кадров
+					framesSequence = settings.sequence;	// запомним ее
+				else						// иначе
+				{
 					{
-						framesCount[i] = i;
+						framesSequence = new Array(framesCount);	// зададим последовательность в том порядке, в котором следуют кадры (горизонтально)
+						for ( i = 0; i < framesCount; i++ )
+						{
+							framesSequence[i] = i;
+						}
 					}
 				}
 				
-				if ( settings.pingpong )
+				if ( settings.pingpong )		// кадры идут "туда и обратно"
 				{
 					var pingpong:Boolean = settings.pingpong;
 					if ( pingpong )
@@ -95,6 +121,9 @@
 					}
 				}
 			}
+			
+			mHalfWidth = mFrameSize.Width * 0.5;
+			mHalfHeight = mFrameSize.Height * 0.5;
 			
 			GenerateFrames( framesSequence );
 		}
@@ -116,6 +145,7 @@
 			mAnimationTime = animation.mAnimationTime;
 			mFrameSize = animation.mFrameSize;
 			mTimePerFrame = animation.mTimePerFrame;
+			mIsVertical = animation.mIsVertical;
 			mRTimePerFrame = 1 / mTimePerFrame;
 			mCurrentFrame = 0;
 			
@@ -142,6 +172,7 @@
 			mAnimationTime = animation.mAnimationTime;
 			mFrameSize = animation.mFrameSize;
 			mTimePerFrame = animation.mTimePerFrame;
+			mIsVertical = animation.mIsVertical;
 			mRTimePerFrame = 1 / mTimePerFrame;
 			mCurrentFrame = 0;
 			
@@ -185,32 +216,90 @@
 			
 			// !!! mDifferentFramesCount здесь никак не учитывается!
 			
-			if ( !framesSequence )
+			var frames_count:int = mDifferentFramesCount;
+			
+			if ( !framesSequence )	// если последовательность кадров не задана
 			{
-				for (j = 0; j < rows; j++)
+				if ( !mIsVertical )
+				{
+					for (j = 0; j < rows; j++)
+					{
+						for (i = 0; i < columns; i++)
+						{
+							if ( frames_count == 0 )
+								break;
+
+							frame = new NBitmapData( mFrameSize.Width, mFrameSize.Height );
+							rect = new Rectangle( i * mFrameSize.Width, j * mFrameSize.Height, mFrameSize.Width, mFrameSize.Height );
+							
+							frame.copyPixels( mAnimationSource, rect, pos );
+							mFrames.push( frame );
+							
+							--frames_count;
+						}
+					}
+				}
+				else
 				{
 					for (i = 0; i < columns; i++)
 					{
-						frame = new NBitmapData( mFrameSize.Width, mFrameSize.Height );
-						rect = new Rectangle( i * mFrameSize.Width, j * mFrameSize.Height, mFrameSize.Width, mFrameSize.Height );
-						
-						frame.copyPixels( mAnimationSource, rect, pos );
-						mFrames.push( frame );
+						for (j = 0; j < rows; j++)
+						{
+							if ( frames_count == 0 )
+								break;
+							
+							frame = new NBitmapData( mFrameSize.Width, mFrameSize.Height );
+							rect = new Rectangle( i * mFrameSize.Width, j * mFrameSize.Height, mFrameSize.Width, mFrameSize.Height );
+							
+							frame.copyPixels( mAnimationSource, rect, pos );
+							mFrames.push( frame );
+							
+							--frames_count;
+						}
 					}
 				}
 			}
 			else
 			{
+				//var frames_count:int = framesSequence.length;
+				
 				var framesTemp:Array = new Array();
-				for (j = 0; j < rows; j++)
+				if ( !mIsVertical )
+				{
+					for (j = 0; j < rows; j++)
+					{
+						for (i = 0; i < columns; i++)
+						{
+							//if ( frames_count == 0 )
+							//	break;
+							
+							frame = new NBitmapData( mFrameSize.Width, mFrameSize.Height );
+							rect = new Rectangle( i * mFrameSize.Width, j * mFrameSize.Height, mFrameSize.Width, mFrameSize.Height );
+							
+							frame.copyPixels( mAnimationSource, rect, pos );
+							framesTemp.push( frame );
+							
+							//--frames_count;
+						}
+					}
+				}
+				else
 				{
 					for (i = 0; i < columns; i++)
 					{
-						frame = new NBitmapData( mFrameSize.Width, mFrameSize.Height );
-						rect = new Rectangle( i * mFrameSize.Width, j * mFrameSize.Height, mFrameSize.Width, mFrameSize.Height );
-						
-						frame.copyPixels( mAnimationSource, rect, pos );
-						framesTemp.push( frame );
+						for (j = 0; j < rows; j++)
+						{
+							//if ( frames_count == 0 )
+							//	break;
+								
+							frame = new NBitmapData( mFrameSize.Width, mFrameSize.Height );
+							rect = new Rectangle( i * mFrameSize.Width, j * mFrameSize.Height, mFrameSize.Width, mFrameSize.Height );
+							
+							frame.copyPixels( mAnimationSource, rect, pos );
+							framesTemp.push( frame );
+							
+							//--frames_count;
+						}
 					}
 				}
 				
@@ -272,6 +361,13 @@
 				
 				return mPrevFrame;// NBitmapData(mFrames[currentFrame]);
 			}
+		}
+		// ============================================================
+		public function GetFrame( index:int ):NBitmapData
+		{
+			if ( index >= mFrames.length )
+				return mFrames[0];			// чтобы видеть, что кадры не меняются
+			return mFrames[index];
 		}
 		// ============================================================
 		public function get HalfWidth():Number

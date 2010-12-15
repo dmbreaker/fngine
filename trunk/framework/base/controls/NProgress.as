@@ -1,93 +1,55 @@
-﻿package base.controls
+package base.controls 
 {
-	import base.core.NCore;
-	import base.core.NStyle;
 	import base.graphics.BitmapGraphix;
-	import base.graphics.IGraphix;
-	import base.graphics.NAnimatedBitmap;
 	import base.managers.ResourceManager;
-	import base.types.*;
-	import base.core.NScene;
 	import base.utils.Methods;
-	import base.utils.SimpleProfiler;
 	import flash.display.BitmapData;
-	
 	/**
 	 * ...
-	 * @author dmBreaker
+	 * @author dmbreaker
 	 */
-	public class NImage extends Control
+	public class NProgress extends Control
 	{
 		// ============================================================
+		// ============================================================
+		private var mProgress:Number = 0;
 		protected var mImage:BitmapData;
-		protected var mAnimImage:NAnimatedBitmap;
 		protected var mHorAlign:int;
 		protected var mVerAlign:int;
 		// ============================================================
-		public function NImage( name:String, rect:*=null, settings:*=null )
+		// ============================================================
+		public function NProgress( name:String, rect:*=null, settings:*=null )
 		{
 			super( name );
 			mCanHasFocus = false;
 			mCanCatchClicks = false;
 			if( settings.image )
 				mImage = ResourceManager.GetImage( settings.image );
-			else if ( settings.anim )
-				mAnimImage = ResourceManager.GetAnimation( settings.anim );
 				
-			if ( settings.visible )
-			{
-				if ( settings.visible == "false" || settings.visible == "0" )
-					Visible = false;
-			}
+			if ( settings.progress )
+				Progress = Number(settings.progress) / 100;
 			
 			if ( rect )
 			{
 				if ( rect.x ) Rect.Position.x = rect.x;
 				if ( rect.y ) Rect.Position.y = rect.y;
-				Resize( rect.w || ImgWidth, rect.h || ImgHeight );
+				if( mImage )
+					Resize( rect.w || mImage.width, rect.h || mImage.height );
+				else
+					Resize( rect.w || 0, rect.h || 0 );
 			}
 			
 			mHorAlign = settings.halign;
 			mVerAlign = settings.valign;
 		}
 		// ============================================================
-		public function get Image():BitmapData
-		{
-			return mImage;
-		}
-		// ============================================================
-		public function get AnimImage():NAnimatedBitmap
-		{
-			return mAnimImage;
-		}
-		// ============================================================
-		public function get ImgWidth():int
-		{
-			if ( mImage )
-				return mImage.width;
-			else if ( mAnimImage )
-				return mAnimImage.HalfWidth * 2;
-			else
-				return 0;
-		}
-		// ============================================================
-		public function get ImgHeight():int
-		{
-			if ( mImage )
-				return mImage.height;
-			else if ( mAnimImage )
-				return mAnimImage.HalfHeight * 2;
-			else
-				return 0;
-		}
-		// ============================================================
 		// ============================================================
 		override public function Draw(g:BitmapGraphix, diff_ms:int):void
 		{
-		SimpleProfiler.Start("NImages");
+		//SimpleProfiler.Start("NImages");
 			var _x:Number = 0;
 			var _y:Number = 0;
-				
+		
 			if ( mImage )
 			{
 				if( mHorAlign == 0 )
@@ -99,10 +61,12 @@
 					_y = (Rect.Size.Height - mImage.height) * 0.5;
 				else if ( mVerAlign > 0 )
 					_y = (Rect.Size.Height - mImage.height);
-					
-				g.DrawBitmapDataFast( mImage, _x, _y );	// отрисовка выровненная
+				
+				var progress:Number = Progress;
+				var w:int = int(mImage.width * progress + 0.5);
+				g.DrawBitmapDataPart( mImage, _x, _y, 0,0,w,mImage.height );	// отрисовка выровненная
 			}
-			else if ( mAnimImage )
+			/*else if ( mAnimImage )
 			{
 				//mAnimImage.Quant( diff_ms );
 				mAnimImage.Quant( NScene.MsPerFrame );	// чтобы не "выпадали кадры"
@@ -118,15 +82,25 @@
 					_y = (Rect.Size.Height - mAnimImage.HalfHeight*2);
 				
 				g.DrawBitmapDataFast( mAnimImage.GetNBD(), _x, _y );	// отрисовка выровненная
-			}
-		SimpleProfiler.Stop("NImages");
+			}*/
+		//SimpleProfiler.Stop("NImages");
+		}
+		// ============================================================
+		public function get Progress():Number
+		{
+			return mProgress;
+		}
+		// ============================================================
+		public function set Progress( progress:Number ):void 
+		{
+			if ( progress > 1 ) progress = 1;
+			if ( progress < 0 ) progress = 0;
+			
+			mProgress = progress;
 		}
 		// ============================================================
 		// ============================================================
-		// ============================================================
-		// ============================================================
-		// ============================================================
-		public static function Create( el:XML ):NImage
+		public static function Create( el:XML ):NProgress
 		{
 			var rect:* = { };
 			var settings:* = { halign:int(0), valign:int(0) };
@@ -139,7 +113,7 @@
 			{
 				if ( id )
 				{
-					return new NImage( id, rect, settings );
+					return new NProgress( id, rect, settings );
 				}
 			}
 			catch( err:Error )
@@ -152,5 +126,5 @@
 		}
 		// ============================================================
 	}
-	
+
 }
