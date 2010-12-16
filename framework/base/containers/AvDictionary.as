@@ -52,6 +52,15 @@ package base.containers
 			}
 		}
 		// ============================================================
+		public function ApplyFrom( d:AvDictionary ):void
+		{
+			var src:Dictionary = d.GetData();
+			for ( var key:Object in src )
+			{
+				Data[key] = src[key];
+			}
+		}
+		// ============================================================
 		public function GetValue( id:* ):*
 		{
 			return Data[id];
