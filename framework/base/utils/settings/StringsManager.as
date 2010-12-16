@@ -40,7 +40,7 @@ package base.utils.settings
 				return "";
 		}
 		// ============================================================
-		public static function GString(id:String):String
+		public static function Get(id:String):String
 		{
 			if ( mStrings.ContainsKey(id) )
 				return mStrings.GetValue( id );
