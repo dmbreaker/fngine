@@ -7,43 +7,48 @@ package base.containers
 	public class AvArray extends Array
 	{
 		// ============================================================
+		protected var mArr:Array = new Array();
 		// ============================================================
 		public function AvArray() 
 		{
-			var arr:Array = [];
-			arr.length
+			mArr.length = 0;
 		}
 		// ============================================================
 		public function get Size():int
 		{
-			return length;
+			return mArr.length;
 		}
 		// ============================================================
 		public function set Size( value:int ):void
 		{
-			length = value;
+			mArr.length = value;
 		}
 		// ============================================================
 		public function Clear():void 
 		{
-			length = 0;
+			mArr.length = 0;
 		}
 		// ============================================================
 		public function Add( item:* ):void 
 		{
-			push( item );
+			mArr.push( item );
 		}
 		// ============================================================
 		public function CloneFrom( arr:AvArray ):void 
 		{
 			Clear();
-			this.splice(0, 0, arr);
+			mArr.splice(0, 0, arr.GetInternalArray());
 		}
 		// ============================================================
-		public function CloneFormArray( arr:Array ):void 
+		public function CloneFromArray( arr:Array ):void 
 		{
 			Clear();
-			this.splice(0, 0, arr);
+			mArr.splice(0, 0, arr);
+		}
+		// ============================================================
+		internal function GetInternalArray():Array
+		{
+			return mArr;
 		}
 		// ============================================================
 		public function GetClone():AvArray
@@ -58,18 +63,18 @@ package base.containers
 			var count:int = Size;
 			for (var i:int = 0; i < count; i++) 
 			{
-				this[i] = value;
+				mArr[i] = value;
 			}
 		}
 		// ============================================================
 		public function SetAt( index:int, value:* ):void
 		{
-			this[index] = value;
+			mArr[index] = value;
 		}
 		// ============================================================
 		public function GetAt( index:int ):*
 		{
-			return this[index];
+			return mArr[index];
 		}
 		// ============================================================
 	}
