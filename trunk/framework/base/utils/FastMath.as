@@ -18,6 +18,10 @@
 		public var InvPI:Number = 1 / Math.PI;
 		public var InvPI2:Number = 1 / (Math.PI * 2);
 		public var InvHalfPI:Number = 1 / (Math.PI * 0.5);
+		
+		public var ToRad:Number = Math.PI / 180;
+		public var ToAngle:Number = 180 / Math.PI;
+		public var AlphaNormalize:Number = 1 / 255;
 		// ============================================================
 		// ============================================================
 		public function FastMath() 
