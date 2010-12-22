@@ -27,6 +27,8 @@
 		private var mZeroPoint:Point = new Point();
 		
 		private var mIsLocked:Boolean = false;
+		
+		private var mCurrentBlendMode:String = BlendMode.NORMAL;
 		// ============================================================
 		public function BitmapGraphix(_width:int, _height:int, transparent:Boolean = true, fillColor:uint = 0x0)
 		{
@@ -75,13 +77,13 @@
 				
 			if ( alpha == 1 )
 			{
-				draw(bmd, mDrawMatrix, null, BlendMode.NORMAL, null, true );
+				draw(bmd, mDrawMatrix, null, mCurrentBlendMode, null, true );
 			}
 			else
 			{
 				mBitmapColTr.alphaMultiplier = alpha;
 				
-				draw(bmd, mDrawMatrix, mBitmapColTr, BlendMode.NORMAL, null, true );
+				draw(bmd, mDrawMatrix, mBitmapColTr, mCurrentBlendMode, null, true );
 				//copyPixels( bmd, bmd.rect, new Point(sx+mOffsetX,sy+mOffsetY) );
 			}
 		}
@@ -99,7 +101,7 @@
 			mDrawRotMatrix.tx += sx + mOffsetX;
 			mDrawRotMatrix.ty += sy + mOffsetY;
 			
-			draw( bmd, mDrawRotMatrix, mBitmapColTr, BlendMode.NORMAL, null, true );
+			draw( bmd, mDrawRotMatrix, mBitmapColTr, mCurrentBlendMode, null, true );
 
 			//copyPixels( bmd, bmd.rect, new Point(sx+mOffsetX,sy+mOffsetY) );
 		}
@@ -120,13 +122,13 @@
 
 			if ( alpha == 1 )
 			{
-				draw(bmd, mDrawMatrix, null, BlendMode.NORMAL, null, true );
+				draw(bmd, mDrawMatrix, null, mCurrentBlendMode, null, true );
 			}
 			else
 			{
 				mBitmapColTr.alphaMultiplier = alpha;
 				
-				draw(bmd, mDrawMatrix, mBitmapColTr, BlendMode.NORMAL, null, true );
+				draw(bmd, mDrawMatrix, mBitmapColTr, mCurrentBlendMode, null, true );
 				//copyPixels( bmd, bmd.rect, new Point(sx+mOffsetX,sy+mOffsetY) );
 			}
 		}
@@ -134,12 +136,19 @@
 		private var mTmpCenterPoint:NPoint = new NPoint();
 		public function DrawBitmapDataFastCentered(bmd:BitmapData, sx:Number, sy:Number):void
 		{
-			var hw:int = bmd.width >> 1;
-			var hh:int = bmd.height >> 1;
-			
-			mTmpCenterPoint.Init( sx - hw + mOffsetX, sy - hh + mOffsetY );
-			
-			copyPixels( bmd, bmd.rect, mTmpCenterPoint, null, null, true );
+			if ( IsDrawModeNormal )
+			{
+				var hw:int = bmd.width >> 1;
+				var hh:int = bmd.height >> 1;
+				
+				mTmpCenterPoint.Init( sx - hw + mOffsetX, sy - hh + mOffsetY );
+
+				copyPixels( bmd, bmd.rect, mTmpCenterPoint, null, null, true );
+			}
+			else
+			{
+				DrawBitmapDataCentered(bmd, int(sx), int(sy), 1);
+			}
 		}
 		// ============================================================
 		private var mDrawRotMatrix:Matrix = new Matrix(1, 0, 0, 1);
@@ -167,12 +176,12 @@
 			
 			if ( alpha == 1 )
 			{
-				draw(bmd, mDrawRotMatrix, null, BlendMode.NORMAL, null, true );
+				draw(bmd, mDrawRotMatrix, null, mCurrentBlendMode, null, true );
 			}
 			else
 			{
 				mBitmapColTr.alphaMultiplier = alpha;
-				draw(bmd, mDrawRotMatrix, mBitmapColTr, BlendMode.NORMAL, null, true );
+				draw(bmd, mDrawRotMatrix, mBitmapColTr, mCurrentBlendMode, null, true );
 			}
 		}
 		// ============================================================
@@ -216,12 +225,12 @@
 			
 			if ( alpha == 1 )
 			{
-				draw(bmd, mDrawRotMatrix, null, BlendMode.NORMAL, null, true );
+				draw(bmd, mDrawRotMatrix, null, mCurrentBlendMode, null, true );
 			}
 			else
 			{
 				mBitmapColTr.alphaMultiplier = alpha;
-				draw(bmd, mDrawRotMatrix, mBitmapColTr, BlendMode.NORMAL, null, true );
+				draw(bmd, mDrawRotMatrix, mBitmapColTr, mCurrentBlendMode, null, true );
 			}
 		}
 		// ============================================================
@@ -268,13 +277,25 @@
 
 			if ( alpha == 1 )
 			{
-				draw(bmd, mDrawRotMatrix, null, BlendMode.NORMAL, mScaleRect, true );
+				draw(bmd, mDrawRotMatrix, null, mCurrentBlendMode, mScaleRect, true );
 			}
 			else
 			{
 				mBitmapColTr.alphaMultiplier = alpha;
-				draw(bmd, mDrawRotMatrix, mBitmapColTr, BlendMode.NORMAL, mScaleRect, true );
+				draw(bmd, mDrawRotMatrix, mBitmapColTr, mCurrentBlendMode, mScaleRect, true );
 			}
+		}
+		// ============================================================
+		/// рисует только по целым координатам, выбирает более быстрый метод
+		public function DrawImageSharp(bmd:BitmapData, sx:Number, sy:Number, alpha:Number):void
+		{
+			if ( alpha <= 0 )
+				return;
+			
+			if ( alpha == 1 )
+				DrawBitmapDataFast( bmd, sx, sy );
+			else
+				DrawBitmapData( bmd, int(sx + 0.5), int(sy + 0.5), alpha );
 		}
 		// ============================================================
 		public function DrawBitmapDataFast(bmd:BitmapData, sx:Number, sy:Number):void
@@ -285,10 +306,15 @@
 				return;
 			}
 			
-			startPnt.x = sx + mOffsetX;
-			startPnt.y = sy + mOffsetY;
-			
-			copyPixels( bmd, bmd.rect, startPnt, null, null, true );
+			if ( IsDrawModeNormal )
+			{
+				startPnt.x = sx + mOffsetX;
+				startPnt.y = sy + mOffsetY;
+				
+				copyPixels( bmd, bmd.rect, startPnt, null, null, true );
+			}
+			else
+				DrawBitmapData(bmd, int(sx), int(sy), 1);	// на случай, если режим смешивания ADD
 		}
 		// ============================================================
 		private var offsetRect:Rectangle = new Rectangle();
@@ -383,8 +409,20 @@
 			applyFilter( this, this.rect, mZeroPoint, mBlur );
 		}
 		// ============================================================
+		public function get DrawMethod():String
+		{
+			return mCurrentBlendMode;
+		}
 		// ============================================================
+		public function set DrawMethod( val:String ):void 
+		{
+			mCurrentBlendMode = val;
+		}
 		// ============================================================
+		private function get IsDrawModeNormal():Boolean
+		{
+			return (mCurrentBlendMode == BlendMode.NORMAL);
+		}
 		// ============================================================
 	}
 	
