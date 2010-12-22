@@ -66,6 +66,11 @@ package base.containers
 			return Data[id];
 		}
 		// ============================================================
+		public function Size():int
+		{
+			return Data.length;
+		}
+		// ============================================================
 	}
 
 }

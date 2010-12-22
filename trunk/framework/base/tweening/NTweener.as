@@ -41,7 +41,7 @@
 		{
 		}
 		// ============================================================
-		public function Init( target:*, duration:Number, vars:*, extra_vars:Array ):NTweener
+		public function Init( target:*, duration:Number, vars:*, extra_vars:Array = null ):NTweener
 		{
 			if (target == null) return null;
 			this.Target = target;
@@ -319,6 +319,11 @@
 		public static function easeOut(t:Number, b:Number, c:Number, d:Number):Number
 		{
 			return -c * (t /= d) * (t - 2) + b;
+		}
+		// ============================================================
+		public static function get CurTweenerTime():uint
+		{
+			return mCurTime;
 		}
 		// ============================================================
 	}
