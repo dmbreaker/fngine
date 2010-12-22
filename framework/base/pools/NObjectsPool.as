@@ -73,7 +73,7 @@
 				}
 			}
 			
-			throw new Error( "Object was not found in ObjectPool" );
+			// throw new Error( "Object was not found in ObjectPool" );
 		}
 		// ============================================================
 		//public function GetFirstIndex():int
