@@ -12,7 +12,7 @@
 	public class NTweener
 	{
 		// ============================================================
-		private static const MAX_TWEEN_OBJECTS:int = 100;	// 100
+		private static const MAX_TWEEN_OBJECTS:int = 512;	// 100
 		// ============================================================
 		public static var defaultEase:Function = NTweener.easeOut;
 		// ============================================================

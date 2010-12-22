@@ -37,7 +37,7 @@ package base.containers
 			return Data[key] != undefined;
 		}
 		// ============================================================
-		internal function GetData():Dictionary
+		public function GetData():Dictionary
 		{
 			return Data;
 		}
@@ -64,6 +64,11 @@ package base.containers
 		public function GetValue( id:* ):*
 		{
 			return Data[id];
+		}
+		// ============================================================
+		public function SetValue( id:*, value:* ):void
+		{
+			Data[id] = value;
 		}
 		// ============================================================
 		public function Size():int
