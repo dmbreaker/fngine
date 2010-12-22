@@ -100,7 +100,7 @@
 			buttonMode = true;
 			mouseChildren = false;
 			
-			cacheAsBitmap = true;// false;
+			cacheAsBitmap = false;// false;
 		}
 		// ============================================================
 		protected function OnAdded(e:Event = null):void
@@ -152,21 +152,21 @@
 			
 			var sprite:Sprite = new Sprite();
 			sprite.mouseEnabled = false;
-			sprite.cacheAsBitmap = true;
+			sprite.cacheAsBitmap = false;// true;
 			addChild( sprite );
 			mLayers.push( sprite );	// bottom layer
 			mBottommostLayerIndex = 0;
 			
 			sprite = new Sprite();
 			sprite.mouseEnabled = false;
-			sprite.cacheAsBitmap = true;// false;
+			sprite.cacheAsBitmap = false;// true;
 			addChild( sprite );
 			mLayers.push( sprite );	// center layer (main)
 			mMainLayerIndex = 1;
 			
 			sprite = new Sprite();
 			sprite.mouseEnabled = false;
-			sprite.cacheAsBitmap = true;
+			sprite.cacheAsBitmap = false;// true;
 			addChild( sprite );
 			mLayers.push( sprite );	// top layer (over)
 			mTopmostLayerIndex = 2;

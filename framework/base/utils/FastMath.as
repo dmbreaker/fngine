@@ -7,6 +7,9 @@
 	public class FastMath
 	{
 		// ============================================================
+		public static const ToRad:Number = Math.PI / 180;
+		public static const ToAngle:Number = 180 / Math.PI;
+		public static const AlphaNormalize:Number = 1 / 255;
 		// ============================================================
 		public function FastMath() 
 		{
