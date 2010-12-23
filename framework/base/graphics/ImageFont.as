@@ -6,6 +6,9 @@
 	import base.utils.Key;
 	import base.types.*;
 	import base.parsers.CharDataXmlParser;
+
+	import base.utils.TextGen;
+	import flash.text.engine.TextLine;
 	
 	/**
 	 * ...
@@ -18,6 +21,13 @@
 		private var mCharsData:Array;	// аррэй из элементов CharData
 		// ============================================================
 		public var Name:String;
+		
+		// для TTF шрифтов:
+		public var Size:Number = 0;
+		public var Color:uint = 0xFF000000;
+		public var Bold:Boolean = false;
+		
+		public var IsTTFont:Boolean = false;
 		// ============================================================
 		private var mHorAlignment:int = 0;
 		private var mVerAlignment:int = 0;
@@ -29,19 +39,36 @@
 		// ============================================================
 		public function ImageFont( name:String, bmd:BitmapData, xml_name:String )
 		{
-			Name = name;
-			mBitmapData = bmd.clone();	// чтобы операции над одним шрифтом не отражлись на других контролах
-			
-			mCharsData = new CharDataXmlParser().Parse( xml_name );
-			
-			// определим самый высокий символ - на него будем ориентироваться при учете высоты строк:
-			for (var i:int = 0; i < mCharsData.length; i++)
+			if ( name.charAt(0) == ":" )
 			{
-				var charData:CharData = mCharsData[i];
-				if ( charData != null )
+				var font_params:String = name.substring(1);
+				var params:Array = font_params.split(";");
+				Name = params[0];	// 0 - всегда имя
+				Size = Number(params[1]);	// 1 - всегда размер
+				Color = uint(params[2]);	// 2 - всегда цвет шрифта
+				Bold = Boolean(params[3]);	// 3 - всегда жирный ли шрифт
+				IsTTFont = true;
+				
+				bmd = null;
+				mCharsData = null;
+			}
+			else
+			{
+				IsTTFont = false;
+				Name = name;
+				mBitmapData = bmd.clone();	// чтобы операции над одним шрифтом не отражлись на других контролах
+			
+				mCharsData = new CharDataXmlParser().Parse( xml_name );
+			
+				// определим самый высокий символ - на него будем ориентироваться при учете высоты строк:
+				for (var i:int = 0; i < mCharsData.length; i++)
 				{
-					if ( mMaxCharHeight < charData.BitmapRect.Size.Height )
-						mMaxCharHeight = charData.BitmapRect.Size.Height;
+					var charData:CharData = mCharsData[i];
+					if ( charData != null )
+					{
+						if ( mMaxCharHeight < charData.BitmapRect.Size.Height )
+							mMaxCharHeight = charData.BitmapRect.Size.Height;
+					}
 				}
 			}
 		}
@@ -203,6 +230,12 @@
 			var pixel_length:Number = 0;
 			var pixel_height:Number = 0;
 			var count:int = text.length;
+			
+			if ( IsTTFont )
+			{
+				var tline:TextLine = TextGen.CreateTextLine( text, Name, { size:Size, color:Color, bold:Bold } );
+				return new NSize( int(tline.width+0.5), int(tline.height+0.5) );
+			}
 			
 			/*if ( rect )
 			{

@@ -7,12 +7,12 @@
 	public dynamic class Probability
 	{
 		// ============================================================
-		private var mProbabilities:Array;
+		private var mProbabilities:Vector.<Number>;
 		private var mItems:Array;
 		private var mMaxProbability:Number;
 		
 		// ============================================================
-		public function Probability( probabilities:Array, items:Array )
+		public function Probability( probabilities:Vector.<Number>, items:Array )
 		{
 			mProbabilities = probabilities;
 			mItems = items;

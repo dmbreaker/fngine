@@ -40,6 +40,9 @@
 		// ============================================================
 		public function GetFont( name:String ):ImageFont
 		{
+			if ( name.length > 0 && name.charAt(0) == ":" )	// TTF
+				return new ImageFont( name, null, null );
+			
 			var item:* = mFonts[name];
 			if ( item )
 			{

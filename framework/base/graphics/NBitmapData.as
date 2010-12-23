@@ -2,10 +2,12 @@
 {
 	import base.types.*;
 	import base.utils.SimpleProfiler;
+	import base.utils.TextGen;
 	import flash.display.BlendMode;
 	import flash.filters.BlurFilter;
 	import flash.filters.ColorMatrixFilter;
 	import flash.geom.Matrix;
+	import flash.text.engine.TextLine;
 	
 	import flash.display.BitmapData;
 	import flash.geom.ColorTransform;
@@ -114,47 +116,67 @@
 		SimpleProfiler.Start( "DrawText" );
 			var r:NRect = rect.Clone();
 			
-			if ( font.IsTextMultiline( text, rect ) )
+			if ( font.IsTTFont )	// TTF rendering
 			{
-				var line_start_pos:NPoint = rect.Position.Clone();
-				var strings:Array = font.SplitTextToLines( text, rect );
-				for each( var s:String in strings )
-				{
-					DrawOneLine( s, font, line_start_pos, rect, halign, valign );
-					line_start_pos.y += font.mMaxCharHeight + font.Leading;
-				}
+				var tline:TextLine = TextGen.CreateTextLine( text, font.Name, { size:font.Size, color:font.Color, bold:font.Bold, max_width:rect.Width } );
+				var size:NSize = new NSize( int(tline.width + 0.5), int(tline.height+0.5) );
+				var sx:Number = 0;
+				var sy:Number = 0;
+				if ( halign == 0 )		sx = (r.Width - size.Width) * 0.5;
+				else if ( halign > 0 )	sx = (r.Width - size.Width);
+				if ( valign == 0 )		sy = (r.Height - size.Height) * 0.5;
+				else if ( valign > 0 )	sy = (r.Height - size.Height);
+
+				var m:Matrix = new Matrix();
+				//var rct:Rectangle = tline.getBounds(Global.Core);
+				//m.translate( sx + r.Position.x - rct.x, sy + r.Position.y - rct.y );
+				m.translate( sx + r.Position.x, sy + r.Position.y + tline.ascent );
+				draw( tline, m, null, BlendMode.NORMAL, null, false );
 			}
 			else
 			{
-				var shift:NPoint = DoOneLineAlignment( text, r, font, halign, valign );
-
-				var pos:NPoint = r.Position.Clone();
-				pos.offset( shift.x, shift.y );
-				var right:Number = r.Right;
-				var bottom:Number = r.Bottom;
-				
-				var count:int = text.length;
-				for (var i:int = 0; i < count; i++)
+				if ( font.IsTextMultiline( text, rect ) )
 				{
-					var chIndex:int = int(text.charCodeAt(i));
-					var chData:CharData = font.GetCharData( chIndex ) as CharData;
-					if ( !chData ) continue;
-					var bmpRect:NRect = chData.BitmapRect;
-					var bmpPos:NPoint = bmpRect.Position;
-					var bmpSize:NSize = bmpRect.Size;
-					
-					if ( pos.x + bmpSize.Width + font.Kerning > right )
+					var line_start_pos:NPoint = rect.Position.Clone();
+					var strings:Array = font.SplitTextToLines( text, rect );
+					for each( var s:String in strings )
 					{
-						pos.x = r.Position.x;
-						pos.y += font.mMaxCharHeight + font.Leading;	// можно менять расстояние между строками
+						DrawOneLine( s, font, line_start_pos, rect, halign, valign );
+						line_start_pos.y += font.mMaxCharHeight + font.Leading;
 					}
+				}
+				else
+				{
+					var shift:NPoint = DoOneLineAlignment( text, r, font, halign, valign );
+
+					var pos:NPoint = r.Position.Clone();
+					pos.offset( shift.x, shift.y );
+					var right:Number = r.Right;
+					var bottom:Number = r.Bottom;
+				
+					var count:int = text.length;
+					for (var i:int = 0; i < count; i++)
+					{
+						var chIndex:int = int(text.charCodeAt(i));
+						var chData:CharData = font.GetCharData( chIndex );
+						if ( !chData ) continue;
+						var bmpRect:NRect = chData.BitmapRect;
+						var bmpPos:NPoint = bmpRect.Position;
+						var bmpSize:NSize = bmpRect.Size;
 					
-					if ( pos.y > bottom )
-						return;
+						if ( pos.x + bmpSize.Width + font.Kerning > right )
+						{
+							pos.x = r.Position.x;
+							pos.y += font.mMaxCharHeight + font.Leading;	// можно менять расстояние между строками
+						}
 					
-					DrawChar( font.mBitmapData, pos, chData.BitmapRect.RectangleLinked );
+						if ( pos.y > bottom )
+							return;
 					
-					pos.x += bmpSize.Width + font.Kerning;
+						DrawChar( font.mBitmapData, pos, chData.BitmapRect.RectangleLinked );
+					
+						pos.x += bmpSize.Width + font.Kerning;
+					}
 				}
 			}
 		SimpleProfiler.Stop( "DrawText" );
