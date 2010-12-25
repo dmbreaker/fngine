@@ -93,6 +93,12 @@
 			Column += shift.Column;
 		}
 		// ============================================================
+		public function CopySubstraction( a:NCell, b:NCell ):void
+		{
+			Row = a.Row - b.Row;
+			Column = a.Column - b.Column;
+		}
+		// ============================================================
 		/*public function GetPosition():NPoint
 		{
 			return new NPoint( Column * Consts.COLLAPSE_CANDY_HOR_DIAMETER, Row * Consts.COLLAPSE_CANDY_DIAMETER);
