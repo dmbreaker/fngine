@@ -75,6 +75,16 @@
 			IsFreezed = state.IsFreezed;
 		}
 		// ============================================================
+		public function GetCompletePercent():Number
+		{
+			if( TotalTime != 0 )
+			{
+				return Number(TotalTime-TimeLeft)/Number(TotalTime);
+			}
+			else
+				return 0;
+		}
+		// ============================================================
 		public function toString():String
 		{
 			return "State[type:"+Type+", ttime:"+TotalTime+"]";

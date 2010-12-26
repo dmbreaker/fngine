@@ -69,6 +69,17 @@
 			
 		}
 		// ============================================================
+		// ============================================================
+		public function GetStateCompletePercent():Number
+		{
+			if( mState.IsActive() )
+			{
+				return mState.GetCompletePercent();
+			}
+			else
+				return 0;
+		}
+		// ============================================================
 //public function OnStateEnter( state:State ):void {};
 //public function OnStateExit( state:State ):void {};
 //public function OnStateChange( current:State, next:State ):void {};	// empty by default
