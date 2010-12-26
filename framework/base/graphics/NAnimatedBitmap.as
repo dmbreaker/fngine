@@ -27,6 +27,7 @@
 		private var mRTimePerFrame:Number;
 		private var mFrameSize:NSize;
 		private var mAnimSpeedMultiplier:Number = 1;
+		public var Settings:* = { };
 		
 		private var mIsVertical:Boolean = false;
 		// ============================================================
@@ -35,7 +36,7 @@
 		//private var mHalfHeight:Number;
 		public var mHalfHeight:Number;
 		// ============================================================
-		private var mFrames:Array = new Array();//<NBitmapData>
+		private var mFrames:Vector.<NBitmapData> = new Vector.<NBitmapData>();//<NBitmapData>
 		// ============================================================
 		private var mPrevFrameIndex:int = 0;
 		private var mPrevFrame:NBitmapData = null;
@@ -52,6 +53,8 @@
 		// ============================================================
 		public function Set( animation:BitmapData, frameSize:NSize = null, framesCount:int = 1, animTime:Number = 1, settings:* = null ):void
 		{
+			Settings = settings;
+			
 			var is_ver:Boolean = false;
 			var columns:int = 1;
 			var rows:int = 1;
@@ -60,6 +63,16 @@
 			if( framesCount > 0 )
 				mDifferentFramesCount = framesCount;
 			mAnimationTime = animTime;
+			if ( animTime == 1 && framesCount > 1 )	// 2010.12.27
+			{
+				if ( settings.framedelay )
+				{
+					if ( settings.frames_per_sequence )
+						mAnimationTime = int(settings.framedelay) * int(settings.frames_per_sequence);
+					else
+						mAnimationTime = int(settings.framedelay) * framesCount;
+				}
+			}
 			
 			if( frameSize != null )
 				mFrameSize = frameSize;
@@ -263,7 +276,7 @@
 			{
 				//var frames_count:int = framesSequence.length;
 				
-				var framesTemp:Array = new Array();
+				var framesTemp:Vector.<NBitmapData> = new Vector.<NBitmapData>();
 				if ( !mIsVertical )
 				{
 					for (j = 0; j < rows; j++)
@@ -321,8 +334,9 @@
 			if ( mFullFramesCount > 1 )	// для однокадровых анимаций ничего делать не нужно
 			{
 				mCurrentTime += diff_ms;
-				while( mCurrentTime >= mAnimationTime )
-					mCurrentTime -= mAnimationTime;
+				mCurrentTime = mCurrentTime % mAnimationTime;
+				//while( mCurrentTime >= mAnimationTime )
+				//	mCurrentTime -= mAnimationTime;
 			}
 		}
 		// ============================================================
@@ -335,31 +349,50 @@
 		/**
 		 * returns current NBitmapData
 		 */
-		public function GetNBD():NBitmapData
+		public function GetNBD( time:int = -1 ):NBitmapData
 		{
+			var currentFrame:int;
+			
 			// переделать, исходя из реального кол-ва кадров
 			if ( mFullFramesCount == 1 )	// для однокадровых анимаций ничего считать не нужно
 			{
 				if ( mPrevFrame == null )
 				{
-					mPrevFrame = NBitmapData(mFrames[0]);
+					mPrevFrame = mFrames[0];
 				}
 				return mPrevFrame;	// mAnimationSource
 			}
 			else
 			{
-				var currentFrame:int = int(mCurrentTime * mRTimePerFrame);
-				if ( mPrevFrame != null && currentFrame == mPrevFrameIndex )
-					return mPrevFrame;
+				if ( time == -1 )
+				{
+					currentFrame = int(mCurrentTime * mRTimePerFrame);
+					if ( mPrevFrame != null && currentFrame == mPrevFrameIndex )
+						return mPrevFrame;
+					else
+					{
+						mPrevFrame = mFrames[currentFrame];
+						mPrevFrameIndex = currentFrame;
+					}
+					//trace( "currentFrame", currentFrame );
+					//trace( "mFrames[currentFrame]", mFrames[currentFrame] );
+					
+					return mPrevFrame;// NBitmapData(mFrames[currentFrame]);
+				}
 				else
 				{
-					mPrevFrame = NBitmapData(mFrames[currentFrame]);
-					mPrevFrameIndex = currentFrame;
+					time = time % mAnimationTime;
+					
+					currentFrame = int(time * mRTimePerFrame);
+					if ( mPrevFrame != null && currentFrame == mPrevFrameIndex )
+						return mPrevFrame;
+					else
+					{
+						mPrevFrame = mFrames[currentFrame];
+						mPrevFrameIndex = currentFrame;
+					}
+					return mPrevFrame;
 				}
-				//trace( "currentFrame", currentFrame );
-				//trace( "mFrames[currentFrame]", mFrames[currentFrame] );
-				
-				return mPrevFrame;// NBitmapData(mFrames[currentFrame]);
 			}
 		}
 		// ============================================================
