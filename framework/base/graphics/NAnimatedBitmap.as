@@ -66,20 +66,6 @@
 			if( framesCount > 0 )
 				mDifferentFramesCount = framesCount;
 			mAnimationTime = animTime;
-			if ( animTime == 1 )	// 2010.12.27
-			{
-				if ( settings.framedelay )
-				{
-					mTimePerFrame = settings.framedelay;
-					if ( settings.frames_per_sequence )
-						mAnimationTime = int(settings.framedelay) * int(settings.frames_per_sequence);
-					else
-						mAnimationTime = int(settings.framedelay) * framesCount;
-				}
-			}
-			
-			if ( settings.frames_per_sequence )
-				mFramesPerSequence = settings.frames_per_sequence;
 			
 			if( frameSize != null )
 				mFrameSize = frameSize;
@@ -107,6 +93,24 @@
 					framesCount = columns * rows;
 					mDifferentFramesCount = framesCount;
 				}
+				
+				
+				if ( animTime == 1 )	// 2010.12.27
+				{
+					if ( settings.framedelay )
+					{
+						mTimePerFrame = settings.framedelay;
+						if ( settings.frames_per_sequence )
+							mAnimationTime = int(settings.framedelay) * int(settings.frames_per_sequence);
+						else
+							mAnimationTime = int(settings.framedelay) * framesCount;
+					}
+				}
+				
+				if ( settings.frames_per_sequence )
+					mFramesPerSequence = settings.frames_per_sequence;
+				
+				
 				
 				mIsVertical = is_ver;
 				

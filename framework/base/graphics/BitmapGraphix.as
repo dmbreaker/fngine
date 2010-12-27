@@ -92,11 +92,15 @@
 		{
 			if ( alpha <= 0 )
 				return;
+				
+			var hw:int = bmd.width >> 1;
+			var hh:int = bmd.height >> 1;
 
 			mBitmapColTr.alphaMultiplier = alpha;
 			mDrawRotMatrix.identity();		// reset matrix to defaults
 			
 			mDrawRotMatrix.scale( scaleX, scaleY );
+			mDrawRotMatrix.translate( -scaleX * hw, -scaleY * hh );	// центрирование
 			
 			mDrawRotMatrix.tx += sx + mOffsetX;
 			mDrawRotMatrix.ty += sy + mOffsetY;

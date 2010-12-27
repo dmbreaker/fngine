@@ -57,7 +57,8 @@ package base.containers
 			var src:Dictionary = d.GetData();
 			for ( var key:Object in src )
 			{
-				Data[key] = src[key];
+				if( src[key] )
+					Data[key] = src[key];
 			}
 		}
 		// ============================================================
