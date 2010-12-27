@@ -27,6 +27,9 @@
 		private var mRTimePerFrame:Number;
 		private var mFrameSize:NSize;
 		private var mAnimSpeedMultiplier:Number = 1;
+		
+		private var mFramesPerSequence:int = -1;	// одна последовательность
+		
 		public var Settings:* = { };
 		
 		private var mIsVertical:Boolean = false;
@@ -63,16 +66,20 @@
 			if( framesCount > 0 )
 				mDifferentFramesCount = framesCount;
 			mAnimationTime = animTime;
-			if ( animTime == 1 && framesCount > 1 )	// 2010.12.27
+			if ( animTime == 1 )	// 2010.12.27
 			{
 				if ( settings.framedelay )
 				{
+					mTimePerFrame = settings.framedelay;
 					if ( settings.frames_per_sequence )
 						mAnimationTime = int(settings.framedelay) * int(settings.frames_per_sequence);
 					else
 						mAnimationTime = int(settings.framedelay) * framesCount;
 				}
 			}
+			
+			if ( settings.frames_per_sequence )
+				mFramesPerSequence = settings.frames_per_sequence;
 			
 			if( frameSize != null )
 				mFrameSize = frameSize;
@@ -165,6 +172,9 @@
 			mFrames.length = 0;
 			mCurrentTime = 0;
 			
+			mFramesPerSequence = animation.mFramesPerSequence;
+			Settings = animation.Settings;
+			
 			mHalfWidth = animation.mHalfWidth;
 			mHalfHeight = animation.mHalfHeight;
 			
@@ -191,6 +201,9 @@
 			
 			mFrames.length = 0;
 			mCurrentTime = 0;
+			
+			mFramesPerSequence = animation.mFramesPerSequence;
+			Settings = animation.Settings;
 			
 			mHalfWidth = animation.mHalfWidth;
 			mHalfHeight = animation.mHalfHeight;
@@ -324,7 +337,10 @@
 			}
 			mFullFramesCount = mFrames.length;
 			
-			mTimePerFrame = mAnimationTime / mFullFramesCount;
+			if ( mFramesPerSequence > 0 )
+				mTimePerFrame = mAnimationTime / mFramesPerSequence;
+			else
+				mTimePerFrame = mAnimationTime / mFullFramesCount;
 			mRTimePerFrame = 1/mTimePerFrame;
 		}
 		// ============================================================
@@ -436,6 +452,21 @@
 		public function get FrameHeight():int
 		{
 			return int(mFrameSize.Height);
+		}
+		// ============================================================
+		public function get TotalAnimTime():int
+		{
+			return mAnimationTime;
+		}
+		// ============================================================
+		public function get FrameDelay():int
+		{
+			return mTimePerFrame;
+		}
+		// ============================================================
+		public function get FramesPerSequence():int
+		{
+			return mFramesPerSequence;
 		}
 		// ============================================================
 	}
