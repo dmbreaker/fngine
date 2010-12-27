@@ -16,6 +16,7 @@
 		public var IsFreezed:Boolean;
 		public var IsFired:Boolean;
 		public var IsOneQuantFreezed:Boolean;
+		public var IsContinuous:Boolean
 		// ============================================================
 		public function State( state_value:int = 0, time_ms:int = 0 )
 		{
@@ -29,6 +30,7 @@
 			IsFreezed = freezed;
 			IsFired = fired;
 			IsOneQuantFreezed = false;
+			IsContinuous = false;
 			
 			if ( Type == State.INACTIVE )	// вроде это логично
 				IsFired = true;
@@ -41,6 +43,9 @@
 		// ============================================================
 		internal function SubtractTime( time:int ):void
 		{
+			if( IsContinuous )
+				return;
+			
 			if ( !IsOneQuantFreezed )
 			{
 				TimeLeft -= time;
@@ -73,6 +78,7 @@
 			TimeLeft = state.TimeLeft;
 			IsFired = state.IsFired;
 			IsFreezed = state.IsFreezed;
+			IsContinuous = state.IsContinuous;
 		}
 		// ============================================================
 		public function GetCompletePercent():Number
