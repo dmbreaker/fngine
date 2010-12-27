@@ -76,6 +76,7 @@
 		{
 			Type = state.Type;
 			TimeLeft = state.TimeLeft;
+			TotalTime = state.TotalTime;
 			IsFired = state.IsFired;
 			IsFreezed = state.IsFreezed;
 			IsContinuous = state.IsContinuous;
