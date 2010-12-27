@@ -32,7 +32,13 @@
 		// ============================================================
 		public function SetState( state_value:int, state_time:int ):void	// iTicks - длительность состояние в миллисекундах(Update)
 		{
-			mNextState.Init( state_value, state_time );
+			if( state_time == -1 )
+			{
+				mNextState.Init( state_value, 100 );
+				mNextState.IsContinuous = true;
+			}
+			else
+				mNextState.Init( state_value, state_time );
 			
 			if( mState.IsActive() )
 				mStatesReceiver.OnStateChange( mState, mNextState );
@@ -94,9 +100,6 @@
 					if( !mState.IsFired )
 					{
 						mState.IsFired = true;
-						
-						//trace( mState );
-						
 						mStatesReceiver.OnStateEnter( mState );
 					}
 
@@ -106,8 +109,11 @@
 						if( mState.IsTimeOut() )
 						{
 							mStatesReceiver.OnStateExit( mState );
-							if( mState.IsTimeOut() )	// в процедуре состояние не изменилось (время осталось нулевым), то
+							if ( mState.IsTimeOut() )	// в процедуре состояние не изменилось (время осталось нулевым), то
+							{
 								mState.MakeInactive();			// ставим в пустое состояние
+								mStatesReceiver.OnStateEnter( mState );	// всеравно нужно вызвать, чтобы объект знал о переходе
+							}
 						}
 						else
 						{
