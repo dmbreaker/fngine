@@ -225,6 +225,7 @@
 		 * @param	rect
 		 * @return
 		 */
+		private var sizeTmp:NSize = new NSize();
 		public function MeasureStringSize( text:String, rect:NRect = null ):NSize
 		{
 			var pixel_length:Number = 0;
@@ -234,7 +235,8 @@
 			if ( IsTTFont )
 			{
 				var tline:TextLine = TextGen.CreateTextLine( text, Name, { size:Size, color:Color, bold:Bold } );
-				return new NSize( int(tline.width+0.5), int(tline.height+0.5) );
+				sizeTmp.Init( int(tline.width + 0.5), int(tline.height + 0.5) );
+				return sizeTmp;
 			}
 			
 			/*if ( rect )

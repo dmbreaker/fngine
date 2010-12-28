@@ -111,6 +111,8 @@
 			return nbmd;
 		}
 		// ============================================================
+		private var sizeTmp:NSize = new NSize();
+		private var matrixTmp:Matrix = new Matrix();
 		public function DrawText( text:String, font:ImageFont, rect:NRect, halign:int = -1, valign:int = -1 ):void
 		{
 		SimpleProfiler.Start( "DrawText" );
@@ -119,7 +121,8 @@
 			if ( font.IsTTFont )	// TTF rendering
 			{
 				var tline:TextLine = TextGen.CreateTextLine( text, font.Name, { size:font.Size, color:font.Color, bold:font.Bold, max_width:rect.Width } );
-				var size:NSize = new NSize( int(tline.width + 0.5), int(tline.height+0.5) );
+				var size:NSize = sizeTmp;
+				size.Init( int(tline.width + 0.5), int(tline.height + 0.5) );
 				var sx:Number = 0;
 				var sy:Number = 0;
 				if ( halign == 0 )		sx = (r.Width - size.Width) * 0.5;
@@ -127,7 +130,8 @@
 				if ( valign == 0 )		sy = (r.Height - size.Height) * 0.5;
 				else if ( valign > 0 )	sy = (r.Height - size.Height);
 
-				var m:Matrix = new Matrix();
+				var m:Matrix = matrixTmp;
+				m.identity();
 				//var rct:Rectangle = tline.getBounds(Global.Core);
 				//m.translate( sx + r.Position.x - rct.x, sy + r.Position.y - rct.y );
 				m.translate( sx + r.Position.x, sy + r.Position.y + tline.ascent );

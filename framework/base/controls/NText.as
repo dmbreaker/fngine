@@ -108,6 +108,7 @@
 			return mText;
 		}
 		// ============================================================
+		private var rectTmp:NRect = new NRect();
 		public function set Text( txt:String ):void
 		{
 			// !!! требуется хороший рефакторинг:
@@ -130,7 +131,7 @@
 				mIsDirty = false;
 				mText = txt;
 				
-				var rect:NRect = new NRect();
+				var rect:NRect = rectTmp;
 				if ( !Rect.Size.IsEmpty )
 				{
 					rect.CopyFrom( Rect );
