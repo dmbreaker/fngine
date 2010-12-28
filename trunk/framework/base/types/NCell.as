@@ -59,12 +59,12 @@
 		// ============================================================
 		public static function get Undefined():NCell
 		{
-			return new NCell( -1, -1);
+			return new NCell( -10000, -10000);
 		}
 		// ============================================================
 		public function IsUndefined():Boolean
 		{
-			return ( Row == -1 && Column == -1 );
+			return ( Row == -10000 && Column == -10000 );
 		}
 		// ============================================================
 		//public function get FieldIndex():int
