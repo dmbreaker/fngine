@@ -32,13 +32,19 @@
 			return img;
 		}
 		// ============================================================
-		public static function GetAnimation( name:String ):NAnimatedBitmap
+		public static function GetAnimation( name:String, throwable:Boolean = true ):NAnimatedBitmap
 		{
 			var animation:NAnimatedBitmap = new NAnimatedBitmap();
 			var tmpAnimation:NAnimatedBitmap = mAnimations[name] as NAnimatedBitmap
 			if ( tmpAnimation == null )
 			{
-				throw new Error( "RM.GetAnimation( " + name + " ) - not found");
+				if( throwable )
+					throw new Error( "RM.GetAnimation( " + name + " ) - not found");
+				else
+				{
+					trace( "RM.GetAnimation( " + name + " ) - not found");
+					return null;
+				}
 			}
 			animation.CopyFrom( tmpAnimation );
 			
