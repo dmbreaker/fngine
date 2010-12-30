@@ -75,7 +75,7 @@
 			mFont = font;
 		}
 		// ============================================================
-		//@ TTF font doesn't supported it
+		//@ TTF font doesn't support it
 		public function SetColorTransform( r:int, g:int, b:int ):void
 		{
 			mR = r; mG = g; mB = b;
