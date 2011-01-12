@@ -12,11 +12,12 @@ package base.utils
 		public var Second:String;
 		// ============================================================
 		// ============================================================
-		public function StringsPair() 
+		public function StringsPair(first:String="", second:String="") 
 		{
+			Init( first, second );
 		}
 		// ============================================================
-		public function Init( first:Number, second:Number ):void 
+		public function Init( first:String, second:String ):void 
 		{
 			First = first;
 			Second = second;
