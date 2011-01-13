@@ -321,6 +321,55 @@
 				DrawBitmapData(bmd, int(sx), int(sy), 1);	// на случай, если режим смешивания ADD
 		}
 		// ============================================================
+		public function DrawScale9BitmapData(bmd:BitmapData, x:int, y:int, w:int, h:int) : void
+		{
+			// своя реализация:
+			var nW:int = Math.max( w, bmd.width );
+			var nH:int = Math.max( h, bmd.height );
+			var scale9Grid:Rectangle = new Rectangle(x, y, nW, nH);
+			
+			var vecSrcX:Array = [0, int(bmd.width / 3),	int(2 * bmd.width / 3),	bmd.width-1];
+			var vecSrcY:Array = [0, int(bmd.height / 3),int(2 * bmd.height / 3),bmd.height-1];
+			
+			var vecDestX:Array = [vecSrcX[0], vecSrcX[1], 0, 0];
+			var vecDestY:Array = [vecSrcY[0], vecSrcY[1], 0, 0];
+			
+			vecDestX[2] = nW - 2 * (vecSrcX[1] - vecSrcX[0]) + vecSrcX[1];	// за вычетом левого и правого кусков
+			vecDestY[2] = nH - 2 * (vecSrcY[1] - vecSrcY[0]) + vecSrcY[1];	// за вычетом верхнего и нижнего кусков
+			vecDestX[3] = nW;
+			vecDestY[3] = nH;
+			
+			for (var cx:int = 0; cx < 3; cx++)
+			{
+				for (var cy:int = 0 ; cy < 3; cy++)
+				{
+					var dx1:int = vecSrcX[cx];
+					var dx2:int = vecSrcX[cx + 1];
+					var dy1:int = vecSrcX[cy];
+					var dy2:int = vecSrcX[cy + 1];
+					
+					var ddx1:int = vecDestX[cx];
+					var ddy1:int = vecDestY[cy];
+						
+					if ( cx != 1 && cy != 1 )
+					{
+						DrawBitmapDataPart( bmd, x + ddx1, y + ddy1,
+											dx1, dy1, dx2 - dx1, dy2 - dy1 );
+					}
+					else
+					{
+						var ddx2:int = vecDestX[cx + 1];
+						var ddy2:int = vecDestY[cy + 1];
+						DrawBitmapDataPartScaled(bmd, x + ddx1, y + ddy1,
+											new NRect(dx1, dy1, dx2 - dx1, dy2 - dy1),
+											(ddx2 - ddx1) / (dx2 - dx1),
+											(ddy2 - ddy1) / (dy2 - dy1)
+										);
+					}
+				}
+			}
+		}
+		// ============================================================
 		private var offsetRect:Rectangle = new Rectangle();
 		public function FillRect(rect:Rectangle, color:int):void
 		{
