@@ -132,14 +132,14 @@
 				
 				var tlines:Vector.<TextLine> = new Vector.<TextLine>();
 				var tline:TextLine = tblock.createTextLine( null, rZ.Width );
+				
 				while (tline)
 				{
 					tlines.push( tline );
-					
-					tline.y = sizeTmp.Height;
+					size.Height += tline.height;
+					tline.y = size.Height;
 					if ( sizeTmp.Width < tline.width ) sizeTmp.Width = tline.width;
-					//@ ! нужно учитывать, что картинка - это отдельная TextLine, но высота должна считаться для текущей строки!
-					sizeTmp.Height += tline.height;
+					size.Height += tline.descent;
 					
 					tline = tblock.createTextLine( tline, rZ.Width );
 				}
@@ -158,7 +158,7 @@
 					if ( halign == 0 )		sx = (r.Width - tl.width) * 0.5;
 					else if ( halign > 0 )	sx = (r.Width - tl.width);
 					
-					m.translate( sx + r.Position.x, sy + r.Position.y + tl.ascent + tl.y );
+					m.translate( sx + r.Position.x, sy + r.Position.y + tl.y );
 					draw( tl, m, null, BlendMode.NORMAL, null, false );
 				}
 			}

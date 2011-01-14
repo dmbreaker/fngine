@@ -243,9 +243,10 @@
 				var tline:TextLine = tblock.createTextLine( null, r.Width );
 				while (tline)
 				{
+					sizeTmp.Height += tline.height;
 					tline.y = sizeTmp.Height;
 					if ( sizeTmp.Width < tline.width ) sizeTmp.Width = tline.width;
-					sizeTmp.Height += tline.height;
+					sizeTmp.Height += tline.descent;
 					
 					tline = tblock.createTextLine( tline, r.Width );
 				}
