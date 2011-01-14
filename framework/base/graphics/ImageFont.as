@@ -6,6 +6,7 @@
 	import base.utils.Key;
 	import base.types.*;
 	import base.parsers.CharDataXmlParser;
+	import flash.text.engine.TextBlock;
 
 	import base.utils.TextGen;
 	import flash.text.engine.TextLine;
@@ -226,6 +227,7 @@
 		 * @return
 		 */
 		private var sizeTmp:NSize = new NSize();
+		private var rectTmp:NRect = new NRect(0,0, 1000000, 1000000);
 		public function MeasureStringSize( text:String, rect:NRect = null ):NSize
 		{
 			var pixel_length:Number = 0;
@@ -234,8 +236,21 @@
 			
 			if ( IsTTFont )
 			{
-				var tline:TextLine = TextGen.CreateTextLine( text, Name, { size:Size, color:Color, bold:Bold } );
-				sizeTmp.Init( int(tline.width + 0.5), int(tline.height + 0.5) );
+				sizeTmp.Reset();
+				var r:NRect = rect || rectTmp;
+				
+				var tblock:TextBlock = TextGen.CreateTextBlock( text, Name, { size:Size, color:Color, bold:Bold } );
+				var tline:TextLine = tblock.createTextLine( null, r.Width );
+				while (tline)
+				{
+					tline.y = sizeTmp.Height;
+					if ( sizeTmp.Width < tline.width ) sizeTmp.Width = tline.width;
+					sizeTmp.Height += tline.height;
+					
+					tline = tblock.createTextLine( tline, r.Width );
+				}
+				
+				sizeTmp.Init( int(sizeTmp.Width + 0.5), int(sizeTmp.Height + 0.5) );
 				return sizeTmp;
 			}
 			
