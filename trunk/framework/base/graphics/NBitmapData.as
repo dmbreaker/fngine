@@ -7,6 +7,8 @@
 	import flash.filters.BlurFilter;
 	import flash.filters.ColorMatrixFilter;
 	import flash.geom.Matrix;
+	import flash.text.engine.GroupElement;
+	import flash.text.engine.TextBlock;
 	import flash.text.engine.TextLine;
 	
 	import flash.display.BitmapData;
@@ -113,6 +115,7 @@
 		// ============================================================
 		private var sizeTmp:NSize = new NSize();
 		private var matrixTmp:Matrix = new Matrix();
+		private var rectTmp:NRect = new NRect(0, 0, 1000000, 1000000);
 		public function DrawText( text:String, font:ImageFont, rect:NRect, halign:int = -1, valign:int = -1 ):void
 		{
 		SimpleProfiler.Start( "DrawText" );
@@ -120,22 +123,44 @@
 			
 			if ( font.IsTTFont )	// TTF rendering
 			{
-				var tline:TextLine = TextGen.CreateTextLine( text, font.Name, { size:font.Size, color:font.Color, bold:font.Bold, max_width:rect.Width } );
+				sizeTmp.Reset();
+				var tblock:TextBlock = TextGen.CreateTextBlock( text, font.Name, { size:font.Size, color:font.Color, bold:font.Bold, max_width:rect.Width } );
 				var size:NSize = sizeTmp;
-				size.Init( int(tline.width + 0.5), int(tline.height + 0.5) );
+				
+				var lineY:Number = 0;
+				var rZ:NRect = rect || rectTmp;
+				
+				var tlines:Vector.<TextLine> = new Vector.<TextLine>();
+				var tline:TextLine = tblock.createTextLine( null, rZ.Width );
+				while (tline)
+				{
+					tlines.push( tline );
+					
+					tline.y = sizeTmp.Height;
+					if ( sizeTmp.Width < tline.width ) sizeTmp.Width = tline.width;
+					//@ ! нужно учитывать, что картинка - это отдельная TextLine, но высота должна считаться для текущей строки!
+					sizeTmp.Height += tline.height;
+					
+					tline = tblock.createTextLine( tline, rZ.Width );
+				}
+				
 				var sx:Number = 0;
 				var sy:Number = 0;
-				if ( halign == 0 )		sx = (r.Width - size.Width) * 0.5;
-				else if ( halign > 0 )	sx = (r.Width - size.Width);
 				if ( valign == 0 )		sy = (r.Height - size.Height) * 0.5;
 				else if ( valign > 0 )	sy = (r.Height - size.Height);
 
 				var m:Matrix = matrixTmp;
-				m.identity();
-				//var rct:Rectangle = tline.getBounds(Global.Core);
-				//m.translate( sx + r.Position.x - rct.x, sy + r.Position.y - rct.y );
-				m.translate( sx + r.Position.x, sy + r.Position.y + tline.ascent );
-				draw( tline, m, null, BlendMode.NORMAL, null, false );
+				for each (var tl:TextLine in tlines) 
+				{
+					m.identity();
+					//var rct:Rectangle = tline.getBounds(Global.Core);
+					//m.translate( sx + r.Position.x - rct.x, sy + r.Position.y - rct.y );
+					if ( halign == 0 )		sx = (r.Width - tl.width) * 0.5;
+					else if ( halign > 0 )	sx = (r.Width - tl.width);
+					
+					m.translate( sx + r.Position.x, sy + r.Position.y + tl.ascent + tl.y );
+					draw( tl, m, null, BlendMode.NORMAL, null, false );
+				}
 			}
 			else
 			{
