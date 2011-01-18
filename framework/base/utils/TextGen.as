@@ -77,7 +77,9 @@ package base.utils
 			var fd:FontDescription = new FontDescription();
 			fd.fontLookup = FontLookup.EMBEDDED_CFF;
 			fd.fontName = fontName;
-			fd.fontWeight = (bold) ? FontWeight.BOLD : FontWeight.NORMAL;
+			//fd.fontWeight = FontWeight.NORMAL;
+			//fd.fontPosture = FontPosture.NORMAL;
+			//@ fd.fontWeight = (bold) ? FontWeight.BOLD : FontWeight.NORMAL;
 
 			
 			// firstly split text and images:

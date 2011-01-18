@@ -50,8 +50,8 @@
 			this.Delay = vars.delay || 0;
 			this.ExtraVars = extra_vars;
 			this.Tweens = [];
-			if ( extra_vars != null );
-				this.ExtraTweens = [];
+			//@ if ( extra_vars != null );
+			this.ExtraTweens = [];
 			
 			IsActive = !(duration == 0 && Delay == 0);
 			// добавить данный ТВИН в список, только в такой, из которого можно быстро удалять...

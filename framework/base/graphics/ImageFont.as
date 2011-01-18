@@ -47,7 +47,7 @@
 				Name = params[0];	// 0 - всегда имя
 				Size = Number(params[1]);	// 1 - всегда размер
 				Color = uint(params[2]);	// 2 - всегда цвет шрифта
-				Bold = Boolean(params[3]);	// 3 - всегда жирный ли шрифт
+				Bold = (params[3] == "true");	// 3 - всегда жирный ли шрифт
 				IsTTFont = true;
 				
 				bmd = null;
