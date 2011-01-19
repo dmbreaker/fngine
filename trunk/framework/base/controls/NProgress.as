@@ -99,6 +99,11 @@ package base.controls
 			mProgress = progress;
 		}
 		// ============================================================
+		public function set Image( img:BitmapData ):void
+		{
+			mImage = img;
+		}
+		// ============================================================
 		// ============================================================
 		public static function Create( el:XML ):NProgress
 		{
