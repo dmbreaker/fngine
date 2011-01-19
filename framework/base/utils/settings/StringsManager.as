@@ -37,7 +37,10 @@ package base.utils.settings
 			if ( mStrings.ContainsKey(id) )
 				return mStrings.GetValue( id );
 			else
+			{
+				trace( "RES_ERROR: >>> String '" + id + "' was not found" );
 				return "";
+			}
 		}
 		// ============================================================
 		public static function Get(id:String):String
@@ -45,7 +48,10 @@ package base.utils.settings
 			if ( mStrings.ContainsKey(id) )
 				return mStrings.GetValue( id );
 			else
+			{
+				trace( "RES_ERROR: >>> String '" + id + "' was not found" );
 				return "";
+			}
 		}
 		// ============================================================
 	}

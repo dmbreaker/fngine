@@ -161,6 +161,7 @@
 					m.translate( sx + r.Position.x, sy + r.Position.y + tl.y );
 					draw( tl, m, null, BlendMode.NORMAL, null, false );
 				}
+				tblock = null;
 			}
 			else
 			{
