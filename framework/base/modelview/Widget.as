@@ -68,6 +68,11 @@
 			
 		}
 		// ============================================================
+		public function OnAllControlsCreated():void
+		{
+			// for overriding
+		}
+		// ============================================================
 		internal final override function InternalDraw( g:BitmapGraphix, diff_ms:int):void
 		{
 			g.SetOffset( Rect.Position.x, Rect.Position.y );

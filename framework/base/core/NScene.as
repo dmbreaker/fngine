@@ -135,7 +135,9 @@
 			tabChildren = false;
 			focusRect = false;
 			OnInit();
-			ParseXML();	// парсим XML, чтобы контролы были поверх и была возможность перемещать созданные программно контролы
+			ParseXML();	// parsing XML, xml-controls will be on top, therefore user-widgets can be bring to front
+			
+			mWidgets.InformAllControlsCreated();	// informing all widgets that controls creation complete
 			
 			//mResLoader.Load();
 			

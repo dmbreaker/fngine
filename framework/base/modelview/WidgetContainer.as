@@ -112,6 +112,16 @@
 			// only for overriding
 		}
 		// ============================================================
+		public function InformAllControlsCreated():void
+		{
+			ForEach( function ( obj:* ):void
+			{
+				var widget:Widget = Widget(obj);
+				widget.InformAllControlsCreated();
+				widget.OnAllControlsCreated();
+			} );
+		}
+		// ============================================================
 	}
 	
 }
