@@ -13,6 +13,7 @@
 		function Clear():void;
 		function DrawBitmapData( bmd:BitmapData, sx:Number, sy:Number, alpha:Number = 1 ):void;
 		function DrawBitmapDataFast( bmd:BitmapData, sx:Number, sy:Number ):void;
+		function DrawBitmapDataFastCentered(bmd:BitmapData, sx:Number, sy:Number):void;
 		function DrawBitmapDataRot(bmd:BitmapData, sx:Number, sy:Number, alpha:Number = 1, angle:Number = 0, scaleFactor:Number = 1):void;
 		
 		function DrawBitmapDataCentered( bmd:BitmapData, sx:Number, sy:Number, alpha:Number = 1 ):void;
