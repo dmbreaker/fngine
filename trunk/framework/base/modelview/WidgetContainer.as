@@ -2,7 +2,6 @@
 {
 	import base.core.NScene;
 	import base.graphics.BitmapGraphix;
-	import base.graphics.IGraphix;
 	import flash.utils.getQualifiedClassName;
 	/**
 	 * ...

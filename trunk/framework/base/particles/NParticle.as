@@ -1,6 +1,5 @@
 ﻿package base.particles
 {
-	import base.graphics.IGraphix;
 	import base.graphics.NAnimatedBitmap;
 	import base.graphics.NBitmapData;
 	import base.modelview.IQuant;

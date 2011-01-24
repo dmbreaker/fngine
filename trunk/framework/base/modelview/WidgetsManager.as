@@ -3,7 +3,6 @@
 	import base.controls.*;
 	import base.core.NStyle;
 	import base.graphics.BitmapGraphix;
-	import base.graphics.IGraphix;
 	import base.types.*;
 	import base.core.NScene;
 	//import SndPlayer;

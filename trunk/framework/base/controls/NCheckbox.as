@@ -3,7 +3,6 @@
 	import base.core.NCore;
 	import base.core.NStyle;
 	import base.graphics.BitmapGraphix;
-	import base.graphics.IGraphix;
 	import base.graphics.ImageFont;
 	import base.types.*;
 	import base.utils.Methods;

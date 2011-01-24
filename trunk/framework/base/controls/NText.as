@@ -4,7 +4,6 @@
 	import base.core.NStyle;
 	import base.graphics.BitmapGraphix;
 	import base.managers.FontsManager;
-	import base.graphics.IGraphix;
 	import base.graphics.ImageFont;
 	import base.graphics.NBitmapData;
 	import base.types.*;

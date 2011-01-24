@@ -1,6 +1,6 @@
 ﻿package base.particles
 {
-	import base.graphics.IGraphix;
+	import base.graphics.BitmapGraphix;
 	import base.types.*;
 	
 	/**
@@ -42,7 +42,7 @@
 			Speed.AddLengthLowNormalized( -200 * step, 10 );
 		}
 		// ============================================================
-		public override function Draw( g:IGraphix, sx:Number, sy:Number ):void
+		public override function Draw( g:BitmapGraphix, sx:Number, sy:Number ):void
 		{
 			//Scale = 0.5 + ((50 - Pos.z) / 50);//!!!temp
 			if ( Scale < 0 ) Scale = 0;
