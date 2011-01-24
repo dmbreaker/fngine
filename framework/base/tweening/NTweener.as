@@ -99,7 +99,7 @@
 			for each (p in a)
 			{
 				//trace( "NTweener:", p );
-				if ( p.IsActive && p.Target != null )
+				if ( p.IsActive && p.Target != null )	
 				{
 					p.render( mCurTime );
 				}
@@ -237,7 +237,7 @@
 			removeTween(this); //moved above the onComplete callback in case there's an error in the user's onComplete - this prevents constant errors
 			if (on_complete != null)
 			{
-				this.Vars.onComplete.apply(null, [target]);
+				on_complete.apply(null, [target]);
 			}
 		}
 		// ============================================================

@@ -12,7 +12,7 @@
 	public class NEffectTweener
 	{
 		// ============================================================
-		private static const MAX_TWEEN_OBJECTS:int = 100;
+		private static const MAX_TWEEN_OBJECTS:int = 512;
 		// ============================================================
 		public static var defaultEase:Function = NEffectTweener.easeOut;
 		// ============================================================
@@ -237,7 +237,7 @@
 			removeTween(this); //moved above the onComplete callback in case there's an error in the user's onComplete - this prevents constant errors
 			if (on_complete != null)
 			{
-				this.Vars.onComplete.apply(null, [target]);
+				on_complete.apply(null, [target]);
 			}
 		}
 		// ============================================================
@@ -251,6 +251,24 @@
 				Pool.Obj = t;
 				
 				//trace( "TWEEN EFFECT REMOVED" );
+			}
+		}
+		// ============================================================
+		public static function killTweensOf(tg:Object = null):void
+		{
+			if (tg != null)
+			{
+				for( var tween:* in AllTweens )	// здесь нифига не строка в tween
+				{
+					var tweenObj:NEffectTweener = NEffectTweener(tween);
+					if ( AllTweens[tween] != undefined && AllTweens[tween].Target == tg )
+					{
+						delete (AllTweens[tween]);
+						Pool.Obj = tweenObj;
+						
+						//trace( "ALL TWEENS REMOVED" );
+					}
+				}
 			}
 		}
 		// ============================================================
@@ -300,6 +318,11 @@
 		public static function easeOut(t:Number, b:Number, c:Number, d:Number):Number
 		{
 			return -c * (t /= d) * (t - 2) + b;
+		}
+		// ============================================================
+		public static function get CurTweenerTime():uint
+		{
+			return mCurTime;
 		}
 		// ============================================================
 	}
