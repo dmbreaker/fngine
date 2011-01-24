@@ -3,7 +3,6 @@
 	import base.BaseGlobal;
 	import base.containers.RemovableArray;
 	import base.graphics.BitmapGraphix;
-	import base.graphics.IGraphix;
 	import base.graphics.SpriteGraphix;
 	import base.modelview.QuantgetsHolder;
 	import base.modelview.Widget;
@@ -468,11 +467,11 @@
 		{
 		}
 		// ============================================================
-		protected function BeforeDraw( g:IGraphix, diff_ms:int ):void
+		protected function BeforeDraw( g:BitmapGraphix, diff_ms:int ):void
 		{
 		}
 		// ============================================================
-		protected function AfterDraw( g:IGraphix, diff_ms:int ):void
+		protected function AfterDraw( g:BitmapGraphix, diff_ms:int ):void
 		{
 		}
 		// ============================================================

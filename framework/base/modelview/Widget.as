@@ -4,7 +4,6 @@
 	import base.controls.NSimpleTooltip;
 	import base.core.NScene;
 	import base.graphics.BitmapGraphix;
-	import base.graphics.IGraphix;
 	import base.types.*;
 	import flash.geom.Rectangle;
 	

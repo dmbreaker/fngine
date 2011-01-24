@@ -1,6 +1,6 @@
 ﻿package base.controls
 {
-	import base.graphics.IGraphix;
+	import base.graphics.BitmapGraphix;
 	import base.graphics.ImageFont;
 	import base.NRect;
 	import flash.geom.Rectangle;
@@ -36,7 +36,7 @@
 			mFont = font;
 		}
 		// ============================================================
-		public override function Draw(g:IGraphix, diff_ms:int):void
+		public override function Draw(g:BitmapGraphix, diff_ms:int):void
 		{
 			if ( mFont )
 			{

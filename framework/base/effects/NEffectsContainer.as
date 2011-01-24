@@ -2,7 +2,7 @@
 {
 	import base.containers.BitArray;
 	import base.containers.SearchFreeSlotContainer;
-	import base.graphics.IGraphix;
+	import base.graphics.BitmapGraphix;
 	import base.modelview.IQuant;
 	
 	/**
@@ -55,7 +55,7 @@
 			//}
 		}
 		// ============================================================
-		public function Draw( g:IGraphix, sx:Number = 0, sy:Number = 0 ):void
+		public function Draw( g:BitmapGraphix, sx:Number = 0, sy:Number = 0 ):void
 		{
 			var effect:NEffect;
 

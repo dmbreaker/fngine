@@ -1,6 +1,6 @@
 ﻿package base.particles
 {
-	import base.graphics.IGraphix;
+	import base.graphics.BitmapGraphix;
 	import base.graphics.NAnimatedBitmap;
 	import base.graphics.NBitmapData;
 	
@@ -16,14 +16,14 @@
 		{
 		}
 		// ============================================================
-		public function Draw( g:IGraphix, sx:Number, sy:Number ):void
+		public function Draw( g:BitmapGraphix, sx:Number, sy:Number ):void
 		{
 			g.DrawBitmapData( Image.GetNBD(), sx + ScreenPos.x - Image.mHalfWidth, sy + ScreenPos.y - Image.mHalfHeight, Alpha );
 			//trace( "EFFECT: ", sx + ScreenPos.x - Image.HalfWidth, sy + ScreenPos.y - Image.HalfHeight );
 			//trace( "EFFECT2: ", sx, ScreenPos.x, -Image.HalfWidth );
 		}
 		// ============================================================
-		public function DrawFastNoAlpha( g:IGraphix, sx:Number, sy:Number ):void
+		public function DrawFastNoAlpha( g:BitmapGraphix, sx:Number, sy:Number ):void
 		{
 			g.DrawBitmapDataFast( Image.GetNBD(), sx + ScreenPos.x - Image.mHalfWidth, sy + ScreenPos.y - Image.mHalfHeight );
 			//trace( "EFFECT: ", sx + ScreenPos.x - Image.HalfWidth, sy + ScreenPos.y - Image.HalfHeight );

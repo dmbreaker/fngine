@@ -1,6 +1,6 @@
 ﻿package base.effects
 {
-	import base.graphics.IGraphix;
+	import base.graphics.BitmapGraphix;
 	import base.particles.NAnimatedParticle;
 	
 	/**
@@ -23,7 +23,7 @@
 			mParticle.Quant( diff_ms );
 		}
 		// ============================================================
-		protected override function InternalDraw( g:IGraphix ):void
+		protected override function InternalDraw( g:BitmapGraphix ):void
 		{
 			mParticle.Draw( g, Pos.x, Pos.y );
 		}

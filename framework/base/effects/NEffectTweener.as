@@ -231,10 +231,13 @@
 			{
 				this.Target.visible = Boolean(this.Vars.visible);
 			}
+			
+			var on_complete:* = this.Vars.onComplete;
+			var target:* = this.Target;
 			removeTween(this); //moved above the onComplete callback in case there's an error in the user's onComplete - this prevents constant errors
-			if (this.Vars.onComplete != null)
+			if (on_complete != null)
 			{
-				this.Vars.onComplete.apply(null, [this.Target]);
+				this.Vars.onComplete.apply(null, [target]);
 			}
 		}
 		// ============================================================

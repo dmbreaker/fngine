@@ -1,6 +1,6 @@
 ﻿package base.particles
 {
-	import base.graphics.IGraphix;
+	import base.graphics.BitmapGraphix;
 	import base.graphics.NBitmapData;
 	
 	/**
@@ -17,7 +17,7 @@
 			
 		}
 		// ============================================================
-		public function Draw( g:IGraphix, sx:Number, sy:Number ):void
+		public function Draw( g:BitmapGraphix, sx:Number, sy:Number ):void
 		{
 			g.DrawBitmapData( Image, sx + ScreenPos.x, sy + ScreenPos.y, Alpha );
 		}

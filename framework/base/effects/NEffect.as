@@ -1,7 +1,6 @@
 ﻿package base.effects
 {
 	import base.graphics.BitmapGraphix;
-	import base.graphics.IGraphix;
 	import base.modelview.IQuant;
 	import base.types.*;
 	import base.utils.IActiveItem;
@@ -37,7 +36,7 @@
 		{
 		}
 		// ============================================================
-		public function Draw( g:IGraphix ):void
+		public function Draw( g:BitmapGraphix ):void
 		{
 			if ( Completed )
 				return;
@@ -48,7 +47,7 @@
 		/**
 		 * Эффекты должны переопределять данный метод, чтобы базовый класс мог регулировать отрисовку потомков
 		 */
-		protected function InternalDraw( g:IGraphix ):void
+		protected function InternalDraw( g:BitmapGraphix ):void
 		{
 			
 		}
@@ -70,7 +69,7 @@
 		// ============================================================
 		public function get IsActiveItem():Boolean
 		{
-			return false;
+			return !Completed;
 		}
 		// ============================================================
 		public function StartItem():void
