@@ -79,7 +79,7 @@
 			g.ResetOffset();
 			
 			super.InternalDraw( g, diff_ms );	// drawing childs here
-			
+
 			//g.DrawRect( Rect.RectangleLinked, 0xffff0000 );	// TODO: для отладки только!
 		}
 		// ============================================================
