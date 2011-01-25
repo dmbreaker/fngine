@@ -29,7 +29,7 @@
 			mCanHasFocus = false;
 			mCanCatchClicks = false;
 			if( settings.image )
-				mImage = ResourceManager.GetImage( settings.image );
+				mImage = GM( String(settings.image) );
 			else if ( settings.anim )
 				mAnimImage = ResourceManager.GetAnimation( settings.anim );
 				
@@ -53,6 +53,11 @@
 		public function get Image():BitmapData
 		{
 			return mImage;
+		}
+		// ============================================================
+		public function set Image( img:BitmapData ):void
+		{
+			mImage = img;
 		}
 		// ============================================================
 		public function get AnimImage():NAnimatedBitmap
