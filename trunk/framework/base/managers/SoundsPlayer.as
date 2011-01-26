@@ -72,15 +72,36 @@
 			return Math.min( mCurMusicMaxVolume, mCurMusicObj.volume );
 		}
 		// ============================================================
-		public static function Play( sample_name:String ):SoundChannel
+		public static function Play( sample_name:String, cycled:Boolean = false ):SoundChannel
 		{
 			if ( NCore.Settings.SoundVolumeEnabled == true )
 			{
-				var snd:SoundEx = mSounds[sample_name] as SoundEx;
-				if( snd != null )
-					return snd.SoundObj.play(snd.SkipValue);
+				var snd:SoundEx = SoundEx(mSounds[sample_name]);
+				if ( snd != null )
+				{
+					var sndChannel:SoundChannel = snd.SoundObj.play(snd.SkipValue, (cycled)?int.MAX_VALUE:0);
+					snd.SndChannel = sndChannel;
+					return sndChannel;
+				}
 			}
 
+			return null;
+		}
+		// ============================================================
+		public static function PlayCycledIfNotPlaying( name:String ):SoundChannel
+		{
+			if ( NCore.Settings.SoundVolumeEnabled == true )
+			{
+				var snd:SoundEx = SoundEx(mSounds[name]);
+				if ( snd )
+				{
+					if ( !snd.IsCycledSoundPlaying )
+						return Play( name, true );
+					else
+						return snd.SndChannel;
+				}
+			}
+			
 			return null;
 		}
 		// ============================================================
@@ -93,7 +114,7 @@
 				mMusicSoundChannel.stop();
 			}
 			
-			var snd:SoundEx = mMusicSamples[name] as SoundEx;
+			var snd:SoundEx = SoundEx(mMusicSamples[name]);
 			if ( snd != null )
 			{
 				//mMusic = snd.SoundObj;
@@ -169,6 +190,23 @@
 			mIsMusicPlaying = false;
 			mMusicSoundChannel = null;
 			//mMusic = null;
+		}
+		// ============================================================
+		public static function StopSound( name:String ):void
+		{
+			var snd:SoundEx = SoundEx(mSounds[name]);
+			if( snd )
+				snd.Stop();
+		}
+		// ============================================================
+		public static function StopAllSounds():void 
+		{
+			for ( var name:String in mSounds )
+			{
+				var snd:SoundEx = SoundEx(mSounds[name]);
+				if( snd )
+					snd.Stop();
+			}
 		}
 		// ============================================================
 		static private function OnStop():void

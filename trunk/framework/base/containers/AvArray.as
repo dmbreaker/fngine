@@ -4,7 +4,7 @@ package base.containers
 	 * ...
 	 * @author dmbreaker
 	 */
-	public class AvArray extends Array
+	public class AvArray
 	{
 		// ============================================================
 		protected var mArr:Array = new Array();
@@ -75,6 +75,20 @@ package base.containers
 		public function GetAt( index:int ):*
 		{
 			return mArr[index];
+		}
+		// ============================================================
+		public function Shuffle(startIndex:int = 0, endIndex:int = 0):void
+		{
+			if (endIndex == 0)
+				endIndex = mArr.length - 1;
+
+			for (var i:int = endIndex; i > startIndex; i--)
+			{
+				var randomNumber:int = Math.floor(Math.random() * endIndex) + startIndex;
+				var tmp:* = mArr[i];
+				mArr[i] = mArr[randomNumber];
+				mArr[randomNumber] = tmp;
+			}
 		}
 		// ============================================================
 	}
