@@ -14,12 +14,14 @@
 		private var mSoundObj:Sound;
 		private var mSkip:Number;
 		private var mSndChannel:SoundChannel;
+		private var mDefaultVolume:Number;
 		// ============================================================
 		// ============================================================
-		public function SoundEx( sound:Sound, skip:Number=0 )
+		public function SoundEx( sound:*, skip:Number=0, volume:Number = 100 )
 		{
-			mSoundObj = sound;
+			mSoundObj = Sound(sound);
 			mSkip = skip;
+			mDefaultVolume = volume / 100.0;
 		}
 		// ============================================================
 		public function get SoundObj():Sound
