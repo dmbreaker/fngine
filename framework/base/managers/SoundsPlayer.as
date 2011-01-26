@@ -79,6 +79,8 @@
 				var snd:SoundEx = SoundEx(mSounds[sample_name]);
 				if ( snd != null )
 				{
+					//if ( snd.SndChannel )
+					//	snd.SndChannel.stop();		// stop sound (only one at once)
 					var sndChannel:SoundChannel = snd.SoundObj.play(snd.SkipValue, (cycled)?int.MAX_VALUE:0);
 					snd.SndChannel = sndChannel;
 					return sndChannel;
