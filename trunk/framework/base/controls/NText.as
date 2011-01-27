@@ -6,6 +6,7 @@
 	import base.managers.FontsManager;
 	import base.graphics.ImageFont;
 	import base.graphics.NBitmapData;
+	import base.modelview.WidgetContainer;
 	import base.types.*;
 	import base.utils.Methods;
 	
@@ -53,9 +54,10 @@
 		
 		private var mInitText:String;	// переменная - используется вместо передачи параметра в ApplySettings (чтобы без проблем можно было переопределять этот метод
 		// ============================================================
-		public function NText( name:String, text:String = null, rect:* = null, settings:* = null )
+		public function NText( name:String, text:String = null, rect:* = null, settings:* = null, parent:WidgetContainer = null )
 		{
 			super( name );
+			Parent = parent;
 			
 			mInitText = text;	// mInitText может измениться в ApplySettings
 			ApplySettings( settings );
@@ -189,12 +191,12 @@
 		// ============================================================
 		// ============================================================
 		// ============================================================
-		public static function Create( el:XML ):NText
+		public static function Create( el:XML, parent:WidgetContainer = null ):NText
 		{
 			var settings:* = {halign:int(0), valign:int(0)};
 			var rect:* = { };
 			
-			Methods.ApplyControlSettings( el, rect, settings );
+			Methods.ApplyControlSettings( el, rect, settings, null, parent );
 			
 			var id:String = el.@id;
 			
@@ -218,9 +220,10 @@
 		{
 			if ( rect )
 			{
-				if ( rect.x ) Rect.Position.x = rect.x;
-				if ( rect.y ) Rect.Position.y = rect.y;
-				Resize( rect.w || 0, rect.h || 0 );
+				rect.w = rect.w || 0;
+				rect.h = rect.h || 0;
+				
+				Methods.CalcControlRectAndResize( rect, this, Parent );
 			}
 		}
 		// ============================================================

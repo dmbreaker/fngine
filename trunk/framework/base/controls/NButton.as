@@ -1,12 +1,14 @@
 ﻿package base.controls
 {
 	import base.core.NCore;
+	import base.core.NScene;
 	import base.core.NStyle;
 	import base.graphics.BitmapGraphix;
 	import base.graphics.ImageFont;
 	import base.graphics.NBitmapData;
 	import base.managers.ResourceManager;
 	import base.managers.SoundsPlayer;
+	import base.modelview.WidgetContainer;
 	import base.types.*;
 	import base.utils.Methods;
 	import base.utils.SimpleProfiler;
@@ -43,10 +45,10 @@
 		// ============================================================
 		
 		// ============================================================
-		public function NButton( name:String, text:String = null, images:* = null, rect:* = null, settings:* = null )
+		public function NButton( name:String, text:String = null, images:* = null, rect:* = null, settings:* = null, parent:WidgetContainer = null )
 		{
 			InitImages( images );
-			super( name, text, rect, settings );
+			super( name, text, rect, settings, parent );
 			
 			//	ApplySettings( settings );	// теперь вроде не нужно - он вызовется из родителя, т.к. метод ApplySettings переопределен
 			//	ApplyRect( rect );
@@ -175,13 +177,13 @@
 		// ============================================================
 		// ============================================================
 		// ============================================================
-		public static function Create( el:XML ):NButton
+		public static function Create( el:XML, parent:WidgetContainer = null ):NButton
 		{
 			var settings:* = {halign:int(0), valign:int(0)};
 			var rect:* = {};
 			var images:* = {};
 			
-			Methods.ApplyControlSettings( el, rect, settings, images );
+			Methods.ApplyControlSettings( el, rect, settings, images, parent );
 			
 			var id:String = el.@id
 			
@@ -189,7 +191,7 @@
 			{
 				if ( id )
 				{
-					return new NButton( id, "", images, rect, settings );
+					return new NButton( id, "", images, rect, settings, parent );
 				}
 			}
 			catch( err:Error )
@@ -230,9 +232,10 @@
 		{
 			if ( rect )
 			{
-				if ( rect.x ) Rect.Position.x = rect.x;
-				if ( rect.y ) Rect.Position.y = rect.y;
-				Resize( rect.w || CurrentImage.width, rect.h || CurrentImage.height );
+				rect.w = rect.w || CurrentImage.width;
+				rect.h = rect.h || CurrentImage.height;
+				
+				Methods.CalcControlRectAndResize( rect, this, Parent );
 			}
 		}
 		// ============================================================

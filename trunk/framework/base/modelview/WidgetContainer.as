@@ -2,6 +2,7 @@
 {
 	import base.core.NScene;
 	import base.graphics.BitmapGraphix;
+	import base.types.NRect;
 	import flash.utils.getQualifiedClassName;
 	/**
 	 * ...
@@ -13,6 +14,8 @@
 		protected var Parent:WidgetContainer = null;
 		//protected var ParentScene:NScene = null;
 		public var ParentScene:NScene = null;
+		
+		public var Rect:NRect = new NRect();	// must be here, because Widget and WindgetsManager both use it
 		// ============================================================
 		public function WidgetContainer()
 		{

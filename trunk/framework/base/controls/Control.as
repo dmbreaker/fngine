@@ -167,7 +167,12 @@
 				var attrs:XMLList = list.attributes();
 				for each( var attr:XML in attrs )
 				{
-					rect[attr.name().toString()] = Number(attr.valueOf());
+					var name:String = attr.name().toString();
+					var val:* = attr.valueOf();
+					if ( (name == "x" || name == "y") && (val == "center_parent") )// || val == "center_screen") )
+						rect[name] = String(val);
+					else
+						rect[name] = Number(val);
 				}
 				
 				return rect;

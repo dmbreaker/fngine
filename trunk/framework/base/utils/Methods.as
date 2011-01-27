@@ -3,6 +3,8 @@
 	import base.controls.Control;
 	import base.core.NCore;
 	import base.core.NStyle;
+	import base.modelview.Widget;
+	import base.modelview.WidgetContainer;
 	
 	/**
 	 * ...
@@ -36,7 +38,7 @@
 			return null;
 		}
 		// ============================================================
-		public static function ApplyControlSettings( el:XML, rect:*, settings:*, images:* = null ):void
+		public static function ApplyControlSettings( el:XML, rect:*, settings:*, images:* = null, parent:WidgetContainer = null ):void
 		{
 			var style:NStyle;
 			var parentValue:* = GetAttributeValue( el, "style" );
@@ -56,6 +58,18 @@
 			CopyFields( Control.ParseSettings( el ), settings );
 			if( images )
 				CopyFields( Control.ParseImages( el ), images );
+		}
+		// ============================================================
+		public static function CalcControlRectAndResize( rect:*, widget:Widget, parent:WidgetContainer ):void
+		{
+			if ( rect.x == "center_parent" )
+				rect.x = (parent.Rect.Size.Width - rect.w) / 2;
+			else if ( rect.y == "center_parent" )
+				rect.y = (parent.Rect.Size.Height - rect.h) / 2;
+				
+			if ( rect.x ) widget.Rect.Position.x = rect.x;
+				if ( rect.y ) widget.Rect.Position.y = rect.y;
+					widget.Resize( rect.w, rect.h );
 		}
 		// ============================================================
 		public static function RandF(from:Number, till:Number):Number

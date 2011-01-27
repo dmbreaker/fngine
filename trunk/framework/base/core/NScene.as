@@ -109,6 +109,7 @@
 			
 			Width = NCore.Instance.WindowWidth;
 			Height = NCore.Instance.WindowHeight;
+			mWidgets.Rect.Size.Init( Width, Height );	// all scenes has same size
 			
 			mBmpGraphix = new BitmapGraphix( Width, Height, true );
 			//addChild( mSprGraphix );

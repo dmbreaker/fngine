@@ -333,7 +333,7 @@
 		// ============================================================
 		protected function CreateButton( el:XML ):void
 		{
-			var btn:NButton = NButton.Create( el );
+			var btn:NButton = NButton.Create( el, this );
 			
 			if ( btn )
 			{
@@ -345,7 +345,7 @@
 		// ============================================================
 		protected function CreateText( el:XML ):void
 		{
-			var txt:NText = NText.Create( el );
+			var txt:NText = NText.Create( el, this );
 			
 			if ( txt )
 				AddWidget( txt );
@@ -355,7 +355,7 @@
 		// ============================================================
 		protected function CreateCBox( el:XML ):void
 		{
-			var cbox:NCheckbox = NCheckbox.Create( el );
+			var cbox:NCheckbox = NCheckbox.Create( el, this );
 			
 			if ( cbox )
 			{
@@ -367,7 +367,7 @@
 		// ============================================================
 		protected function CreateImage( el:XML ):void
 		{
-			var img:NImage = NImage.Create( el );
+			var img:NImage = NImage.Create( el, this );
 			
 			if ( img )
 			{
@@ -379,7 +379,7 @@
 		// ============================================================
 		protected function CreateProgress( el:XML ):void
 		{
-			var img:NProgress = NProgress.Create( el );
+			var img:NProgress = NProgress.Create( el, this );
 			
 			if ( img )
 			{
