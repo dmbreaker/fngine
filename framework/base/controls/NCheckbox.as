@@ -4,6 +4,7 @@
 	import base.core.NStyle;
 	import base.graphics.BitmapGraphix;
 	import base.graphics.ImageFont;
+	import base.modelview.WidgetContainer;
 	import base.types.*;
 	import base.utils.Methods;
 	
@@ -31,17 +32,18 @@
 		protected var mImages:Array = new Array();
 		protected var HasImages:Boolean = false;
 		// ============================================================
-		public function NCheckbox( name:String, text:String = null, images:* = null, rect:* = null, settings:* = null )
+		public function NCheckbox( name:String, text:String = null, images:* = null, rect:* = null, settings:* = null, parent:WidgetContainer = null )
 		{
-			super( name, text, null, settings );
+			super( name, text, null, settings, parent );
 			//mCanHasFocus = false;		// пока фокус не держит
 			InitImages( images );
 			
 			if( rect )
 			{
-				if ( rect.x ) Rect.Position.x = rect.x;
-				if ( rect.y ) Rect.Position.y = rect.y;
-				Resize( rect.w || CurrentImage.width, rect.h || CurrentImage.height );
+				rect.w = rect.w || CurrentImage.width;
+				rect.h = rect.h || CurrentImage.height;
+				
+				Methods.CalcControlRectAndResize( rect, this, Parent );
 			}
 			
 			if( settings )
@@ -176,13 +178,13 @@
 		// ============================================================
 		// ============================================================
 		// ============================================================
-		public static function Create( el:XML ):NCheckbox
+		public static function Create( el:XML, parent:WidgetContainer = null ):NCheckbox
 		{
 			var rect:* = {};
 			var settings:* = { halign:int(-1), valign:int(0) };
 			var images:* = {};
 			
-			Methods.ApplyControlSettings( el, rect, settings, images );
+			Methods.ApplyControlSettings( el, rect, settings, images, parent );
 			
 			var id:String = el.@id;
 			
@@ -190,7 +192,7 @@
 			{
 				if ( id )
 				{
-					return new NCheckbox( id, "", images, rect, settings );
+					return new NCheckbox( id, "", images, rect, settings, parent );
 				}
 			}
 			catch( err:Error )

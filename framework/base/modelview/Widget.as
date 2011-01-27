@@ -17,7 +17,6 @@
 		protected var mName:String;
 		protected var mTooltipText:String;
 		// ============================================================
-		public var Rect:NRect = new NRect();
 		//public var Position:NPoint = new NPoint();
 		//public var Size:NSize = new NSize();
 		protected var mHandCursor:Boolean = false;

@@ -2,6 +2,7 @@ package base.controls
 {
 	import base.graphics.BitmapGraphix;
 	import base.managers.ResourceManager;
+	import base.modelview.WidgetContainer;
 	import base.utils.Methods;
 	import flash.display.BitmapData;
 	/**
@@ -18,9 +19,11 @@ package base.controls
 		protected var mVerAlign:int;
 		// ============================================================
 		// ============================================================
-		public function NProgress( name:String, rect:*=null, settings:*=null )
+		public function NProgress( name:String, rect:*=null, settings:*=null, parent:WidgetContainer = null )
 		{
 			super( name );
+			Parent = parent;
+			
 			mCanHasFocus = false;
 			mCanCatchClicks = false;
 			if( settings.image )
@@ -31,12 +34,18 @@ package base.controls
 			
 			if ( rect )
 			{
-				if ( rect.x ) Rect.Position.x = rect.x;
-				if ( rect.y ) Rect.Position.y = rect.y;
-				if( mImage )
-					Resize( rect.w || mImage.width, rect.h || mImage.height );
+				if ( mImage )
+				{
+					rect.w = rect.w || mImage.width;
+					rect.h = rect.h || mImage.height
+				}
 				else
-					Resize( rect.w || 0, rect.h || 0 );
+				{
+					rect.w = rect.w || 0;
+					rect.h = rect.h || 0;
+				}
+				
+				Methods.CalcControlRectAndResize( rect, this, Parent );
 			}
 			
 			mHorAlign = settings.halign;
@@ -105,12 +114,12 @@ package base.controls
 		}
 		// ============================================================
 		// ============================================================
-		public static function Create( el:XML ):NProgress
+		public static function Create( el:XML, parent:WidgetContainer = null ):NProgress
 		{
 			var rect:* = { };
 			var settings:* = { halign:int(0), valign:int(0) };
 			
-			Methods.ApplyControlSettings( el, rect, settings );
+			Methods.ApplyControlSettings( el, rect, settings, null, parent );
 			
 			var id:String = el.@id;
 			
@@ -118,7 +127,7 @@ package base.controls
 			{
 				if ( id )
 				{
-					return new NProgress( id, rect, settings );
+					return new NProgress( id, rect, settings, parent );
 				}
 			}
 			catch( err:Error )

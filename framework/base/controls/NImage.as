@@ -5,6 +5,7 @@
 	import base.graphics.BitmapGraphix;
 	import base.graphics.NAnimatedBitmap;
 	import base.managers.ResourceManager;
+	import base.modelview.WidgetContainer;
 	import base.types.*;
 	import base.core.NScene;
 	import base.utils.Methods;
@@ -23,9 +24,11 @@
 		protected var mHorAlign:int;
 		protected var mVerAlign:int;
 		// ============================================================
-		public function NImage( name:String, rect:*=null, settings:*=null )
+		public function NImage( name:String, rect:*=null, settings:*=null, parent:WidgetContainer = null )
 		{
 			super( name );
+			Parent = parent;
+			
 			mCanHasFocus = false;
 			mCanCatchClicks = false;
 			if( settings.image )
@@ -41,9 +44,10 @@
 			
 			if ( rect )
 			{
-				if ( rect.x ) Rect.Position.x = rect.x;
-				if ( rect.y ) Rect.Position.y = rect.y;
-				Resize( rect.w || ImgWidth, rect.h || ImgHeight );
+				rect.w = rect.w || ImgWidth;
+				rect.h = rect.h || ImgHeight;
+				
+				Methods.CalcControlRectAndResize( rect, this, Parent );
 			}
 			
 			mHorAlign = settings.halign;
@@ -130,12 +134,12 @@
 		// ============================================================
 		// ============================================================
 		// ============================================================
-		public static function Create( el:XML ):NImage
+		public static function Create( el:XML, parent:WidgetContainer = null ):NImage
 		{
 			var rect:* = { };
 			var settings:* = { halign:int(0), valign:int(0) };
 			
-			Methods.ApplyControlSettings( el, rect, settings );
+			Methods.ApplyControlSettings( el, rect, settings, null, parent );
 			
 			var id:String = el.@id;
 			
@@ -143,7 +147,7 @@
 			{
 				if ( id )
 				{
-					return new NImage( id, rect, settings );
+					return new NImage( id, rect, settings, parent );
 				}
 			}
 			catch( err:Error )
