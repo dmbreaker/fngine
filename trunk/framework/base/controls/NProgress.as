@@ -30,7 +30,7 @@ package base.controls
 				mImage = ResourceManager.GetImage( settings.image );
 				
 			if ( settings.progress )
-				Progress = Number(settings.progress) / 100;
+				Progress = Number(settings.progress) / 100.0;
 			
 			if ( rect )
 			{

@@ -9,6 +9,7 @@
 	import base.modelview.WidgetContainer;
 	import base.types.*;
 	import base.utils.Methods;
+	import base.utils.settings.StringsManager;
 	
 	//import fonts.SomeFont;
 	
@@ -59,8 +60,15 @@
 			super( name );
 			Parent = parent;
 			
-			mInitText = text;	// mInitText может измениться в ApplySettings
+			if ( text.indexOf(":") == 0 )	// if need take text from 'string.xml'
+				text = StringsManager.Get(text.substr(1));
+
+			mInitText = text;	// mInitText can be changed in ApplySettings
 			ApplySettings( settings );
+			
+			if ( mInitText.indexOf(":") == 0 )	// if need take text from 'string.xml'
+				mInitText = StringsManager.Get(mInitText.substr(1));
+			
 			Text = mInitText;
 			
 			ApplyRect( rect );
@@ -204,7 +212,7 @@
 			{
 				if ( id )
 				{
-					return new NText( id, "", rect, settings );
+					return new NText( id, "", rect, settings, parent );
 				}
 			}
 			catch( err:Error )
