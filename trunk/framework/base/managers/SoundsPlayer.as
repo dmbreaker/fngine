@@ -45,6 +45,11 @@
 			NSettings.eventDispatcher.addEventListener( NSettings.MUSIC_ENABLED_CHANGED, OnMusicEnabledChanged, false, 0, true );
 		}
 		// ============================================================
+		public static function SaveSound(name:String, snd:*, skip:Number = 0, volume:Number = 100):void
+		{
+			mSounds[name] = new SoundEx( snd, skip, volume );
+		}
+		// ============================================================
 		private static function OnMusicEnabledChanged(e:Event):void
 		{
 			if ( NCore.Settings.MusicVolumeEnabled )

@@ -45,6 +45,10 @@
 		protected var mWidth:Number;
 		protected var mHeight:Number;
 		
+		protected var mToScene:Number = 0.3;
+		protected var mToModalScene:Number = 0.5;
+		protected var mFromModalScene:Number = 0.25;
+		
 		// ============================================================
 		private var mIsMouseIn:Boolean = false;
 		private var mMouseOutTimer:Timer = new Timer( BaseGlobal.MouseOutTime );
@@ -281,9 +285,9 @@
 				//TweenLite.to( mHidingObj, 0.5, { alpha:0, onComplete:TransitionComplete, ease:TweenLite.easeOut } );
 				//TweenLite.to( mCurObj, 0.5, { alpha:1, ease:TweenLite.easeOut } );
 				TweenLite.killTweensOf( mHidingObj );
-				TweenLite.to( mHidingObj, 0.3, { alpha:0, onComplete:TransitionComplete, ease:Linear.easeOut } );
+				TweenLite.to( mHidingObj, mToScene, { alpha:0, onComplete:TransitionComplete, ease:Linear.easeOut } );
 				TweenLite.killTweensOf( mCurObj );
-				TweenLite.to( mCurObj, 0.3, { alpha:1, ease:Linear.easeOut } );
+				TweenLite.to( mCurObj, mToScene, { alpha:1, ease:Linear.easeOut } );
 				//TweenLite.to( mHidingObj, 0.5, { x:-Global.WindowWidth, onComplete:TransitionComplete, ease:TweenLite.easeOut } );
 				//TweenLite.to( mCurObj, 0.5, { x:0, ease:TweenLite.easeOut } );
 			}
@@ -382,7 +386,7 @@
 				//SetFilters( mCurObj, [mBlurFilter] );
 				scene.OnSceneEvent( NSceneEvent.evtModalShowingStarted, callback );	// уведомление самому модальному окну
 				
-				TweenLite.to( scene, 0.5, { alpha:1, ease:Linear.easeOut, onComplete:ToModalTransitionComplete } );
+				TweenLite.to( scene, mToModalScene, { alpha:1, ease:Linear.easeOut, onComplete:ToModalTransitionComplete } );
 				//mBlurFilter.blurX = 0;
 				//mBlurFilter.blurY = 0;
 				//TweenLite.to( mBlurFilter, 0.5, { blurX:MAX_BLUR, blurY:MAX_BLUR, ease:Linear.easeOut } );
@@ -429,7 +433,7 @@
 				scene.Freezed = true;
 				//if ( mModalScenes.length == 0 )
 					//TweenLite.to( mBlurFilter, 0.25, { blurX:0, blurY:0, ease:Linear.easeOut } );
-				TweenLite.to( scene, 0.25, { alpha:0, ease:Linear.easeOut, onComplete:OneModalCloseComplete } );
+				TweenLite.to( scene, mFromModalScene, { alpha:0, ease:Linear.easeOut, onComplete:OneModalCloseComplete } );
 			}
 		}
 		// ============================================================
@@ -446,10 +450,10 @@
 					if ( !wasTweenWithComplete )	// если не вызывали твин с функцией по окончании
 					{
 						wasTweenWithComplete = true;
-						TweenLite.to( scene, 0.25, { alpha:0, ease:Linear.easeOut, onComplete:OneModalCloseComplete } );
+						TweenLite.to( scene, mFromModalScene, { alpha:0, ease:Linear.easeOut, onComplete:OneModalCloseComplete } );
 					}
 					else
-						TweenLite.to( scene, 0.25, { alpha:0, ease:Linear.easeOut } );
+						TweenLite.to( scene, mFromModalScene, { alpha:0, ease:Linear.easeOut } );
 				}
 			}
 			
