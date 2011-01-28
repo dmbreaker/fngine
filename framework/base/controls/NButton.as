@@ -43,12 +43,23 @@
 		
 		protected var mVerTextShift:int = 4;
 		// ============================================================
+		protected var mClickSample:String = "";
+		protected var mOverSample:String = "";
+		// ============================================================
 		
 		// ============================================================
 		public function NButton( name:String, text:String = null, images:* = null, rect:* = null, settings:* = null, parent:WidgetContainer = null )
 		{
 			InitImages( images );
 			super( name, text, rect, settings, parent );
+			
+			if ( settings )
+			{
+				if ( settings.sound_over )
+					mOverSample = settings.sound_over;
+				if ( settings.sound_click )
+					mClickSample = settings.sound_click;
+			}
 			
 			//	ApplySettings( settings );	// теперь вроде не нужно - он вызовется из родителя, т.к. метод ApplySettings переопределен
 			//	ApplyRect( rect );
@@ -135,15 +146,19 @@
 		// ============================================================
 		override public function OnMouseIn():void
 		{
-			SoundsPlayer.Play( NCore.Instance.MouseOverSampleName );
+			if ( mOverSample.length > 0 )
+				SoundsPlayer.Play( mOverSample );
+			else
+				SoundsPlayer.Play( NCore.Instance.MouseOverSampleName );
 			super.OnMouseIn();// TODO: зачем-то удалял эту строку
-			// TODO: желательна возможность настройки звука из XML
 		}
 		// ============================================================
 		protected function DoButtonClick():void
 		{
-			// TODO: желательна возможность настройки звука из XML
-			SoundsPlayer.Play( NCore.Instance.MouseClickSampleName );
+			if ( mClickSample.length > 0 )
+				SoundsPlayer.Play( mClickSample );
+			else
+				SoundsPlayer.Play( NCore.Instance.MouseClickSampleName );
 			DispatchNotification( NButton.evtButtonClick );
 			Parent.OnCommand( this, "button_click" );
 		}
