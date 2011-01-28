@@ -48,7 +48,6 @@
 		// ============================================================
 		public static function SaveSound(name:String, snd:*, skip:Number = 0, volume:Number = 100, cycled:Boolean = false, maxSounds:int = 0):void
 		{
-			//mSounds[name] = new SoundEx( snd, skip, volume );
 			mSounds[name] = new NSoundContainer( snd, maxSounds, skip, volume / 100.0, cycled );
 		}
 		// ============================================================
@@ -214,10 +213,6 @@
 			var snd:NSoundContainer = mSounds[name];
 			if( snd )
 				snd.StopOldest();
-			
-			/*var snd:SoundEx = SoundEx(mSounds[name]);
-			if( snd )
-				snd.Stop();*/
 		}
 		// ============================================================
 		public static function StopAllSounds():void 
@@ -227,9 +222,6 @@
 				var snd:NSoundContainer = mSounds[name];
 				if( snd )
 					snd.StopAll();
-				/*var snd:SoundEx = SoundEx(mSounds[name]);
-				if( snd )
-					snd.Stop();*/
 			}
 		}
 		// ============================================================
