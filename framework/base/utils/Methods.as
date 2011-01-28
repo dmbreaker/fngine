@@ -64,12 +64,12 @@
 		{
 			if ( rect.x == "center_parent" )
 				rect.x = (parent.Rect.Size.Width - rect.w) / 2;
-			else if ( rect.y == "center_parent" )
+			if ( rect.y == "center_parent" )
 				rect.y = (parent.Rect.Size.Height - rect.h) / 2;
 				
 			if ( rect.x ) widget.Rect.Position.x = rect.x;
-				if ( rect.y ) widget.Rect.Position.y = rect.y;
-					widget.Resize( rect.w, rect.h );
+			if ( rect.y ) widget.Rect.Position.y = rect.y;
+			widget.Resize( rect.w, rect.h );
 		}
 		// ============================================================
 		public static function RandF(from:Number, till:Number):Number
