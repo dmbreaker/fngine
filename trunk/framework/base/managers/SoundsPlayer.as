@@ -2,6 +2,7 @@
 {
 	import base.utils.NSettings;
 	import base.core.NCore;
+	import base.utils.NSoundContainer;
 	import base.utils.SoundEx;
 	
 	import base.externals.TweenLite;
@@ -45,9 +46,10 @@
 			NSettings.eventDispatcher.addEventListener( NSettings.MUSIC_ENABLED_CHANGED, OnMusicEnabledChanged, false, 0, true );
 		}
 		// ============================================================
-		public static function SaveSound(name:String, snd:*, skip:Number = 0, volume:Number = 100):void
+		public static function SaveSound(name:String, snd:*, skip:Number = 0, volume:Number = 100, cycled:Boolean = false, maxSounds:int = 0):void
 		{
-			mSounds[name] = new SoundEx( snd, skip, volume );
+			//mSounds[name] = new SoundEx( snd, skip, volume );
+			mSounds[name] = new NSoundContainer( snd, maxSounds, skip, volume / 100.0, cycled );
 		}
 		// ============================================================
 		private static function OnMusicEnabledChanged(e:Event):void
@@ -77,9 +79,13 @@
 			return Math.min( mCurMusicMaxVolume, mCurMusicObj.volume );
 		}
 		// ============================================================
-		public static function Play( sample_name:String, cycled:Boolean = false ):SoundChannel
+		public static function Play( sample_name:String/*, cycled:Boolean = false*/ ):SoundChannel
 		{
-			if ( NCore.Settings.SoundVolumeEnabled == true )
+			var snd:NSoundContainer = mSounds[sample_name];
+			if( snd )
+				snd.Play();
+			
+			/*if ( NCore.Settings.SoundVolumeEnabled == true )
 			{
 				var snd:SoundEx = SoundEx(mSounds[sample_name]);
 				if ( snd != null )
@@ -90,14 +96,18 @@
 					snd.SndChannel = sndChannel;
 					return sndChannel;
 				}
-			}
+			}*/
 
 			return null;
 		}
 		// ============================================================
-		public static function PlayCycledIfNotPlaying( name:String ):SoundChannel
+		public static function PlayIfNotPlaying( name:String ):SoundChannel
 		{
-			if ( NCore.Settings.SoundVolumeEnabled == true )
+			var snd:NSoundContainer = mSounds[name];
+			if( snd )
+				snd.PlayIfNotPlaying();
+			
+			/*if ( NCore.Settings.SoundVolumeEnabled == true )
 			{
 				var snd:SoundEx = SoundEx(mSounds[name]);
 				if ( snd )
@@ -107,7 +117,7 @@
 					else
 						return snd.SndChannel;
 				}
-			}
+			}*/
 			
 			return null;
 		}
@@ -201,18 +211,25 @@
 		// ============================================================
 		public static function StopSound( name:String ):void
 		{
-			var snd:SoundEx = SoundEx(mSounds[name]);
+			var snd:NSoundContainer = mSounds[name];
 			if( snd )
-				snd.Stop();
+				snd.StopOldest();
+			
+			/*var snd:SoundEx = SoundEx(mSounds[name]);
+			if( snd )
+				snd.Stop();*/
 		}
 		// ============================================================
 		public static function StopAllSounds():void 
 		{
 			for ( var name:String in mSounds )
 			{
-				var snd:SoundEx = SoundEx(mSounds[name]);
+				var snd:NSoundContainer = mSounds[name];
 				if( snd )
-					snd.Stop();
+					snd.StopAll();
+				/*var snd:SoundEx = SoundEx(mSounds[name]);
+				if( snd )
+					snd.Stop();*/
 			}
 		}
 		// ============================================================
