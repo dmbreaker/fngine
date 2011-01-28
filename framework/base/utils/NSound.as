@@ -38,7 +38,8 @@ package base.utils
 			mIsPlaying = true;
 			
 			mSndChannel = mSoundObj.play(mSkip, (mIsCycled)?int.MAX_VALUE:0, mTransform);
-			mSndChannel.addEventListener(Event.SOUND_COMPLETE, OnSoundComplete, false, 0, true);
+			if ( mSndChannel )
+				mSndChannel.addEventListener(Event.SOUND_COMPLETE, OnSoundComplete, false, 0, true);
 		}
 		// ============================================================
 		private function OnSoundComplete(e:Event):void 
@@ -57,7 +58,8 @@ package base.utils
 			{
 				mLiveTime = 0;
 				mIsPlaying = false;
-				mSndChannel.stop();
+				if( mSndChannel )
+					mSndChannel.stop();
 			}
 		}
 		// ============================================================
