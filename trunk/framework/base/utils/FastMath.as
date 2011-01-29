@@ -11,17 +11,17 @@
 		public static const ToAngle:Number = 180.0 / Math.PI;
 		public static const AlphaNormalize:Number = 1.0 / 255.0;
 		// ============================================================
-		public var PI:Number = Math.PI;
-		public var PI2:Number = Math.PI * 2;
-		public var HalfPI:Number = Math.PI * 0.5;
+		public const PI:Number = Math.PI;
+		public const PI2:Number = Math.PI * 2;
+		public const HalfPI:Number = Math.PI * 0.5;
 		
-		public var InvPI:Number = 1.0 / Math.PI;
-		public var InvPI2:Number = 1.0 / (Math.PI * 2.0);
-		public var InvHalfPI:Number = 1.0 / (Math.PI * 0.5);
+		public const InvPI:Number = 1.0 / Math.PI;
+		public const InvPI2:Number = 1.0 / (Math.PI * 2.0);
+		public const InvHalfPI:Number = 1.0 / (Math.PI * 0.5);
 		
-		public var ToRad:Number = Math.PI / 180.0;
-		public var ToAngle:Number = 180.0 / Math.PI;
-		public var AlphaNormalize:Number = 1.0 / 255.0;
+		public const ToRad:Number = Math.PI / 180.0;
+		public const ToAngle:Number = 180.0 / Math.PI;
+		public const AlphaNormalize:Number = 1.0 / 255.0;
 		// ============================================================
 		// ============================================================
 		public function FastMath() 
