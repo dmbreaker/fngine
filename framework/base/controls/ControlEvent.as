@@ -38,6 +38,14 @@
 			mData = value
 		}*/
 		// ============================================================
+		override public function clone():Event 
+		{
+			var ce:ControlEvent = ControlEvent(super.clone());
+			ce.mSender = this.mSender;
+			ce.mData = this.mData;
+			return ce;
+		}
+		// ============================================================
 	}
 
 }

@@ -16,6 +16,12 @@
 			Data = data;
 		}
 		
+		override public function clone():Event 
+		{
+			var te:TickerEvent = TickerEvent(super.clone());
+			te.Data = this.Data;
+			return te;
+		}
 	}
 	
 }

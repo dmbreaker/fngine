@@ -10,8 +10,8 @@
 	public class NRotatingPolygon
 	{
 		// ============================================================
-		private static var PI:Number = Math.PI;
-		private static var PI2:Number = Math.PI * 2;
+		private static const PI:Number = Math.PI;
+		private static const PI2:Number = Math.PI * 2;
 		// ============================================================
 		private var InitialPoints:Vector.<NPoint> = new Vector.<NPoint>();
 		public var Points:Vector.<NPoint> = new Vector.<NPoint>();
