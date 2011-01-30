@@ -89,12 +89,16 @@
 			if ( HasImages )
 			{
 				var img:BitmapData = CurrentImage;
-				var _x:Number = (Rect.Size.Width - img.width * ImageScaleFactor) * 0.5;
-				var _y:Number = (Rect.Size.Height - img.height * ImageScaleFactor) * 0.5;
+				
+				var w:int = img.width * ImageScaleFactor;
+				var h:int = img.height * ImageScaleFactor;
+				
+				var _x:Number = (Rect.Size.Width - w) * 0.5;
+				var _y:Number = (Rect.Size.Height - h) * 0.5;
 				if( ImageScaleFactor == 1 )
 					g.DrawBitmapDataFast( CurrentImage, _x, _y );
 				else
-					g.DrawBitmapDataScaled( CurrentImage, _x, _y, 1, ImageScaleFactor, ImageScaleFactor );
+					g.DrawBitmapDataScaled( CurrentImage, _x+w/2, _y+h/2, 1, ImageScaleFactor, ImageScaleFactor );
 				
 				if ( mIsSelected )
 				{
@@ -105,7 +109,7 @@
 					if( ImageScaleFactor == 1 )
 						g.DrawBitmapDataFast( mRectImage, _x, _y );
 					else
-						g.DrawBitmapDataScaled( mRectImage, _x, _y, 1, ImageScaleFactor, ImageScaleFactor );
+						g.DrawBitmapDataScaled( mRectImage, _x+w/2, _y+h/2, 1, ImageScaleFactor, ImageScaleFactor );
 				}
 			}
 			

@@ -60,13 +60,13 @@
 			super( name );
 			Parent = parent;
 			
-			if ( text.indexOf(":") == 0 )	// if need take text from 'string.xml'
+			if ( text && text.indexOf(":") == 0 )	// if need take text from 'string.xml'
 				text = StringsManager.Get(text.substr(1));
 
 			mInitText = text;	// mInitText can be changed in ApplySettings
 			ApplySettings( settings );
 			
-			if ( mInitText.indexOf(":") == 0 )	// if need take text from 'string.xml'
+			if ( mInitText && mInitText.indexOf(":") == 0 )	// if need take text from 'string.xml'
 				mInitText = StringsManager.Get(mInitText.substr(1));
 			
 			Text = mInitText;
