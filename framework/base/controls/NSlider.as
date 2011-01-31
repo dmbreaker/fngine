@@ -46,9 +46,6 @@ package base.controls
 			{
 				mEdgeMargin = settings.margin;
 			}
-			
-			/*if( settings )
-				 = settings.checked || true;*/
 		}
 		// ============================================================
 		// ============================================================
