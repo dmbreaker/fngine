@@ -68,6 +68,8 @@
 			
 			if ( mInitText && mInitText.indexOf(":") == 0 )	// if need take text from 'string.xml'
 				mInitText = StringsManager.Get(mInitText.substr(1));
+				
+			mInitText = Methods.ActivateEscapeSymbols(mInitText);
 			
 			Text = mInitText;
 			
