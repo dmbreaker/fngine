@@ -49,12 +49,15 @@ package base.controls
 			{
 				if ( settings.margin_hor )
 					mMarginHor = settings.margin_hor;
-				else if ( settings.margin_ver )
+				
+				if ( settings.margin_ver )
 					mMarginVer = settings.margin_ver;
-				else if ( settings.font )
+				
+				if ( settings.font )
 					mTextFont = FontsManager.Instance.GetFont(settings.font);
-				else if ( settings.font_selected )
-					mSelectedTextFont = FontsManager.Instance.GetFont(settings.font_selected);
+				
+				if ( settings.font_selection )
+					mSelectedTextFont = FontsManager.Instance.GetFont(settings.font_selection);
 			}
 			
 			mMaxLines = (BGImage.height - 2 * mMarginVer) / SelectedImage.height;
@@ -65,14 +68,14 @@ package base.controls
 		{
 			var back:BitmapData, slider:BitmapData;
 			
-			if ( !images || images["bg"] == undefined || images["selected"] == undefined )
+			if ( !images || images["bg"] == undefined || images["selection"] == undefined )
 				HasImages = false;
 			else
 			{
 				HasImages = true;
 				
 				BGImage = GM(images["bg"]);
-				SelectedImage = GM(images["selected"]);
+				SelectedImage = GM(images["selection"]);
 			}
 		}
 		// ============================================================
@@ -91,11 +94,12 @@ package base.controls
 		{
 			if ( x < mMarginHor || x > (Rect.Width-mMarginHor) )	// click not inside control
 				return;
-			if ( y < mMarginVer || y > (Rect.Height-mMarginVer) )
+				
+			y -= mMarginVer;
+			if ( y < 0 || y >= (mMaxLines * SelectedImage.height) )
 				return;
 		
-			y -= mMarginVer;
-			var index:int = (BGImage.height - 2 * mMarginVer) / y;
+			var index:int = y / SelectedImage.height;
 			if ( index != mSelectedIndex )
 			{
 				// Selection Changed
@@ -116,8 +120,8 @@ package base.controls
 				{
 					var selY:int = mMarginVer + mSelectedIndex * SelectedImage.height;
 				
-					g.DrawBitmapDataFastCentered( SelectedImage,
-													0,
+					g.DrawBitmapDataFast( SelectedImage,
+													mMarginHor,
 													selY
 												);
 				}
@@ -131,13 +135,13 @@ package base.controls
 					if ( i == mSelectedIndex )
 					{
 						lineH = SelectedImage.height;
-						tempLineNRect.Init(mMarginHor, i*lineH + mMarginVer, Rect.Width - 2 * mMarginHor, lineH);
+						tempLineNRect.Init(mMarginHor + 2, i*lineH + mMarginVer, Rect.Width - 2 * mMarginHor, lineH);
 						g.DrawText( line, mSelectedTextFont, tempLineNRect, -1, 0 );
 					}
 					else
 					{
 						lineH = SelectedImage.height;
-						tempLineNRect.Init(mMarginHor, i*lineH + mMarginVer, Rect.Width - 2 * mMarginHor, lineH);
+						tempLineNRect.Init(mMarginHor + 2, i*lineH + mMarginVer, Rect.Width - 2 * mMarginHor, lineH);
 						g.DrawText( line, mTextFont, tempLineNRect, -1, 0 );
 					}
 					

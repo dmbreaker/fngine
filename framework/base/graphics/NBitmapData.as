@@ -158,7 +158,7 @@
 					if ( halign == 0 )		sx = (r.Width - tl.width) * 0.5;
 					else if ( halign > 0 )	sx = (r.Width - tl.width);
 					
-					m.translate( sx + r.Position.x, sy + r.Position.y + tl.y );
+					m.translate( sx + r.Position.x + mOffsetX, sy + r.Position.y + tl.y + mOffsetY );
 					draw( tl, m, null, BlendMode.NORMAL, null, false );
 				}
 				tblock = null;
