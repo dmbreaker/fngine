@@ -319,6 +319,8 @@
 					CreateProgress( el );
 				else if ( el.@type == "slider" )
 					CreateSlider( el );
+				else if ( el.@type == "list" )
+					CreateList( el );
 			}
 			
 			for each( el in actions )
@@ -398,6 +400,18 @@
 			if ( slider )
 			{
 				AddWidget( slider );
+			}
+			else
+				trace( "### CreateProgress: Parse error:", el.toXMLString() );
+		}
+		// ============================================================
+		protected function CreateList( el:XML ):void
+		{
+			var list:NList = NList.Create( el, this );
+			
+			if ( list )
+			{
+				AddWidget( list );
 			}
 			else
 				trace( "### CreateProgress: Parse error:", el.toXMLString() );
