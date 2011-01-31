@@ -317,6 +317,8 @@
 					CreateImage( el );
 				else if ( el.@type == "progress" )
 					CreateProgress( el );
+				else if ( el.@type == "slider" )
+					CreateSlider( el );
 			}
 			
 			for each( el in actions )
@@ -379,11 +381,23 @@
 		// ============================================================
 		protected function CreateProgress( el:XML ):void
 		{
-			var img:NProgress = NProgress.Create( el, this );
+			var progress:NProgress = NProgress.Create( el, this );
 			
-			if ( img )
+			if ( progress )
 			{
-				AddWidget( img );
+				AddWidget( progress );
+			}
+			else
+				trace( "### CreateProgress: Parse error:", el.toXMLString() );
+		}
+		// ============================================================
+		protected function CreateSlider( el:XML ):void
+		{
+			var slider:NSlider = NSlider.Create( el, this );
+			
+			if ( slider )
+			{
+				AddWidget( slider );
 			}
 			else
 				trace( "### CreateProgress: Parse error:", el.toXMLString() );
