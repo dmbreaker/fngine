@@ -32,10 +32,13 @@
 		private static var mIsMusicPlaying:Boolean = false;
 		private static var mCurMusicObj:Object = {};
 		private static var mCurMusicMaxVolume:Number = MAX_VOLUME;
+		
+		private static var mPrevSoundVolume:Number = 1;
+		private static var mPrevMusicVolume:Number = 1;
+		private static var mPrevMuteState:Boolean = false;
 		// ============================================================
 		public function SoundsPlayer()
 		{
-			
 		}
 		// ============================================================
 		public static function Init():void
@@ -43,7 +46,7 @@
 			// !!! проблема в том, что на разных машинах смещение по звуку считается по разному :(
 			
 			mCurMusicObj.volume = MAX_VOLUME;
-			NSettings.eventDispatcher.addEventListener( NSettings.MUSIC_ENABLED_CHANGED, OnMusicEnabledChanged, false, 0, true );
+			//NSettings.eventDispatcher.addEventListener( NSettings.SOUND_MUTE_CHANGED, OnMuteChanged, false, 0, true );
 		}
 		// ============================================================
 		public static function SaveSound(name:String, snd:*, skip:Number = 0, volume:Number = 100, cycled:Boolean = false, maxSounds:int = 0):void
@@ -51,12 +54,12 @@
 			mSounds[name] = new NSoundContainer( snd, maxSounds, skip, volume / 100.0, cycled );
 		}
 		// ============================================================
-		private static function OnMusicEnabledChanged(e:Event):void
+		/*private static function OnMuteChanged(e:Event):void
 		{
-			if ( NCore.Settings.MusicVolumeEnabled )
+			if ( !NCore.Settings.SoundMuted )
 			{
 				mCurMusicMaxVolume = MAX_VOLUME;
-				mMusicTransform.volume = CurrentVolume;
+				mMusicTransform.volume = CurrentMusicVolume;
 				if ( mMusicSoundChannel )
 				{
 					mMusicSoundChannel.soundTransform = mMusicTransform;
@@ -65,38 +68,28 @@
 			else
 			{
 				mCurMusicMaxVolume = 0;
-				mMusicTransform.volume = CurrentVolume;
+				mMusicTransform.volume = CurrentMusicVolume;
 				if ( mMusicSoundChannel )
 				{
 					mMusicSoundChannel.soundTransform = mMusicTransform;
 				}
 			}
-		}
+		}*/
 		// ============================================================
-		private static function get CurrentVolume():Number
+		private static function get CurrentMusicVolume():Number
 		{
-			return Math.min( mCurMusicMaxVolume, mCurMusicObj.volume );
+			if ( mPrevMuteState )
+				return 0;
+			else
+				return mPrevMusicVolume;
 		}
 		// ============================================================
-		public static function Play( sample_name:String/*, cycled:Boolean = false*/ ):SoundChannel
+		public static function Play( sample_name:String ):SoundChannel
 		{
 			var snd:NSoundContainer = mSounds[sample_name];
 			if( snd )
 				snd.Play();
 			
-			/*if ( NCore.Settings.SoundVolumeEnabled == true )
-			{
-				var snd:SoundEx = SoundEx(mSounds[sample_name]);
-				if ( snd != null )
-				{
-					//if ( snd.SndChannel )
-					//	snd.SndChannel.stop();		// stop sound (only one at once)
-					var sndChannel:SoundChannel = snd.SoundObj.play(snd.SkipValue, (cycled)?int.MAX_VALUE:0);
-					snd.SndChannel = sndChannel;
-					return sndChannel;
-				}
-			}*/
-
 			return null;
 		}
 		// ============================================================
@@ -105,18 +98,6 @@
 			var snd:NSoundContainer = mSounds[name];
 			if( snd )
 				snd.PlayIfNotPlaying();
-			
-			/*if ( NCore.Settings.SoundVolumeEnabled == true )
-			{
-				var snd:SoundEx = SoundEx(mSounds[name]);
-				if ( snd )
-				{
-					if ( !snd.IsCycledSoundPlaying )
-						return Play( name, true );
-					else
-						return snd.SndChannel;
-				}
-			}*/
 			
 			return null;
 		}
@@ -136,7 +117,7 @@
 				//mMusic = snd.SoundObj;
 				mMusicSoundChannel = snd.SoundObj.play(snd.SkipValue, int.MAX_VALUE);
 				mIsMusicPlaying = true;
-				mMusicTransform.volume = CurrentVolume;
+				mMusicTransform.volume = CurrentMusicVolume;
 				mMusicSoundChannel.soundTransform = mMusicTransform;
 			}
 		}
@@ -153,7 +134,7 @@
 		// ============================================================
 		static private function OnMusicChange():void
 		{
-			mMusicTransform.volume = CurrentVolume;
+			mMusicTransform.volume = CurrentMusicVolume;
 			if ( mMusicSoundChannel )
 			{
 				mMusicSoundChannel.soundTransform = mMusicTransform;
@@ -236,6 +217,66 @@
 		static public function get IsPlayingMusic():Boolean
 		{
 			return mIsMusicPlaying;
+		}
+		// ============================================================
+		static private function set SoundVolume( vol:Number ):void 
+		{
+			for ( var name:String in mSounds )
+			{
+				var snd:NSoundContainer = mSounds[name];
+				if( snd )
+					snd.Volume = vol;
+			}
+		}
+		// ============================================================
+		static private function set MusicVolume( vol:Number ):void 
+		{
+			/*for ( var name:String in mSounds )
+			{
+				var snd:NSoundContainer = mSounds[name];
+				if( snd )
+					snd.Volume = vol;
+			}*/
+			mMusicTransform.volume = vol;
+		}
+		// ============================================================
+		static public function Update( ms:int ):void
+		{
+			if ( mPrevMuteState != NCore.Settings.SoundMuted )
+			{
+				mPrevMuteState = NCore.Settings.SoundMuted;
+				if ( mPrevMuteState )
+				{
+					SoundVolume = 0;
+					MusicVolume = 0;
+				}
+				else
+				{
+					SoundVolume = mPrevSoundVolume;
+					MusicVolume = mPrevMusicVolume;
+				}
+			}
+			
+			if ( NCore.Settings.mSoundVolume != mPrevSoundVolume )
+			{
+				mPrevSoundVolume = NCore.Settings.mSoundVolume;
+				if ( !mPrevMuteState )
+					SoundVolume = mPrevSoundVolume;
+			}
+			if ( NCore.Settings.mMusicVolume != mPrevMusicVolume )
+			{
+				mPrevMusicVolume = NCore.Settings.mMusicVolume;
+				if ( !mPrevMuteState )
+					MusicVolume = mPrevMusicVolume;
+			}
+			
+			// update all sound samples:
+			for ( var name:String in mSounds )
+			{
+				var snd:NSoundContainer = mSounds[name];
+				if( snd )
+					snd.Update( ms );
+			}
 		}
 		// ============================================================
 	}

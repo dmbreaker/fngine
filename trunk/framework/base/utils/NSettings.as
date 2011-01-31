@@ -9,10 +9,15 @@
 	 */
 	public class NSettings
 	{
-		public static const MUSIC_ENABLED_CHANGED:String = "musicenablechanged";
+		public static const SOUND_MUTE_CHANGED:String = "soundmutechanged";
 		
-		public var mMusicVolumeEnabled:Boolean;	// public для того, чтобы можно было сохранить/загрузить
-		public var SoundVolumeEnabled:Boolean;
+		//public var mMusicVolumeEnabled:Boolean;	// public для того, чтобы можно было сохранить/загрузить
+		//public var SoundVolumeEnabled:Boolean;
+		
+		public var SoundMuted:Boolean;
+		
+		public var mMusicVolume:Number = 1;
+		public var mSoundVolume:Number = 1;
 		
 		private static var mDispatcher:EventDispatcher = new EventDispatcher();
 		
@@ -31,20 +36,25 @@
 		// ============================================================
 		public function InitDefault():void
 		{
-			MusicVolumeEnabled = true;
-			SoundVolumeEnabled = true;
+			//MusicVolumeEnabled = true;
+			//SoundVolumeEnabled = true;
+			
+			SoundMuted = false;
+			
+			mMusicVolume = 1;
+			mSoundVolume = 1;
 		}
 		// ============================================================
-		public function get MusicVolumeEnabled():Boolean
+		/*public function get MusicVolumeEnabled():Boolean
 		{
 			return mMusicVolumeEnabled;
-		}
+		}*/
 		// ============================================================
-		public function set MusicVolumeEnabled( enabled:Boolean ):void
+		/*public function set MusicVolumeEnabled( enabled:Boolean ):void
 		{
 			mMusicVolumeEnabled = enabled;
 			mDispatcher.dispatchEvent( new Event( MUSIC_ENABLED_CHANGED ) );
-		}
+		}*/
 		// ============================================================
 		public static function get eventDispatcher():EventDispatcher
 		{

@@ -29,6 +29,8 @@ package base.utils
 			mSoundObj = Sound(sound);
 			mSkip = skip;
 			mIsCycled = cycled;
+			
+			mTransform = transform;
 		}
 		// ============================================================
 		// ============================================================

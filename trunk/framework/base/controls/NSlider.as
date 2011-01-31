@@ -12,6 +12,9 @@ package base.controls
 	{
 		// ============================================================
 		// ============================================================
+		public static var CHANGED_COMMAND:String = "slider_changed";
+		// ============================================================
+		// ============================================================
 		protected var BGImage:BitmapData;
 		protected var SliderImage:BitmapData;
 		protected var HasImages:Boolean = false;
@@ -76,7 +79,7 @@ package base.controls
 			var length:int = end - start;
 			
 			var clickY:int = y;
-			Value = Number(clickY - start)/Number(length);
+			Value = 1 - Number(clickY - start)/Number(length);
 		}
 		// ============================================================
 		override public function OnMouseDrag(x:Number, y:Number):Boolean
@@ -86,7 +89,7 @@ package base.controls
 			var length:int = end - start;
 			
 			var clickY:int = y;
-			Value = Number(clickY - start) / Number(length);
+			Value = 1 - Number(clickY - start) / Number(length);
 			
 			return false;
 		}
@@ -95,7 +98,7 @@ package base.controls
 		{
 			if ( mIsPressed )
 			{
-				Parent.OnCommand( this, "slider_changed" );
+				Parent.OnCommand( this, CHANGED_COMMAND );
 			}
 			
 			mIsPressed = false;
@@ -131,7 +134,7 @@ package base.controls
 				
 				g.DrawBitmapDataFastCentered( SliderImage,
 												(BGImage.width >> 1),
-												start + mValue * Number(length)
+												start + (1-mValue) * Number(length)
 											);
 			}
 		}

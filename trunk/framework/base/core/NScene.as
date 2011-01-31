@@ -4,6 +4,7 @@
 	import base.containers.RemovableArray;
 	import base.graphics.BitmapGraphix;
 	import base.graphics.SpriteGraphix;
+	import base.managers.SoundsPlayer;
 	import base.modelview.QuantgetsHolder;
 	import base.modelview.Widget;
 	import base.modelview.WidgetsManager;
@@ -380,6 +381,7 @@
 					mQuantgets.Quant( MsPerQuant );
 					NTweener.Quant( MsPerQuant );
 					NEffectTweener.Quant( MsPerQuant );
+					SoundsPlayer.Update( MsPerQuant );
 					Quant( MsPerQuant );
 				SimpleProfiler.Stop( "Logic" );
 					if ( mNeedDestroy )
