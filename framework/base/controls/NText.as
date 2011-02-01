@@ -129,6 +129,8 @@
 			var w:Number = 0;
 			var h:Number = 0;
 			
+			txt = Methods.ActivateEscapeSymbols(txt);
+			
 			CreateBufferIfNeed( txt );
 			
 			if ( mBuffer )
