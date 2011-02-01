@@ -174,6 +174,16 @@ package base.controls
 			}
 		}
 		// ============================================================
+		public function SetLine(index:int, val:String):void
+		{
+			if ( index < 0 || index > mLines.length - 1)
+				return;
+			else
+			{
+				mLines[index] = val;
+			}
+		}
+		// ============================================================
 		public function Select( index:int ):Boolean
 		{
 			if ( index < mLines.length )
@@ -217,6 +227,19 @@ package base.controls
 				return null;
 		}
 		// ============================================================
+		public function SelectLine(line:String):void
+		{
+			var count:int = LinesCount;
+			for (var i:int = 0; i < count; i++) 
+			{
+				if ( line == mLines[i] )
+				{
+					mSelectedIndex = i;
+					return;
+				}
+			}
+		}
+		// ============================================================
 		public function Clear():void
 		{
 			mLines.length = 0;
@@ -226,6 +249,11 @@ package base.controls
 		public function get SelectedIndex():int
 		{
 			return mSelectedIndex;
+		}
+		// ============================================================
+		public function get LinesCount():int
+		{
+			return mLines.length;
 		}
 		// ============================================================
 		// ============================================================

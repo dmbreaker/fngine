@@ -52,6 +52,17 @@
 			mSO = null;
 		}
 		// ============================================================
+		public function RemoveData( dataName:String ):void
+		{
+			CheckInited();
+			
+			if ( mSO )
+			{
+				mSO.data[dataName] = undefined;
+				mSO.flush();
+			}
+		}
+		// ============================================================
 		private function CheckInited():void
 		{
 			if ( !mIsInited )
