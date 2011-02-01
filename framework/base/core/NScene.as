@@ -122,8 +122,8 @@
 			addEventListener( Event.ENTER_FRAME, OnEnterFrame, false, 0, true );
 			addEventListener( MouseEvent.MOUSE_MOVE, onMouseMove, false, 0, true );
 			addEventListener( MouseEvent.CLICK, OnMouseClick, false, 0, true );
-			addEventListener( MouseEvent.MOUSE_DOWN, OnMouseDown, false, 0, true );
-			addEventListener( MouseEvent.MOUSE_UP, OnMouseUp, false, 0, true );
+			addEventListener( MouseEvent.MOUSE_DOWN, intOnMouseDown, false, 0, true );
+			addEventListener( MouseEvent.MOUSE_UP, intOnMouseUp, false, 0, true );
 			stage.addEventListener( KeyboardEvent.KEY_DOWN, onKeyDown, false, 0, true );
 			stage.addEventListener( KeyboardEvent.KEY_UP, onKeyUp, false, 0, true );
 			
@@ -230,8 +230,8 @@
 			removeEventListener( Event.ENTER_FRAME, OnEnterFrame );
 			removeEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
 			removeEventListener( MouseEvent.CLICK, OnMouseClick );
-			removeEventListener( MouseEvent.MOUSE_DOWN, OnMouseDown );
-			removeEventListener( MouseEvent.MOUSE_UP, OnMouseUp );
+			removeEventListener( MouseEvent.MOUSE_DOWN, intOnMouseDown );
+			removeEventListener( MouseEvent.MOUSE_UP, intOnMouseUp );
 			removeEventListener( KeyboardEvent.KEY_DOWN, onKeyDown );
 			removeEventListener( KeyboardEvent.KEY_UP, onKeyUp );
 			
@@ -285,20 +285,32 @@
 			}
 		}
 		// ============================================================
-		private function OnMouseDown(e:MouseEvent):void
+		private function intOnMouseDown(e:MouseEvent):void
 		{
 			if ( !mIsFreezed )
 			{
+				OnMouseDown( e.stageX, e.stageY );
 				mWidgets.OnMouseDown( e.stageX, e.stageY );
 			}
 		}
 		// ============================================================
-		private function OnMouseUp(e:MouseEvent):void
+		private function intOnMouseUp(e:MouseEvent):void
 		{
 			if ( !mIsFreezed )
 			{
+				OnMouseUp( e.stageX, e.stageY );
 				mWidgets.OnMouseUp( e.stageX, e.stageY );
 			}
+		}
+		// ============================================================
+		protected function OnMouseDown( x:Number, y:Number ):void
+		{
+			
+		}
+		// ============================================================
+		protected function OnMouseUp( x:Number, y:Number ):void
+		{
+			
 		}
 		// ============================================================
 		protected function OnMouseMove( x:Number, y:Number ):void
