@@ -185,8 +185,11 @@ package base.utils.settings
 		public function LoadData( name:String ):void
 		{
 			var data:String = NCore.Saver.Get(name);
-			if( data )
+			if ( data )
+			{
+				Clear();
 				DeserializeFrom( data );
+			}
 		}
 		// ============================================================
 	}
