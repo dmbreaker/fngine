@@ -113,6 +113,12 @@ package base.utils.settings
 			return Number(GetNextString());
 		}
 		// ============================================================
+		public function PopBool():Boolean
+		{
+			IncrementHead();
+			return Boolean(GetNextString());
+		}
+		// ============================================================
 		public function PopCompleteClass():void 
 		{
 			var str:String = GetNextString();
