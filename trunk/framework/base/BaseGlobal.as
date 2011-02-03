@@ -16,7 +16,7 @@
 		// ============================================================
 		public static function get MouseOutTime():Number
 		{
-			return 3000;
+			return 15000;
 		}
 		// ============================================================
 		public static function get MouseNoMoveTime():Number
