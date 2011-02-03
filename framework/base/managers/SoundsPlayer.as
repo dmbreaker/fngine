@@ -25,6 +25,7 @@
 		// ============================================================
 		protected static var mSounds:Object = new Object();
 		protected static var mMusicSamples:Object = new Object();
+		protected static var mCurMusicTrack:String = "";
 		//private static var mMusic:Sound;
 		private static var mMusicSoundChannel:SoundChannel;
 		private static var mMusicTransform:SoundTransform = new SoundTransform(MAX_VOLUME);
@@ -104,13 +105,17 @@
 		// ============================================================
 		public static function PlayMusic( name:String ):void
 		{
-			mCurMusicObj.volume = MAX_VOLUME;
+			if ( name == mCurMusicTrack )
+				return;
+			
+			mCurMusicObj.volume = 1;
 			
 			if ( mMusicSoundChannel )
 			{
 				mMusicSoundChannel.stop();
 			}
 			
+			mCurMusicTrack = name;
 			var snd:SoundEx = SoundEx(mMusicSamples[name]);
 			if ( snd != null )
 			{
@@ -118,7 +123,8 @@
 				mMusicSoundChannel = snd.SoundObj.play(snd.SkipValue, int.MAX_VALUE);
 				mIsMusicPlaying = true;
 				mMusicTransform.volume = CurrentMusicVolume;
-				mMusicSoundChannel.soundTransform = mMusicTransform;
+				if ( mMusicSoundChannel )
+					mMusicSoundChannel.soundTransform = mMusicTransform;
 			}
 		}
 		// ============================================================
@@ -128,13 +134,14 @@
 			if( mMusicSoundChannel )
 			{
 				TweenLite.killTweensOf( mCurMusicObj );
+				mCurMusicObj.volume = 1;
 				TweenLite.to( mCurMusicObj, 0.25, { volume:0, onUpdate:OnMusicChange, onComplete:OnPause } );
 			}
 		}
 		// ============================================================
 		static private function OnMusicChange():void
 		{
-			mMusicTransform.volume = CurrentMusicVolume;
+			mMusicTransform.volume = CurrentMusicVolume * mCurMusicObj.volume;
 			if ( mMusicSoundChannel )
 			{
 				mMusicSoundChannel.soundTransform = mMusicTransform;
@@ -144,13 +151,12 @@
 		static private function OnPause():void
 		{
 			mPausePosition = mMusicSoundChannel.position;
-			//mMusicSoundChannel.stop();
-			//mIsMusicPlaying = false;
+			mMusicSoundChannel.stop();
+			mIsMusicPlaying = false;
 		}
 		// ============================================================
 		public static function ResumeMusic():void
 		{
-			
 			/*if ( !mIsMusicPlaying )
 			{
 				if ( mMusic )
@@ -165,8 +171,19 @@
 				}
 			}*/
 			
+			if ( !mIsMusicPlaying )
+			{
+				mCurMusicObj.volume = 0;
+				var snd:SoundEx = SoundEx(mMusicSamples[mCurMusicTrack]);
+				mMusicSoundChannel = snd.SoundObj.play( mPausePosition, int.MAX_VALUE );
+				mIsMusicPlaying = true;
+				mMusicTransform.volume = CurrentMusicVolume * mCurMusicObj.volume;
+				if ( mMusicSoundChannel )
+					mMusicSoundChannel.soundTransform = mMusicTransform;
+			}
+
 			TweenLite.killTweensOf( mCurMusicObj );
-			TweenLite.to( mCurMusicObj, 0.25, { volume:MAX_VOLUME, onUpdate:OnMusicChange } );
+			TweenLite.to( mCurMusicObj, 0.25, { volume:1, onUpdate:OnMusicChange } );
 		}
 		// ============================================================
 		public static function StopMusic():void
@@ -186,6 +203,8 @@
 			}
 			mIsMusicPlaying = false;
 			mMusicSoundChannel = null;
+			
+			mCurMusicTrack = "";
 			//mMusic = null;
 		}
 		// ============================================================
@@ -212,6 +231,8 @@
 			mIsMusicPlaying = false;
 			mMusicSoundChannel = null;
 			//mMusic = null;
+			
+			mCurMusicTrack = "";
 		}
 		// ============================================================
 		static public function get IsPlayingMusic():Boolean
@@ -238,6 +259,8 @@
 					snd.Volume = vol;
 			}*/
 			mMusicTransform.volume = vol;
+			if ( mMusicSoundChannel )
+				mMusicSoundChannel.soundTransform = mMusicTransform;
 		}
 		// ============================================================
 		static public function Update( ms:int ):void
@@ -267,7 +290,9 @@
 			{
 				mPrevMusicVolume = NCore.Settings.mMusicVolume;
 				if ( !mPrevMuteState )
-					MusicVolume = mPrevMusicVolume;
+				{
+					MusicVolume = mPrevMusicVolume;					
+				}
 			}
 			
 			// update all sound samples:
