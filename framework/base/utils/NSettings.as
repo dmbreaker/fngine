@@ -16,7 +16,7 @@
 		
 		public var SoundMuted:Boolean;
 		
-		public var mMusicVolume:Number = 1;
+		public var mMusicVolume:Number = 0.3;
 		public var mSoundVolume:Number = 1;
 		
 		private static var mDispatcher:EventDispatcher = new EventDispatcher();
@@ -41,7 +41,7 @@
 			
 			SoundMuted = false;
 			
-			mMusicVolume = 1;
+			mMusicVolume = 0.3;
 			mSoundVolume = 1;
 		}
 		// ============================================================
