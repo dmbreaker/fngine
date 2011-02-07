@@ -70,6 +70,11 @@ package base.utils
 			mLiveTime += ms;
 		}
 		// ============================================================
+		public function UpdateTransform():void
+		{
+			mSndChannel.soundTransform = mTransform;
+		}
+		// ============================================================
 		public function get LiveTime():int
 		{
 			if( mIsPlaying )

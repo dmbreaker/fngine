@@ -32,9 +32,9 @@ package base.utils
 			var fd:FontDescription = new FontDescription();
 			fd.fontLookup = FontLookup.EMBEDDED_CFF;
 			fd.fontName = fontName;
-			fd.fontWeight = (bold) ? FontWeight.BOLD : FontWeight.NORMAL;
+			//fd.fontWeight = (bold) ? FontWeight.BOLD : FontWeight.NORMAL;
+			fd.renderingMode = RenderingMode.CFF;
 			//fd.fontPosture = FontPosture.NORMAL;
-			//fd.renderingMode = RenderingMode.CFF;
 			
 			var ef:ElementFormat = new ElementFormat(fd);
 			ef.color = color;
@@ -68,7 +68,7 @@ package base.utils
 			{
 				if ( params.size ) size = params.size;
 				if ( params.color ) color = params.color;
-				if ( params.bold ) bold = params.bold;
+				//if ( params.bold ) bold = params.bold;
 				if ( params.max_width ) max_width = params.max_width;
 			}
 			
@@ -77,9 +77,10 @@ package base.utils
 			var fd:FontDescription = new FontDescription();
 			fd.fontLookup = FontLookup.EMBEDDED_CFF;
 			fd.fontName = fontName;
-			//fd.fontWeight = FontWeight.NORMAL;
 			//fd.fontPosture = FontPosture.NORMAL;
-			//@ fd.fontWeight = (bold) ? FontWeight.BOLD : FontWeight.NORMAL;
+			//fd.fontWeight = (bold) ? FontWeight.BOLD : FontWeight.NORMAL;
+			fd.renderingMode = RenderingMode.CFF;
+			//fd.cffHinting = CFFHinting.HORIZONTAL_STEM;
 
 			
 			// firstly split text and images:

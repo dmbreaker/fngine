@@ -183,6 +183,16 @@ package base.utils
 		public function set Volume( volume:Number ):void
 		{
 			mTransform.volume = volume * mDefaultVolume;
+			
+			var count:int = mContainer.length;
+			for (var i:int = 0; i < count; i++) 
+			{
+				var item:NSound = mContainer[i];
+				if ( item )
+				{
+					item.UpdateTransform();
+				}
+			}
 		}
 		// ============================================================
 	}
