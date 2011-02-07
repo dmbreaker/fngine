@@ -57,6 +57,9 @@
 		private static var Styles:Dictionary = new Dictionary();
 		// ============================================================
 		private static var mCore:NCore = null;
+		private var mWasAddedAlready:Boolean = false;
+		// ============================================================
+		// ============================================================
 		public function NCore( w:Number, h:Number )
 		{
 			mWidth = w;
@@ -142,9 +145,13 @@
 		 */
 		private function OnAdded(e:Event):void
 		{
-			XmlManager.Instance.CompleteDispatcher.addEventListener(XmlManager.XMLS_LOADED, onXmlsLoaded, false, 0, true);
-			//InitXMLs();
-			XmlManager.Instance.LoadXmls();
+			if ( !mWasAddedAlready )
+			{
+				mWasAddedAlready = true;
+				XmlManager.Instance.CompleteDispatcher.addEventListener(XmlManager.XMLS_LOADED, onXmlsLoaded, false, 0, true);
+				//InitXMLs();
+				XmlManager.Instance.LoadXmls();
+			}
 		}
 		// ============================================================
 		/*protected function InitXMLs():void 
