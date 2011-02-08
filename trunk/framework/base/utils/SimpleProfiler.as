@@ -87,13 +87,19 @@
 				total_time += mTotal[label];
 			}
 			
+			var sortedArr:Array = new Array();
 			for ( label in mTotal )
+				sortedArr.push(label);
+				
+			sortedArr.sort();
+			
+			for each( label in sortedArr )
 			{
 				var checks:int = mChecksCount[label];
 				var average_time:Number = (checks>0) ? mTotal[label] / mChecksCount[label] : 0;
-				var average_total_time:String = (mTotal[label] / total_time).toFixed(3);
-				var tmp:String = label + ": " + average_total_time + "/" + average_time.toFixed(3) +
-									" (" + mChecksCount[label] + "/" + mTotal[label] + ")\r\n";
+				var average_total_time:String = (100*mTotal[label] / total_time).toFixed(3);
+				var tmp:String = label + ": " + average_total_time + "% /" + average_time.toFixed(3) +
+									" (" + mChecksCount[label] + "/" + mTotal[label] + ") --> totalPercent / per 1 call (calls count/time in function)\r\n";
 				result += tmp;
 			}
 			
