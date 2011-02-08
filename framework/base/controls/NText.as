@@ -10,6 +10,7 @@
 	import base.types.*;
 	import base.utils.Methods;
 	import base.utils.settings.StringsManager;
+	import base.utils.SimpleProfiler;
 	
 	//import fonts.SomeFont;
 	
@@ -170,6 +171,8 @@
 		// ============================================================
 		protected function CreateBufferIfNeed( txt:String = null ):void
 		{
+			SimpleProfiler.Start("NText_buff_gen");
+			
 			if ( !mBuffer )
 			{
 				if( !Rect.Size.IsEmpty )
@@ -181,6 +184,8 @@
 						mBuffer = new NBitmapData( size.Width, size.Height );
 				}
 			}
+			
+			SimpleProfiler.Stop("NText_buff_gen");
 		}
 		// ============================================================
 		protected function DisposeBufferIfExist():void
@@ -194,10 +199,12 @@
 		// ============================================================
 		public override function Draw(g:BitmapGraphix, diff_ms:int):void
 		{
+		SimpleProfiler.Start("NText");
 			if ( mFont && mBuffer )
 			{
 				g.DrawBitmapDataFast( mBuffer, 0, 0 );
 			}
+		SimpleProfiler.Stop("NText");
 		}
 		// ============================================================
 		// ============================================================

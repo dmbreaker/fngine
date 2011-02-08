@@ -575,8 +575,15 @@
 		// ============================================================
 		public function get IsProfilerEnabled():Boolean
 		{
-			// TODO: make it FALSE in release
-			return false;
+			CONFIG::debug
+			{
+				return true;
+			}
+			
+			CONFIG::release
+			{
+				return false;
+			}
 		}
 		// ============================================================
 		public function get IsFGLVersion():Boolean

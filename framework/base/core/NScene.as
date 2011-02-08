@@ -417,7 +417,9 @@
 			SimpleProfiler.Start( "Draw" );
 				mGraphix.lock();			// лочим главный битмап
 				BeforeDraw( mGraphix, fdiff );
+			SimpleProfiler.Start( "DrawWidgets" );
 				mWidgets.Draw( mGraphix, fdiff );
+			SimpleProfiler.Stop( "DrawWidgets" );
 				AfterDraw( mGraphix, fdiff );
 				mGraphix.unlock();
 			SimpleProfiler.Stop( "Draw" );
