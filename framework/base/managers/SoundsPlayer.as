@@ -235,6 +235,26 @@
 			mCurMusicTrack = "";
 		}
 		// ============================================================
+		public static function PauseSounds():void 
+		{
+			for ( var name:String in mSounds )
+			{
+				var snd:NSoundContainer = mSounds[name];
+				if( snd )
+					snd.Pause();
+			}
+		}
+		// ============================================================
+		public static function ResumeSounds():void 
+		{
+			for ( var name:String in mSounds )
+			{
+				var snd:NSoundContainer = mSounds[name];
+				if( snd )
+					snd.Resume();
+			}
+		}
+		// ============================================================
 		static public function get IsPlayingMusic():Boolean
 		{
 			return mIsMusicPlaying;

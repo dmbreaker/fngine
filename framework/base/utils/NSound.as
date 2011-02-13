@@ -20,6 +20,8 @@ package base.utils
 		private var mTransform:SoundTransform = null;
 		
 		private var mIsPlaying:Boolean = false;
+		private var mIsPaused:Boolean = false;
+		private var mPausePos:int = 0;
 		
 		private var mLiveTime:int;
 		// ============================================================
@@ -60,6 +62,7 @@ package base.utils
 			{
 				mLiveTime = 0;
 				mIsPlaying = false;
+				mIsPaused = false;
 				if( mSndChannel )
 					mSndChannel.stop();
 			}
@@ -73,6 +76,30 @@ package base.utils
 		public function UpdateTransform():void
 		{
 			mSndChannel.soundTransform = mTransform;
+		}
+		// ============================================================
+		public function Pause():void
+		{
+			if ( !mIsPaused && mIsPlaying && mSndChannel )
+			{
+				mIsPaused = true;
+				mPausePos = mSndChannel.position;
+				mSndChannel.stop();
+				
+			}
+		}
+		// ============================================================
+		public function Resume():void
+		{
+			if ( mIsPaused )
+			{
+				mIsPaused = false;
+				mIsPlaying = true;
+
+				mSndChannel = mSoundObj.play(mPausePos, (mIsCycled)?int.MAX_VALUE:0, mTransform);
+				if ( mSndChannel )
+					mSndChannel.addEventListener(Event.SOUND_COMPLETE, OnSoundComplete, false, 0, true);
+			}
 		}
 		// ============================================================
 		public function get LiveTime():int

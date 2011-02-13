@@ -195,6 +195,32 @@ package base.utils
 			}
 		}
 		// ============================================================
+		public function Pause():void 
+		{
+			var count:int = mContainer.length;
+			for (var i:int = 0; i < count; i++) 
+			{
+				var item:NSound = mContainer[i];
+				if ( item )
+				{
+					item.Pause();
+				}
+			}
+		}
+		// ============================================================
+		public function Resume():void 
+		{
+			var count:int = mContainer.length;
+			for (var i:int = 0; i < count; i++) 
+			{
+				var item:NSound = mContainer[i];
+				if ( item )
+				{
+					item.Resume();
+				}
+			}
+		}
+		// ============================================================
 	}
 
 }
