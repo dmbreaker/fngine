@@ -9,8 +9,8 @@
 	public class NRotatingRect
 	{
 		// ============================================================
-		public var FirstPoint:NPoint;
-		public var LastPoint:NPoint;
+		public var FirstPoint:NPoint = new NPoint();
+		public var LastPoint:NPoint = new NPoint();
 		public var HalfHeight:Number = 1;
 		public var Distance:Number;
 		public var SpeedDirection:NVec;
