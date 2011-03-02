@@ -175,6 +175,8 @@
 			{
 				mCurMusicObj.volume = 0;
 				var snd:SoundEx = SoundEx(mMusicSamples[mCurMusicTrack]);
+				if (!snd)	// если никакой музыки не проигрывалось
+					return;
 				mMusicSoundChannel = snd.SoundObj.play( mPausePosition, int.MAX_VALUE );
 				mIsMusicPlaying = true;
 				mMusicTransform.volume = CurrentMusicVolume * mCurMusicObj.volume;
