@@ -48,7 +48,17 @@ package base.utils
 		// ============================================================
 		private function OnSoundComplete(e:Event):void 
 		{
-			mIsPlaying = false;
+			if ( mIsCycled )
+			{
+				if( mSndChannel )
+					mSndChannel.removeEventListener(Event.SOUND_COMPLETE, OnSoundComplete);
+					
+				mSndChannel = mSoundObj.play(mSkip, 0, mTransform);
+				if ( mSndChannel )
+					mSndChannel.addEventListener(Event.SOUND_COMPLETE, OnSoundComplete, false, 0, true);
+			}
+			else
+				mIsPlaying = false;
 		}
 		// ============================================================
 		public function get IsPlaying():Boolean
@@ -96,7 +106,7 @@ package base.utils
 				mIsPaused = false;
 				mIsPlaying = true;
 
-				mSndChannel = mSoundObj.play(mPausePos, (mIsCycled)?int.MAX_VALUE:0, mTransform);
+				mSndChannel = mSoundObj.play(mPausePos, 0, mTransform);	// cycled sounds cycling in OnSoundComplete
 				if ( mSndChannel )
 					mSndChannel.addEventListener(Event.SOUND_COMPLETE, OnSoundComplete, false, 0, true);
 			}

@@ -114,17 +114,21 @@
 			{
 				mMusicSoundChannel.stop();
 			}
+			mIsMusicPlaying = false;
 			
 			mCurMusicTrack = name;
 			var snd:SoundEx = SoundEx(mMusicSamples[name]);
 			if ( snd != null )
 			{
 				//mMusic = snd.SoundObj;
-				mMusicSoundChannel = snd.SoundObj.play(snd.SkipValue, int.MAX_VALUE);
+				mMusicSoundChannel = snd.SoundObj.play(snd.SkipValue, 0);
 				mIsMusicPlaying = true;
 				mMusicTransform.volume = CurrentMusicVolume;
 				if ( mMusicSoundChannel )
+				{
 					mMusicSoundChannel.soundTransform = mMusicTransform;
+					mMusicSoundChannel.addEventListener(Event.SOUND_COMPLETE, OnMusicComplete, false, 0, true);
+				}
 			}
 		}
 		// ============================================================
@@ -177,15 +181,37 @@
 				var snd:SoundEx = SoundEx(mMusicSamples[mCurMusicTrack]);
 				if (!snd)	// если никакой музыки не проигрывалось
 					return;
-				mMusicSoundChannel = snd.SoundObj.play( mPausePosition, int.MAX_VALUE );
-				mIsMusicPlaying = true;
+				mMusicSoundChannel = snd.SoundObj.play( mPausePosition, 0 );
 				mMusicTransform.volume = CurrentMusicVolume * mCurMusicObj.volume;
 				if ( mMusicSoundChannel )
+				{
+					mIsMusicPlaying = true;
 					mMusicSoundChannel.soundTransform = mMusicTransform;
+					mMusicSoundChannel.addEventListener(Event.SOUND_COMPLETE, OnMusicComplete, false, 0, true);
+				}
 			}
 
 			TweenLite.killTweensOf( mCurMusicObj );
 			TweenLite.to( mCurMusicObj, 0.25, { volume:1, onUpdate:OnMusicChange } );
+		}
+		// ============================================================
+		static private function OnMusicComplete(e:Event):void
+		{
+			if( mMusicSoundChannel )
+				mMusicSoundChannel.removeEventListener(Event.SOUND_COMPLETE, OnMusicComplete);
+				
+			mIsMusicPlaying = false;
+			
+			var snd:SoundEx = SoundEx(mMusicSamples[mCurMusicTrack]);
+			if (!snd)	// если никакой музыки не проигрывалось
+				return;
+
+			mMusicSoundChannel = snd.SoundObj.play(snd.SkipValue, 0);
+			if ( mMusicSoundChannel )
+			{
+				mIsMusicPlaying = true;
+				mMusicSoundChannel.addEventListener(Event.SOUND_COMPLETE, OnMusicComplete, false, 0, true);
+			}
 		}
 		// ============================================================
 		public static function StopMusic():void
@@ -201,6 +227,7 @@
 		{
 			if ( mMusicSoundChannel )
 			{
+				mMusicSoundChannel.removeEventListener(Event.SOUND_COMPLETE, OnMusicComplete);
 				mMusicSoundChannel.stop();
 			}
 			mIsMusicPlaying = false;
