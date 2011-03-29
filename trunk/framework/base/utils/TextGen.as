@@ -1,5 +1,6 @@
 package base.utils
 {
+	import base.controls.Control;
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.geom.Rectangle;
@@ -94,7 +95,7 @@ package base.utils
 				var stringLine:String = items[i];
 				if ( (i & 1) )	// image (неверный алгоритм, если первое будет изображение, то скосячит)
 				{
-					var bmd:BitmapData = RM.GetImage( stringLine );	// get an image
+					var bmd:BitmapData = Control.GM( stringLine );	// get an image
 					var bmp:Bitmap = new Bitmap( bmd );
 					var grEl:GraphicElement = new GraphicElement( bmp, bmd.width, bmd.height );
 					vec.push( grEl );

@@ -4,6 +4,9 @@
 	import base.controls.NSimpleTooltip;
 	import base.core.NScene;
 	import base.graphics.BitmapGraphix;
+	import base.statemachine.IStatesObject;
+	import base.statemachine.State;
+	import base.statemachine.StateMachine;
 	import base.types.*;
 	import flash.geom.Rectangle;
 	
@@ -11,8 +14,10 @@
 	 * ...
 	 * @author dmBreaker
 	 */
-	public class Widget extends WidgetContainer implements IWidget
+	public class Widget extends WidgetContainer implements IWidget, IStatesObject
 	{
+		// ============================================================
+		protected var mStateMachine:StateMachine;
 		// ============================================================
 		protected var mName:String;
 		protected var mTooltipText:String;
@@ -33,6 +38,7 @@
 		public function Widget( name:String )
 		{
 			mName = name;
+			mStateMachine = new StateMachine( this );
 		}
 		// ============================================================
 		public function get Name():String
@@ -300,6 +306,64 @@
 			mHandCursor = value;
 		}
 		// ============================================================
+		// ============================================================
+		// ============================================================
+		protected function SetState( state_value:int, state_time:int ):void
+		{
+			mStateMachine.SetState( state_value, state_time );
+		}
+		// ============================================================
+		public function FreezeState():void
+		{
+			mStateMachine.FreezeState( true );
+		}
+		// ============================================================
+		public function UnfreezeState():void
+		{
+			mStateMachine.FreezeState( false );
+		}
+		// ============================================================
+		// ============================================================
+		internal final override function InternalQuant(diff_ms:int):void
+		{
+			mStateMachine.Quant( diff_ms );
+			Quant( diff_ms );
+			super.InternalQuant( diff_ms );
+		}
+		// ============================================================
+		internal final override function InternalPrecisionQuant(diff_ms:int):void
+		{
+			//mStateMachine.Quant( diff_ms );
+			PrecisionQuant( diff_ms );
+			super.InternalPrecisionQuant( diff_ms );
+		}
+		// ============================================================
+		public function Quant( diff_ms:int ):void
+		{
+			
+		}
+		// ============================================================
+		public function PrecisionQuant( diff_ms:int ):void
+		{
+			
+		}
+		/* INTERFACE base.IStatesObject */
+		// IStatesObject >> ============================================================
+		public function OnStateEnter(state:State):void
+		{
+			
+		}
+		// ============================================================
+		public function OnStateExit(state:State):void
+		{
+			
+		}
+		// ============================================================
+		public function OnStateChange(current:State, next:State):void
+		{
+			
+		}
+		// IStatesObject << ============================================================
 		// ============================================================
 		// ============================================================
 		
