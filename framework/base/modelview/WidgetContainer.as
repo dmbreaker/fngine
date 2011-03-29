@@ -42,6 +42,28 @@
 			AddItem( widget );
 		}
 		// ============================================================
+		internal function InternalQuant( diff_ms:int ):void
+		{
+			if ( HasItems )
+			{
+				ForEach( function ( obj:* ):void
+				{
+					Widget(obj).InternalQuant( diff_ms );
+				} );
+			}
+		}
+		// ============================================================
+		internal function InternalPrecisionQuant( diff_ms:int ):void
+		{
+			if ( HasItems )
+			{
+				ForEach( function ( obj:* ):void
+				{
+					Widget(obj).InternalPrecisionQuant( diff_ms );
+				} );
+			}
+		}
+		// ============================================================
 		internal function InternalDraw( g:BitmapGraphix, diff_ms:int ):void
 		{
 			var w:Widget;

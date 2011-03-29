@@ -5,7 +5,6 @@
 	import base.graphics.BitmapGraphix;
 	import base.graphics.SpriteGraphix;
 	import base.managers.SoundsPlayer;
-	import base.modelview.QuantgetsHolder;
 	import base.modelview.Widget;
 	import base.modelview.WidgetsManager;
 	import base.scenes.NDebugScene;
@@ -38,7 +37,7 @@
 		
 		protected var mGraphix:BitmapGraphix;
 		// ============================================================
-		protected var mQuantgets:QuantgetsHolder = new QuantgetsHolder();
+		//Q protected var mQuantgets:QuantgetsHolder = new QuantgetsHolder();
 		protected var mWidgets:WidgetsManager = new WidgetsManager();
 		// ============================================================
 		protected var mMousePosition:Point = new Point();
@@ -244,7 +243,7 @@
 			mNeedDestroy = false;
 			
 			mWidgets.RemoveAll();
-			mQuantgets.RemoveAll();
+			//Q mQuantgets.RemoveAll();
 			
 			if ( mGraphix != null )
 			{
@@ -383,14 +382,16 @@
 					precision_qdiff = 5 * MsPerQuant;
 				if ( precision_qdiff >= MsPerQuant )
 				{
-					mQuantgets.PrecisionQuant( precision_qdiff );
+					//Q mQuantgets.PrecisionQuant( precision_qdiff );
+					mWidgets.PrecisionQuant( precision_qdiff );
 					prevPrecisionQuantsTime = t;
 				}
 					
 				while ( accumulator >= MsPerQuant )	// если время кадра пришло
 				{
 				SimpleProfiler.Start( "Logic" );
-					mQuantgets.Quant( MsPerQuant );
+					//Q mQuantgets.Quant( MsPerQuant );
+					mWidgets.Quant( MsPerQuant );
 					NTweener.Quant( MsPerQuant );
 					NEffectTweener.Quant( MsPerQuant );
 					SoundsPlayer.Update( MsPerQuant );

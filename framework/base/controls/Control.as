@@ -96,7 +96,7 @@
 		/**
 		 * Get Image
 		 */
-		protected function GM( obj:* ):BitmapData
+		public static function GM( obj:* ):BitmapData
 		{
 			if ( obj is String )
 			{

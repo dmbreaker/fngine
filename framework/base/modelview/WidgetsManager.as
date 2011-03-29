@@ -283,6 +283,16 @@
 			}
 		}
 		// ============================================================
+		public function PrecisionQuant( diff_ms:int ):void
+		{
+			InternalPrecisionQuant( diff_ms );
+		}
+		// ============================================================
+		public function Quant( diff_ms:int ):void
+		{
+			InternalQuant( diff_ms );
+		}
+		// ============================================================
 		/*public function DrawPrecise( g:BitmapGraphix, diff_ms:int ):void
 		{
 			InternalDrawPrecise( g, diff_ms );
