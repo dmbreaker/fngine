@@ -27,7 +27,11 @@
 			var img:BitmapData = mImages[name] as BitmapData;
 			if ( img == null )
 			{
-				throw new Error( "RM.GetImage( " + name + " ) - not found");
+				var a:int = 0;
+				CONFIG::release
+				{
+					throw new Error( "RM.GetImage( " + name + " ) - not found");
+				}
 			}
 			return img;
 		}

@@ -6,6 +6,8 @@
 	public class NCell
 	{
 		// ============================================================
+		private static const UNDEF_VALUE:int = -10000;
+		// ============================================================
 		public var Row:int;
 		public var Column:int;
 		// ============================================================
@@ -53,18 +55,18 @@
 		// ============================================================
 		public function MakeUndefined():void
 		{
-			Row = -1;
-			Column = -1;
+			Row = UNDEF_VALUE;
+			Column = UNDEF_VALUE;
 		}
 		// ============================================================
 		public static function get Undefined():NCell
 		{
-			return new NCell( -10000, -10000);
+			return new NCell( UNDEF_VALUE, UNDEF_VALUE);
 		}
 		// ============================================================
 		public function IsUndefined():Boolean
 		{
-			return ( Row == -10000 && Column == -10000 );
+			return ( Row == UNDEF_VALUE && Column == UNDEF_VALUE );
 		}
 		// ============================================================
 		//public function get FieldIndex():int
@@ -93,10 +95,22 @@
 			Column += shift.Column;
 		}
 		// ============================================================
+		public function Substract( shift:NCell ):void
+		{
+			Row -= shift.Row;
+			Column -= shift.Column;
+		}
+		// ============================================================
 		public function CopySubstraction( a:NCell, b:NCell ):void
 		{
 			Row = a.Row - b.Row;
 			Column = a.Column - b.Column;
+		}
+		// ============================================================
+		public function CopyAddition( a:NCell, b:NCell ):void
+		{
+			Row = a.Row + b.Row;
+			Column = a.Column + b.Column;
 		}
 		// ============================================================
 		/*public function GetPosition():NPoint

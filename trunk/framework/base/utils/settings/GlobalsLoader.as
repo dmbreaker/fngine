@@ -13,10 +13,12 @@ package base.utils.settings
 		private var mIntegers:AvDictionary = new AvDictionary();
 		private var mFloats:AvDictionary = new AvDictionary();
 		private var mBooleans:AvDictionary = new AvDictionary();
+		
+		public static var Instance:GlobalsLoader = null;
 		// ============================================================
 		public function GlobalsLoader() 
 		{
-			
+			Instance = this;
 		}
 		// ============================================================
 		// ============================================================

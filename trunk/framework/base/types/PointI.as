@@ -36,7 +36,7 @@ package base.types
 			y = point.y;
 		}
 		// ============================================================
-		public function CopyMulFrom( point:PointI, mul:int ):void
+		public function CopyMulFrom( point:PointI, mul:Number ):void
 		{
 			x = point.x * mul;
 			y = point.y * mul;
@@ -73,7 +73,7 @@ package base.types
 			y -= point.y;
 		}
 		// ============================================================
-		public function Multiply( mul:int ):void 
+		public function Multiply( mul:Number ):void 
 		{
 			x *= mul;
 			y *= mul;
