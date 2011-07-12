@@ -308,8 +308,8 @@
 		// ============================================================
 		public function ParseXMLScene( xml:XML, sceneName:String ):void
 		{
-			var controls:XMLList = xml.scenes.scene.(@name == sceneName)..control;
-			var actions:XMLList = xml.scenes.scene.(@name == sceneName)..action;
+			var controls:XMLList = xml.dialogs.dialog.(@name == sceneName)..control;
+			var actions:XMLList = xml.dialogs.dialog.(@name == sceneName)..action;
 			
 			var el:XML;
 
