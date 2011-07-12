@@ -541,7 +541,7 @@
 			CONFIG::debug { trace( "XML: Parsing scene '" + mSceneName + "'" ); }
 			
 			var xml:XML = mCore.GetScenesXML();
-			var scene:XMLList = xml.scenes.scene.(@name == mSceneName);
+			var scene:XMLList = xml.dialogs.dialog.(@name == mSceneName);
 			if ( scene.toString().length == 0 )
 			{
 				trace( "" );
