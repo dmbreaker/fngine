@@ -42,6 +42,12 @@ package base.containers
 			return Data;
 		}
 		// ============================================================
+		public function Remove(key:*):void
+		{
+			//if ( ContainsKey(key) )
+			Data[key] = undefined;
+		}
+		// ============================================================
 		public function CloneFrom( d:AvDictionary ):void
 		{
 			Clear();

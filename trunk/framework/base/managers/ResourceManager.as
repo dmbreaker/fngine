@@ -1,7 +1,16 @@
 ﻿package base.managers
 {
+	import base.core.NCore;
 	import base.graphics.NAnimatedBitmap;
 	import base.graphics.NBitmapData;
+	//import flash.display.DisplayObject;
+	//import flash.display.IBitmapDrawable;
+	//import flash.display.MovieClip;
+	//import flash.media.Video;
+	//import flash.net.NetConnection;
+	//import flash.net.NetStream;
+	//import flash.system.Security;
+	//import flash.utils.ByteArray;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -62,6 +71,54 @@
 			{
 				trace( "image null:", name );
 			}
+		}
+		// ============================================================
+		/*public static function BitmapFromVideo( stillimage:ByteArray ):Bitmap
+		{
+		//  JUST THOUGHT: video.attachNetStream only after "NetStream.Play.Start" message
+		
+			Security.allowDomain("*");
+			Security.allowInsecureDomain("*");
+			
+			var clientObject:Object = new Object();
+			clientObject.onMetaData = metaDataListener;
+			
+			var nc:NetConnection = new NetConnection();
+			nc.connect(null);
+			var ns:NetStream = new NetStream(nc);
+			//ns.checkPolicyFile = false;
+			//nc.client = this;
+			//ns.client = this;
+			ns.client = clientObject;
+			
+			var video:Video = new Video();
+			video.attachNetStream(ns);
+			video.smoothing = true;
+			ns.play(null);
+			ns.appendBytesAction(NetStreamAppendBytesAction.RESET_BEGIN);
+			ns.appendBytes(stillimage);
+			
+			//var allowAudio:Boolean = true;
+			//var allowVideo:Boolean = true;
+			//ns.publish("none");
+			//ns.send("|RtmpSampleAccess", allowAudio, allowVideo);
+			NCore.Instance.stage.addChild(video);
+			
+			var w:int = video.videoWidth ? video.videoWidth : video.width;
+			var h:int = video.videoHeight ? video.videoHeight : video.height;
+			var bmd:BitmapData = new BitmapData(w, h, true, 0);
+			///bmd.draw(video);
+			var bmp:Bitmap = new Bitmap(bmd);
+			return bmp;
+		}*/
+		// ============================================================
+		public static function metaDataListener(object:Object):void
+		{
+			var video:* = { };
+			var duration:int = object.duration;
+			trace(duration);
+			video.width = object.width;
+			video.height = object.height;
 		}
 		// ============================================================
 		public static function SaveImageShadow( name:String, srcImage:String, blurX:int=8, blurY:int=8, blursCount:int=3 ):void
