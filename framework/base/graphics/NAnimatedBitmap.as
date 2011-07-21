@@ -423,6 +423,23 @@
 			return mFrames[index];
 		}
 		// ============================================================
+		public function GetFrames():Vector.<NBitmapData>
+		{
+			return mFrames.slice();
+		}
+		// ============================================================
+		public function GetFramesSequence(sequence:int):Vector.<NBitmapData>
+		{
+			var s_count:int = mFrames.length / mFramesPerSequence;
+			if ( sequence >= 0 && sequence < s_count )
+			{
+				var start_frame:int = sequence * mFramesPerSequence;
+				return mFrames.slice(start_frame, start_frame + mFramesPerSequence);
+			}
+			else
+				return new Vector.<NBitmapData>();
+		}
+		// ============================================================
 		public function get HalfWidth():Number
 		{
 			return mHalfWidth;
