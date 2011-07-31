@@ -207,9 +207,11 @@
 				return;
 
 			mMusicSoundChannel = snd.SoundObj.play(snd.SkipValue, 0);
+			mMusicTransform.volume = CurrentMusicVolume;
 			if ( mMusicSoundChannel )
 			{
 				mIsMusicPlaying = true;
+				mMusicSoundChannel.soundTransform = mMusicTransform;
 				mMusicSoundChannel.addEventListener(Event.SOUND_COMPLETE, OnMusicComplete, false, 0, true);
 			}
 		}
