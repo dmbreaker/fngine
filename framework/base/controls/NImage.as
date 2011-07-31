@@ -108,7 +108,7 @@
 				else if ( mVerAlign > 0 )
 					_y = (Rect.Size.Height - mImage.height);
 					
-				g.DrawBitmapDataFast( mImage, _x, _y );	// отрисовка выровненная
+				g.DrawImageFast( mImage, _x, _y );	// отрисовка выровненная
 			}
 			else if ( mAnimImage )
 			{
@@ -125,7 +125,7 @@
 				else if ( mVerAlign > 0 )
 					_y = (Rect.Size.Height - mAnimImage.HalfHeight*2);
 				
-				g.DrawBitmapDataFast( mAnimImage.GetNBD(), _x, _y );	// отрисовка выровненная
+				g.DrawImageFast( mAnimImage.GetNBD(), _x, _y );	// отрисовка выровненная
 			}
 		SimpleProfiler.Stop("NImages");
 		}

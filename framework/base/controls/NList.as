@@ -113,14 +113,14 @@ package base.controls
 			if ( HasImages )
 			{
 				var img:BitmapData = BGImage;
-				g.DrawBitmapDataFast( BGImage, 0, 0 );
+				g.DrawImageFast( BGImage, 0, 0 );
 				
 				//рисуем селект:
 				if ( mSelectedIndex >= 0 )
 				{
 					var selY:int = mMarginVer + mSelectedIndex * SelectedImage.height;
 				
-					g.DrawBitmapDataFast( SelectedImage,
+					g.DrawImageFast( SelectedImage,
 													mMarginHor,
 													selY
 												);

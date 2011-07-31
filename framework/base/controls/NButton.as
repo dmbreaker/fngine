@@ -171,7 +171,7 @@
 				var img:BitmapData = CurrentImage;
 				var _x:Number = (Rect.Size.Width - img.width)*0.5;
 				var _y:Number = (Rect.Size.Height - img.height)*0.5;
-				g.DrawBitmapDataFast( CurrentImage, _x, _y );
+				g.DrawImageFast( CurrentImage, _x, _y );
 			}
 			
 			var offx:Number = 0;

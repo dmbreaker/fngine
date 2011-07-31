@@ -122,14 +122,14 @@ package base.controls
 			if ( HasImages )
 			{
 				var img:BitmapData = BGImage;
-				g.DrawBitmapDataFast( BGImage, 0, 0 );
+				g.DrawImageFast( BGImage, 0, 0 );
 				
 				//рисуем слайдер
 				var start:int = mEdgeMargin + mSliderHalfHeight;
 				var end:int = Rect.Height - mEdgeMargin - mSliderHalfHeight;
 				var length:int = end - start;
 				
-				g.DrawBitmapDataFastCentered( SliderImage,
+				g.DrawImageFastCentered( SliderImage,
 												(BGImage.width >> 1),
 												start + (1-mValue) * Number(length)
 											);

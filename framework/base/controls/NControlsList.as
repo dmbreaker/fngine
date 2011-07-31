@@ -89,7 +89,7 @@ package base.controls
 			
 			if ( mBuffer )
 			{
-				g.DrawBitmapDataFast( mBuffer, 0, 0 );
+				g.DrawImageFast( mBuffer, 0, 0 );
 			}
 		}
 		// ============================================================

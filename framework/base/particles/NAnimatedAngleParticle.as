@@ -19,7 +19,7 @@
 		// ============================================================
 		public function Draw( g:BitmapGraphix, sx:Number, sy:Number ):void
 		{
-			g.DrawBitmapDataRot( Image.GetNBD(), sx + ScreenPos.x, sy + ScreenPos.y, Alpha, Angle, Scale );
+			g.DrawImageRot( Image.GetNBD(), sx + ScreenPos.x, sy + ScreenPos.y, Alpha, Angle, Scale );
 		}
 		// ============================================================
 		/* INTERFACE base.modelview.IQuant */

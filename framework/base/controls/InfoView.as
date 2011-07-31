@@ -101,14 +101,14 @@
 			//var hsy:Number = sy + TextHSY;
 			
 			if ( mBlink.IsBlinkOn )
-				g.DrawBitmapDataFast( mTickerBGHLight, 0, 0 );
+				g.DrawImageFast( mTickerBGHLight, 0, 0 );
 			else
-				g.DrawBitmapDataFast( mTickerBG, 0, 0 );
+				g.DrawImageFast( mTickerBG, 0, 0 );
 			
 			super.Draw(g, diff_ms);
 			
-			g.DrawBitmapDataFast( mHeaderBuff, sx, sy );
-			g.DrawBitmapDataFast( mTickerBGHalo, 0, 0 );
+			g.DrawImageFast( mHeaderBuff, sx, sy );
+			g.DrawImageFast( mTickerBGHalo, 0, 0 );
 		SimpleProfiler.Stop( "InfoView" );
 		}
 		// ============================================================

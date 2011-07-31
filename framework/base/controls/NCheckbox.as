@@ -162,7 +162,7 @@
 					_x = int((Rect.Size.Width - img.width) * 0.5);	// не допускаем дробных координат
 					_y = int((Rect.Size.Height - img.height) * 0.5);// не допускаем дробных координат
 				}
-				g.DrawBitmapDataFast( CurrentImage, _x, _y );
+				g.DrawImageFast( CurrentImage, _x, _y );
 			}
 			
 			if ( Text )

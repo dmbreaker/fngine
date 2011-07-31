@@ -97,7 +97,7 @@
 		override public function Draw(g:BitmapGraphix, diff_ms:int):void 
 		{
 			if( mBuffer )
-				g.DrawBitmapDataRot( mBuffer, Width*0.5, Height*0.5, Alpha, Angle, ScaleFactor );
+				g.DrawImageRot( mBuffer, Width*0.5, Height*0.5, Alpha, Angle, ScaleFactor );
 				//g.DrawBitmapDataScaled( mBuffer, 0, 0, 1, ScaleFactor, ScaleFactor );
 		}
 		// ============================================================
