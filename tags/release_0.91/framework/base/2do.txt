@@ -1,0 +1,15 @@
+﻿To do (refactor):
+- remove Quantgets, leave only Widgets
+- remove SndPlayer, make initialization of sounds in some static method (in Core class)
+- refactor xml-widgets creation (need more intuitive code and special keywords). Инициализация всех xml-параметров должна проходить до создания объекта, в объект уже должны передавать финальные значения
+- виджеты должны крепиться друг к другу, а не все к WidgetsManager'у сцены
+	- возможно немного изменится код поиска виджета, на который произошел клик, да это будет не так быстро (нужно пробегать все виджеты), зато удобно
+- WidgetContainer переименовать в WidgetsContainer
+- все места, где код меняется в зависимости от Release/Debug, нужно сделать через условную компиляцию
+- часть классов из ROR перенести в base
+- переименовать base в fngine.base
+- изменить внутреннюю структуру папок, например:
+					ui, utils, containers, types, effects, externals, managers,
+			а другие папки разместить внутри этих
+- сделать сэмпл простейшего проекта с меню и игровым полем и движущимся за курсором объектом
+	- и посмотреть что нужно исправить для упрощения создания
