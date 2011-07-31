@@ -116,7 +116,7 @@ package base.utils.settings
 		public function PopBool():Boolean
 		{
 			IncrementHead();
-			return Boolean(GetNextString());
+			return (GetNextString() == "true");
 		}
 		// ============================================================
 		public function PopCompleteClass():void 
