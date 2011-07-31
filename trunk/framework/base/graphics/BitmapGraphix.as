@@ -55,7 +55,7 @@
 			//mColorTransform.alphaMultiplier = value;
 		//}
 		// ============================================================
-		public function DrawBitmapData(bmd:BitmapData, sx:Number, sy:Number, alpha:Number = 1):void
+		public function DrawImage(bmd:BitmapData, sx:Number, sy:Number, alpha:Number = 1):void
 		{
 			if ( alpha <= 0 )
 				return;
@@ -68,7 +68,7 @@
 			
 			/*if ( alpha == 1 )
 			{
-				DrawBitmapDataFast( bmd, sx, sy );
+				DrawImageFast( bmd, sx, sy );
 				return;
 			}*/
 
@@ -88,7 +88,7 @@
 			}
 		}
 		// ============================================================
-		public function DrawBitmapDataScaled(bmd:BitmapData, sx:Number, sy:Number, alpha:Number = 1, scaleX:Number=1, scaleY:Number=1):void
+		public function DrawImageScaled(bmd:BitmapData, sx:Number, sy:Number, alpha:Number = 1, scaleX:Number=1, scaleY:Number=1):void
 		{
 			if ( alpha <= 0 )
 				return;
@@ -110,7 +110,7 @@
 			//copyPixels( bmd, bmd.rect, new Point(sx+mOffsetX,sy+mOffsetY) );
 		}
 		// ============================================================
-		public function DrawBitmapDataCentered(bmd:BitmapData, sx:Number, sy:Number, alpha:Number = 1):void
+		public function DrawImageCentered(bmd:BitmapData, sx:Number, sy:Number, alpha:Number = 1):void
 		{
 			if ( alpha <= 0 )
 				return;
@@ -138,7 +138,7 @@
 		}
 		// ============================================================
 		private var mTmpCenterPoint:NPoint = new NPoint();
-		public function DrawBitmapDataFastCentered(bmd:BitmapData, sx:Number, sy:Number):void
+		public function DrawImageFastCentered(bmd:BitmapData, sx:Number, sy:Number):void
 		{
 			if ( IsDrawModeNormal )
 			{
@@ -151,14 +151,14 @@
 			}
 			else
 			{
-				DrawBitmapDataCentered(bmd, int(sx), int(sy), 1);
+				DrawImageCentered(bmd, int(sx), int(sy), 1);
 			}
 		}
 		// ============================================================
 		private var mDrawRotMatrix:Matrix = new Matrix(1, 0, 0, 1);
 		private var mHalfScale:Number;
 		private var mHalfW:Number, mHalfH:Number;
-		public function DrawBitmapDataRot(bmd:BitmapData, sx:Number, sy:Number, alpha:Number = 1, angle:Number = 0, scaleFactor:Number = 1):void
+		public function DrawImageRot(bmd:BitmapData, sx:Number, sy:Number, alpha:Number = 1, angle:Number = 0, scaleFactor:Number = 1):void
 		{
 			if ( alpha <= 0 )
 				return;
@@ -190,7 +190,7 @@
 		}
 		// ============================================================
 		/**
-		 * Данный метод отличается от DrawBitmapDataRot тем, что центрирует поворачиваемое изображение только по ширине
+		 * Данный метод отличается от DrawImageRot тем, что центрирует поворачиваемое изображение только по ширине
 		 * @param	bmd
 		 * @param	sx
 		 * @param	sy
@@ -199,7 +199,7 @@
 		 * @param	scaleFactor
 		 */
 		private var mZeroCenterOffset:NPoint = new NPoint();
-		public function DrawBitmapRotFreeCenter(bmd:BitmapData, sx:Number, sy:Number, alpha:Number = 1, angle:Number = 0, scaleFactor:Number = 1, centerOffset:NPoint = null ):void
+		public function DrawImageRotFreeCenter(bmd:BitmapData, sx:Number, sy:Number, alpha:Number = 1, angle:Number = 0, scaleFactor:Number = 1, centerOffset:NPoint = null ):void
 		{
 			if ( alpha <= 0 )
 				return;
@@ -238,7 +238,7 @@
 			}
 		}
 		// ============================================================
-		public function DrawBitmapDataPart(bmd:BitmapData, sx:Number, sy:Number, offx:Number = 0, offy:Number = 0, w:Number = 0, h:Number = 0):void
+		public function DrawImagePart(bmd:BitmapData, sx:Number, sy:Number, offx:Number = 0, offy:Number = 0, w:Number = 0, h:Number = 0):void
 		{
 			if ( !bmd )
 			{
@@ -261,7 +261,7 @@
 		}
 		// ============================================================
 		private var mScaleRect:Rectangle = new Rectangle();
-		public function DrawBitmapDataPartScaled(bmd:BitmapData, sx:Number, sy:Number, part:NRect, scaleX:Number = 1, scaleY:Number = 1, alpha:Number = 1 ):void
+		public function DrawImagePartScaled(bmd:BitmapData, sx:Number, sy:Number, part:NRect, scaleX:Number = 1, scaleY:Number = 1, alpha:Number = 1 ):void
 		{
 			if ( alpha <= 0 )
 				return;
@@ -297,12 +297,12 @@
 				return;
 			
 			if ( alpha == 1 )
-				DrawBitmapDataFast( bmd, sx, sy );
+				DrawImageFast( bmd, sx, sy );
 			else
-				DrawBitmapData( bmd, int(sx + 0.5), int(sy + 0.5), alpha );
+				DrawImage( bmd, int(sx + 0.5), int(sy + 0.5), alpha );
 		}
 		// ============================================================
-		public function DrawBitmapDataFast(bmd:BitmapData, sx:Number, sy:Number):void
+		public function DrawImageFast(bmd:BitmapData, sx:Number, sy:Number):void
 		{
 			if ( !bmd )
 			{
@@ -318,10 +318,10 @@
 				copyPixels( bmd, bmd.rect, startPnt, null, null, true );
 			}
 			else
-				DrawBitmapData(bmd, int(sx), int(sy), 1);	// на случай, если режим смешивания ADD
+				DrawImage(bmd, int(sx), int(sy), 1);	// на случай, если режим смешивания ADD
 		}
 		// ============================================================
-		public function DrawScale9BitmapData(bmd:BitmapData, x:int, y:int, w:int, h:int) : void
+		public function DrawScale9Image(bmd:BitmapData, x:int, y:int, w:int, h:int) : void
 		{
 			// своя реализация:
 			var nW:int = Math.max( w, bmd.width );
@@ -353,14 +353,14 @@
 						
 					if ( cx != 1 && cy != 1 )
 					{
-						DrawBitmapDataPart( bmd, x + ddx1, y + ddy1,
+						DrawImagePart( bmd, x + ddx1, y + ddy1,
 											dx1, dy1, dx2 - dx1, dy2 - dy1 );
 					}
 					else
 					{
 						var ddx2:int = vecDestX[cx + 1];
 						var ddy2:int = vecDestY[cy + 1];
-						DrawBitmapDataPartScaled(bmd, x + ddx1, y + ddy1,
+						DrawImagePartScaled(bmd, x + ddx1, y + ddy1,
 											new NRect(dx1, dy1, dx2 - dx1, dy2 - dy1),
 											(ddx2 - ddx1) / (dx2 - dx1),
 											(ddy2 - ddy1) / (dy2 - dy1)

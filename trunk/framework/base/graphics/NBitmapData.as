@@ -491,7 +491,7 @@
 		protected var startPnt:Point = new Point();
 		protected var mBitmapColTr:ColorTransform = new ColorTransform(1, 1, 1, 1);
 		protected var mDrawMatrix:Matrix = new Matrix(1, 0, 0, 1);
-		public function DrawImageNoAlpha(bmd:BitmapData, sx:Number, sy:Number):void
+		public function DrawImageBDNoAlpha(bmd:BitmapData, sx:Number, sy:Number):void
 		{
 			if ( !bmd )
 			{
@@ -505,7 +505,7 @@
 			copyPixels( bmd, bmd.rect, startPnt, null, null, false );
 		}
 		// ============================================================
-		public function DrawImageFast(bmd:BitmapData, sx:Number, sy:Number):void
+		public function DrawImageBDFast(bmd:BitmapData, sx:Number, sy:Number):void
 		{
 			if ( !bmd )
 			{
@@ -519,7 +519,7 @@
 			copyPixels( bmd, bmd.rect, startPnt, null, null, true );
 		}
 		// ============================================================
-		public function DrawImage(bmd:BitmapData, sx:Number, sy:Number, alpha:Number = 1):void
+		public function DrawImageBD(bmd:BitmapData, sx:Number, sy:Number, alpha:Number = 1):void
 		{
 			if ( alpha <= 0 )
 				return;

@@ -73,7 +73,7 @@ package base.controls
 				
 				var progress:Number = Progress;
 				var w:int = int(mImage.width * progress + 0.5);
-				g.DrawBitmapDataPart( mImage, _x, _y, 0,0,w,mImage.height );	// отрисовка выровненная
+				g.DrawImagePart( mImage, _x, _y, 0,0,w,mImage.height );	// отрисовка выровненная
 			}
 			/*else if ( mAnimImage )
 			{

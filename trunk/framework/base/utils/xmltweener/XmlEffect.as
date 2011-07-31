@@ -115,7 +115,7 @@ package base.utils.xmltweener
 		{
 			if( mIsVisible && mImage )
 			{
-				g.DrawBitmapDataScaled( mImage, x + X, y + Y, Alpha * FastMath.AlphaNormalize, ScaleX, ScaleY );
+				g.DrawImageScaled( mImage, x + X, y + Y, Alpha * FastMath.AlphaNormalize, ScaleX, ScaleY );
 			}
 		}
 		// ============================================================

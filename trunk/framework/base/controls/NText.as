@@ -202,7 +202,7 @@
 		SimpleProfiler.Start("NText");
 			if ( mFont && mBuffer )
 			{
-				g.DrawBitmapDataFast( mBuffer, 0, 0 );
+				g.DrawImageFast( mBuffer, 0, 0 );
 			}
 		SimpleProfiler.Stop("NText");
 		}
