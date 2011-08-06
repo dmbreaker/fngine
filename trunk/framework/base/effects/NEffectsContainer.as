@@ -59,7 +59,7 @@
 		{
 			var effect:NEffect;
 
-			g.AddOffset( sx, sy );	// добавим смещение
+			g.AddOffset( sx, sy );	// let's add shift
 			ForEach( function ( obj:*, index:int ):void
 			{
 				effect = NEffect(obj);

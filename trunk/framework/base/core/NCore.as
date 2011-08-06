@@ -340,6 +340,7 @@
 			if ( mBGImage )
 			{
 				graphics.beginBitmapFill( mBGImage, null, false, false );
+				graphics.beginBitmapFill( mBGImage, null, false, false );
 				graphics.drawRect( 0, 0, stage.stageWidth, stage.stageHeight );
 				graphics.endFill();
 			}
