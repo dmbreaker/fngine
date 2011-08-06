@@ -39,8 +39,18 @@
 			mItems.forEach( function ( obj:*, index:int, array:Array ):void
 			{
 				if( obj )
-				func( obj );
+					func( obj );
 			} );
+		}
+		// ============================================================
+		internal function get Count():int
+		{
+			return mItems.length;
+		}
+		// ============================================================
+		internal function GetItem( index:int ):*
+		{
+			return mItems[index];
 		}
 		// ============================================================
 		internal function get HasItems():Boolean
