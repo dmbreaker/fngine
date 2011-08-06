@@ -51,7 +51,8 @@
 				for (var i:int = 0; i < count; i++) 
 				{
 					widget = Widget(this.GetItem(i));
-					widget.InternalQuant( diff_ms );
+					if( widget )
+						widget.InternalQuant( diff_ms );
 				}
 				/*ForEach( function ( obj:* ):void
 				{
@@ -69,7 +70,8 @@
 				for (var i:int = 0; i < count; i++) 
 				{
 					widget = Widget(this.GetItem(i));
-					widget.InternalPrecisionQuant( diff_ms );
+					if( widget )
+						widget.InternalPrecisionQuant( diff_ms );
 				}
 				
 				/*ForEach( function ( obj:* ):void
@@ -90,8 +92,9 @@
 				for (var i:int = 0; i < count; i++) 
 				{
 					widget = Widget(this.GetItem(i));
-					if( widget.Visible )
-						widget.InternalDraw( g, diff_ms );
+					if( widget )
+						if( widget.Visible )
+							widget.InternalDraw( g, diff_ms );
 				}
 				
 				/*ForEach( function ( obj:* ):void
@@ -111,7 +114,8 @@
 			for (var i:int = 0; i < count; i++) 
 			{
 				widget = Widget(this.GetItem(i));
-				RemoveWidget( widget );
+				if( widget )
+					RemoveWidget( widget );
 			}
 				
 			/*ForEach( function ( obj:* ):void
@@ -130,14 +134,15 @@
 			for (var i:int = count-1; i >= 0; i--)
 			{
 				w = Widget(this.GetItem(i));
-				if ( w.IsClickable && w.Visible && w.IsActiveWidget )
-				{
-					if ( w.Contains( x, y ) )
+				if( w )
+					if ( w.IsClickable && w.Visible && w.IsActiveWidget )
 					{
-						result = w;
-						break;
+						if ( w.Contains( x, y ) )
+						{
+							result = w;
+							break;
+						}
 					}
-				}
 			}
 			
 			if ( result )
@@ -209,8 +214,11 @@
 			for (var i:int = 0; i < count; i++) 
 			{
 				widget = Widget(this.GetItem(i));
-				widget.InformAllControlsCreated();
-				widget.OnAllControlsCreated();
+				if ( widget )
+				{
+					widget.InformAllControlsCreated();
+					widget.OnAllControlsCreated();
+				}
 			}
 			
 			/*ForEach( function ( obj:* ):void
