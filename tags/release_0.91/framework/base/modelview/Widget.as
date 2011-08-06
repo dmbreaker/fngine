@@ -149,11 +149,18 @@
 			
 			Rect.Position.Init( x, y );
 
-			ForEach(function(obj:*):void
+			var count:int = this.Count;
+			var w:Widget;
+			for (var i:int = 0; i < count; i++) 
+			{
+				w = Widget(this.GetItem(i));
+				w.ShiftMove( sx, sy );
+			}
+			/*ForEach(function(obj:*):void
 			{
 				var w:Widget = Widget(obj);
 				w.ShiftMove( sx, sy );
-			});
+			});*/
 		}
 		// ============================================================
 		// ============================================================

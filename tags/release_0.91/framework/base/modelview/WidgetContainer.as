@@ -46,10 +46,18 @@
 		{
 			if ( HasItems )
 			{
-				ForEach( function ( obj:* ):void
+				var widget:Widget = null;
+				var count:int = this.Count;
+				for (var i:int = 0; i < count; i++) 
+				{
+					widget = Widget(this.GetItem(i));
+					if( widget )
+						widget.InternalQuant( diff_ms );
+				}
+				/*ForEach( function ( obj:* ):void
 				{
 					Widget(obj).InternalQuant( diff_ms );
-				} );
+				} );*/
 			}
 		}
 		// ============================================================
@@ -57,42 +65,94 @@
 		{
 			if ( HasItems )
 			{
-				ForEach( function ( obj:* ):void
+				var widget:Widget = null;
+				var count:int = this.Count;
+				for (var i:int = 0; i < count; i++) 
+				{
+					widget = Widget(this.GetItem(i));
+					if( widget )
+						widget.InternalPrecisionQuant( diff_ms );
+				}
+				
+				/*ForEach( function ( obj:* ):void
 				{
 					Widget(obj).InternalPrecisionQuant( diff_ms );
-				} );
+				} );*/
 			}
 		}
 		// ============================================================
 		internal function InternalDraw( g:BitmapGraphix, diff_ms:int ):void
 		{
-			var w:Widget;
+			//var w:Widget;
 			
 			if ( HasItems )
 			{
-				ForEach( function ( obj:* ):void
+				var widget:Widget = null;
+				var count:int = this.Count;
+				for (var i:int = 0; i < count; i++) 
+				{
+					widget = Widget(this.GetItem(i));
+					if( widget )
+						if( widget.Visible )
+							widget.InternalDraw( g, diff_ms );
+				}
+				
+				/*ForEach( function ( obj:* ):void
 				{
 					w = Widget(obj);
 					
 					if( w.Visible )
 						w.InternalDraw( g, diff_ms );
-				} );
+				} );*/
 			}
 		}
 		// ============================================================
 		public function RemoveAll():void
 		{
-			ForEach( function ( obj:* ):void
+			var widget:Widget = null;
+			var count:int = this.Count;
+			for (var i:int = 0; i < count; i++) 
+			{
+				widget = Widget(this.GetItem(i));
+				if( widget )
+					RemoveWidget( widget );
+			}
+				
+			/*ForEach( function ( obj:* ):void
 			{
 				var widget:Widget = Widget(obj);
 				RemoveWidget( widget );
-			} );
+			} );*/
 		}
 		// ============================================================
 		// функцию сравнения вынести в место вызова, чтобы можно было использовать функцию для различных целей
 		public function FindWidgetFromPosition( x:Number, y:Number ):Widget
 		{
-			var result:Widget = FindItemCompareReverse( function ( item:* ):Boolean
+			var result:Widget = null;
+			var w:Widget = null;
+			var count:int = this.Count;
+			for (var i:int = count-1; i >= 0; i--)
+			{
+				w = Widget(this.GetItem(i));
+				if( w )
+					if ( w.IsClickable && w.Visible && w.IsActiveWidget )
+					{
+						if ( w.Contains( x, y ) )
+						{
+							result = w;
+							break;
+						}
+					}
+			}
+			
+			if ( result )
+			{
+				return result.GetWidgetFromPosition( x, y ) || result;
+			}
+			else
+				return null;
+			
+			/*var result:Widget = FindItemCompareReverse( function ( item:* ):Boolean
 			{
 				var w:Widget = Widget(item);
 				if ( w.IsClickable && w.Visible && w.IsActiveWidget )
@@ -106,18 +166,30 @@
 					return false;
 			} ) as Widget;
 			
-			
 			if ( result )
 			{
 				return result.GetWidgetFromPosition( x, y ) || result;
 			}
 			else
-				return null;
+				return null;*/
 		}
 		// ============================================================
 		public function FindWidget( id:String ):Widget
 		{
-			var result:Widget = FindItemCompare( function ( item:* ):Boolean
+			var widget:Widget = null;
+			var count:int = this.Count;
+			for (var i:int = 0; i < count; i++)
+			{
+				widget = Widget(this.GetItem(i));
+				if ( widget )
+				{
+					if ( widget.Name == id )
+						return widget;
+				}
+			}
+			return null;
+			
+			/*var result:Widget = FindItemCompare( function ( item:* ):Boolean
 			{
 				var w:Widget = Widget(item);
 				if ( w.Name == id )
@@ -126,8 +198,7 @@
 					return false;
 			} ) as Widget;
 			
-			
-			return result;
+			return result;*/
 		}
 		// ============================================================
 		// ============================================================
@@ -138,12 +209,24 @@
 		// ============================================================
 		public function InformAllControlsCreated():void
 		{
-			ForEach( function ( obj:* ):void
+			var widget:Widget = null;
+			var count:int = this.Count;
+			for (var i:int = 0; i < count; i++) 
+			{
+				widget = Widget(this.GetItem(i));
+				if ( widget )
+				{
+					widget.InformAllControlsCreated();
+					widget.OnAllControlsCreated();
+				}
+			}
+			
+			/*ForEach( function ( obj:* ):void
 			{
 				var widget:Widget = Widget(obj);
 				widget.InformAllControlsCreated();
 				widget.OnAllControlsCreated();
-			} );
+			} );*/
 		}
 		// ============================================================
 	}
