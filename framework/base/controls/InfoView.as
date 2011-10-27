@@ -13,12 +13,11 @@
 	import flash.display.BitmapData;
 	import flash.events.Event;
 	
-	import fonts.SomeFont;
-	
 	/**
 	 * ...
 	 * @author dmBreaker
 	 */
+	//@ uses RM
 	public class InfoView extends Control
 	{
 		// ============================================================

@@ -7,6 +7,7 @@
 	 * ...
 	 * @author dmBreaker
 	 */
+	//@ uses RM
 	public class SimpleEffect extends NEffect
 	{
 		private var mParticle:NAnimatedParticle;
