@@ -328,6 +328,7 @@
 					pixel_length += bmpSize.Width + mKerning;
 				}
 				
+				//@ memory allocation
 				return new NSize( pixel_length, pixel_height );
 			}
 		}
@@ -340,6 +341,7 @@
 		 */
 		public function SplitTextToLines( text:String, r:NRect = null ):Array
 		{
+			//@ memory allocation
 			var result_array:Array = new Array();
 			var count:int = text.length;
 			
@@ -428,6 +430,7 @@
 				var pixel_length:Number = 0;
 				var count:int = text.length;
 				
+				//@ memory allocation
 				var pos:NPoint = new NPoint();
 				var right:Number = rect.Right;
 				

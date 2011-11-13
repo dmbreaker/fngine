@@ -86,7 +86,8 @@
 			{
 				total_time += mTotal[label];
 			}
-			
+
+			//@ memory allocation
 			var sortedArr:Array = new Array();
 			for ( label in mTotal )
 				sortedArr.push(label);

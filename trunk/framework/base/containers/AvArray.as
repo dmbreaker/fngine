@@ -34,6 +34,16 @@ package base.containers
 			mArr.push( item );
 		}
 		// ============================================================
+		public function InsertAt( index:int, item:* ):void 
+		{
+			mArr.splice(index, 0, item);
+		}
+		// ============================================================
+		public function RemoveAt( index:int ):*
+		{
+			return mArr.splice(index, 1)[0];	// т.к. возвращается массив
+		}
+		// ============================================================
 		public function CloneFrom( arr:AvArray ):void 
 		{
 			Clear();

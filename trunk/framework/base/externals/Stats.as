@@ -126,8 +126,8 @@ package base.externals
 			graph.bitmapData = new BitmapData(WIDTH, HEIGHT - 50, false, theme.bg);
 			addChild(graph);
 			
-			addEventListener(MouseEvent.CLICK, onClick);
-			addEventListener(Event.ENTER_FRAME, update);
+			addEventListener(MouseEvent.CLICK, onClick, false, 0, true);
+			addEventListener(Event.ENTER_FRAME, update, false, 0, true);
 		}
 		
 		private function destroy(e : Event) : void

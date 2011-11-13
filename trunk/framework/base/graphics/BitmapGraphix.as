@@ -321,13 +321,19 @@
 				DrawImage(bmd, int(sx), int(sy), 1);	// на случай, если режим смешивания ADD
 		}
 		// ============================================================
+		private var scale9Grid:Rectangle = new Rectangle(0,0,0,0);
 		public function DrawScale9Image(bmd:BitmapData, x:int, y:int, w:int, h:int) : void
 		{
 			// своя реализация:
 			var nW:int = Math.max( w, bmd.width );
 			var nH:int = Math.max( h, bmd.height );
-			var scale9Grid:Rectangle = new Rectangle(x, y, nW, nH);
+			//var scale9Grid:Rectangle = new Rectangle(x, y, nW, nH);
+			scale9Grid.x = x;
+			scale9Grid.y = y;
+			scale9Grid.width = nW;
+			scale9Grid.height = nH;
 			
+			//@ memory allocation
 			var vecSrcX:Array = [0, int(bmd.width / 3),	int(2 * bmd.width / 3),	bmd.width-1];
 			var vecSrcY:Array = [0, int(bmd.height / 3),int(2 * bmd.height / 3),bmd.height-1];
 			
@@ -358,6 +364,7 @@
 					}
 					else
 					{
+						//@ memory allocation
 						var ddx2:int = vecDestX[cx + 1];
 						var ddy2:int = vecDestY[cy + 1];
 						DrawImagePartScaled(bmd, x + ddx1, y + ddy1,

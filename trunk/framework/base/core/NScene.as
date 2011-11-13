@@ -12,6 +12,7 @@
 	import base.tweening.NTweener;
 	import base.effects.NEffectTweener;
 	import flash.display.MovieClip;
+	import flash.system.System;
 	
 	import flash.geom.Point;
 	import flash.display.Sprite;
@@ -429,6 +430,10 @@
 				// попытка добавить слои, чтобы отрисовка стала быстрее
 				mGraphix.BlitOn( mLayers[mMainLayerIndex].graphics, 0, 0 );
 				
+				// non-leaking memory detector:
+				//var mem:Number = Number((System.totalMemory * 0.000000954).toFixed(3));
+				//trace(mem)
+				
 				prevFramesTime = t;
 				FramesCount++;
 			}
@@ -450,9 +455,9 @@
 				if ( mWasMouseMove && !mIsFreezed )
 				{
 					mWasMouseMove = false;
-				//SimpleProfiler.Start( "MouseMove" );
+				SimpleProfiler.Start( "MouseMove" );
 					OnMouseMove( mMousePosition.x, mMousePosition.y );
-				//SimpleProfiler.Stop( "MouseMove" );
+				SimpleProfiler.Stop( "MouseMove" );
 				}
 			}
 
