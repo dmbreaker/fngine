@@ -129,7 +129,8 @@
 				
 				var lineY:Number = 0;
 				var rZ:NRect = rect || rectTmp;
-				
+		
+				//@ memory allocation
 				var tlines:Vector.<TextLine> = new Vector.<TextLine>();
 				var tline:TextLine = tblock.createTextLine( null, rZ.Width );
 				
@@ -301,6 +302,7 @@
 		 */
 		private function DoOneLineAlignment( text:String, rect:NRect, font:ImageFont, halign:int, valign:int ):NPoint
 		{
+			//@ memory allocation
 			var shift:NPoint = new NPoint();
 			var shift_hor:Number = 0;
 			var shift_ver:Number = 0;
