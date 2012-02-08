@@ -68,6 +68,11 @@ package base.containers
 			}
 		}
 		// ============================================================
+		/*public function TryGetValue(value:*, result):Boolean
+		{
+			
+		}*/
+		// ============================================================
 		public function GetValue( id:* ):*
 		{
 			return Data[id];

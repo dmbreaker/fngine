@@ -97,7 +97,7 @@ package base.controls
 				
 				var progress:Number = Progress;
 				w = int(mImage.width * progress + 0.5);
-				g.DrawBitmapDataPart( mImage, _x, _y, 0,0,w,mImage.height );	// отрисовка выровненная
+				g.DrawImagePart( mImage, _x, _y, 0,0,w,mImage.height );	// отрисовка выровненная
 			}
 			else if ( mMImage )
 			{
@@ -107,7 +107,7 @@ package base.controls
 				w = int(mProgress * Number(mMImage.FrameWidth) + 0.5);
 				h = mMImage.FrameHeight;
 				if( mForeImageIndex >= 0 )
-					g.DrawBitmapDataPart( mMImage.GetFrame(mForeImageIndex), 0, 0, 0, 0, w, h );
+					g.DrawImagePart( mMImage.GetFrame(mForeImageIndex), 0, 0, 0, 0, w, h );
 			}
 			/*else if ( mAnimImage )
 			{
