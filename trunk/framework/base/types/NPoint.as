@@ -189,6 +189,23 @@
 			y = vec.y;
 		}
 		// ============================================================
+		public function FromString( str:String ):Boolean
+		{
+			var arr:Array = str.split(";");
+			if ( arr.length == 2 )
+			{
+				x = int(arr[0]);
+				y = int(arr[1]);
+				return true;
+			}
+			else
+			{
+				x = 0;
+				y = 0;
+				return false;
+			}
+		}
+		// ============================================================
 	}
 	
 }

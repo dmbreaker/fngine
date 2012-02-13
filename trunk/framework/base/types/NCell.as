@@ -123,6 +123,23 @@
 			return "[NCell: row=" + Row + " column=" + Column + "]";
 		}
 		// ============================================================
+		public function FromString(from:String):Boolean
+		{
+			var arr:Array = from.split(";");
+			if ( arr.length == 2 )
+			{
+				Column = int(arr[0]);
+				Row = int(arr[1]);
+				return true;
+			}
+			else
+			{
+				Column = 0;
+				Row = 0;
+				return false;
+			}
+		}
+		// ============================================================
 		
 		
 		

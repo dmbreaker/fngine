@@ -92,6 +92,23 @@
 			return r;
 		}
 		// ============================================================
+		public function FromString(str:String):Boolean
+		{
+			var arr:Array = str.split(";");
+			if ( arr.length == 4 )
+			{
+				Position.Init( int(arr[0]), int(arr[1]) );
+				Size.Init( int(arr[2]), int(arr[3]) );
+				return true;
+			}
+			else
+			{
+				Position.Reset();
+				Size.Reset();
+				return false;
+			}
+		}
+		// ============================================================
 		/**
 		 * Изменяет координаты точки так, чтобы точка находилась внутри прямоугольника
 		 */
