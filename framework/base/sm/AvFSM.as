@@ -34,7 +34,7 @@ package base.sm
 		public function Reset():void
 		{
 			CurrentState = InitialState;
-			// ...
+			Events.length = 0;
 		}
 		// ============================================================
 		/*
@@ -43,6 +43,12 @@ package base.sm
 		public function AppendState(state:AvState):void
 		{
 			States.Add(state.ID, state);
+		}
+		// ============================================================
+		public function AppendStates(states:Array):void
+		{
+			for each( var state:AvState in states )
+				AppendState(state);
 		}
 		// ============================================================
 		/*
@@ -58,7 +64,7 @@ package base.sm
 			if ( result == undefined )
 			{
 				dict = new AvDictionary();
-				FSMTable.Add( event, dict );
+				FSMTable.Add( curStateID, dict );
 			}
 			else
 				dict = result as AvDictionary;
@@ -87,7 +93,7 @@ package base.sm
 			var events:Vector.<String> = Events.concat();	// copy of events
 			Events.length = 0;
 			
-			for ( var event:String in events )
+			for each( var event:String in events )
 			{
 				CurrentState.DoHandle(event);	// call it anyway
 				
@@ -100,11 +106,19 @@ package base.sm
 						var nextState:AvState = States.GetValue(nextStateID);
 						
 						CurrentState.DoExit();
-						nextState.DoEnter();
+						nextState.DoEnter(event);
 						CurrentState = nextState;
 					}
 				}
 			}
+		}
+		// ============================================================
+		public function get CurrentStateID():String
+		{
+			if( CurrentState )
+				return CurrentState.ID;
+			else
+				return "";
 		}
 		// ============================================================
 	}

@@ -16,38 +16,42 @@ package base.sm
 		public var OnUpdate:Function = null;
 		// ============================================================
 		// ============================================================
-		public function AvState() 
+		public function AvState(id:String, params:* = null)
 		{
+			ID = id;
 			
+			if ( params )
+			{
+				if ("is_working" in params)
+					IsWorking = params["is_working"] as Boolean;
+			}
 		}
 		// ============================================================
 		// ============================================================
 		/*
 		 * Handle event
 		 */
-		public function DoHandle(event:String):void//String
+		public function DoHandle(event:String):void
 		{
-			if ( OnHandle )
+			if ( OnHandle != null )
 				OnHandle(event);
-			//else
-			//	return "";	// do not change current state
 		}
 		// ============================================================
-		public function DoEnter(/*event:String*/):void
+		public function DoEnter(event:String):void
 		{
-			if ( OnEnter )
-				OnEnter(/*event*/);
+			if ( OnEnter != null )
+				OnEnter(event);
 		}
 		// ============================================================
 		public function DoExit(/*event:String*/):void
 		{
-			if ( OnExit )
+			if ( OnExit != null )
 				OnExit();
 		}
 		// ============================================================
 		public function DoUpdate(ms:int):void
 		{
-			if ( OnUpdate && IsWorking )
+			if ( OnUpdate != null && IsWorking )
 				OnUpdate(ms);
 		}
 		// ============================================================
