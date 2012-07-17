@@ -14,6 +14,8 @@ package base.sm
 		public var OnExit:Function = null;
 		public var OnHandle:Function = null;
 		public var OnUpdate:Function = null;
+		public var CanExit:Function = null;
+		public var CanEnter:Function = null;
 		// ============================================================
 		// ============================================================
 		public function AvState(id:String, params:* = null)
@@ -53,6 +55,22 @@ package base.sm
 		{
 			if ( OnUpdate != null && IsWorking )
 				OnUpdate(ms);
+		}
+		// ============================================================
+		public function DoCanExit(event:String):Boolean
+		{
+			if ( CanExit != null )
+				return CanExit(event);
+			else
+				return true;
+		}
+		// ============================================================
+		public function DoCanEnter(event:String):Boolean
+		{
+			if ( CanEnter != null )
+				return CanEnter(event);
+			else
+				return true;
 		}
 		// ============================================================
 	}
