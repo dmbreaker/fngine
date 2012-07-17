@@ -96,18 +96,23 @@ package base.sm
 			for each( var event:String in events )
 			{
 				CurrentState.DoHandle(event);	// call it anyway
-				
-				if ( FSMTable.ContainsKey(CurrentState.ID) )
+				if ( CurrentState.DoCanExit(event) )	// can we leave current state?
 				{
-					var transitions:AvDictionary = FSMTable.GetValue(CurrentState.ID);
-					if ( transitions.ContainsKey(event) )
+					if ( FSMTable.ContainsKey(CurrentState.ID) )
 					{
-						var nextStateID:String = transitions.GetValue(event);
-						var nextState:AvState = States.GetValue(nextStateID);
-						
-						CurrentState.DoExit();
-						nextState.DoEnter(event);
-						CurrentState = nextState;
+						var transitions:AvDictionary = FSMTable.GetValue(CurrentState.ID);
+						if ( transitions.ContainsKey(event) )
+						{
+							var nextStateID:String = transitions.GetValue(event);
+							var nextState:AvState = States.GetValue(nextStateID);
+
+							if ( nextState.DoCanEnter(event) )	// can we enter next state?
+							{
+								CurrentState.DoExit();
+								nextState.DoEnter(event);
+								CurrentState = nextState;
+							}
+						}
 					}
 				}
 			}
