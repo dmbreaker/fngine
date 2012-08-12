@@ -115,13 +115,15 @@
 			}
 		}
 		// ============================================================
+		private var special_types:* = { "ease":0, "delay":0, "onComplete":0, "onUpdate":0, "onStart":0 };
 		public function InitTweenVals():void
 		{
 			var p:String, i:int;
 			//trace( "===============================");
 			for (p in this.Vars)
 			{
-				if (p == "ease" || p == "delay" || p == "onComplete" || p == "onUpdate" || p == "onStart" ) //"type" is for TweenFilterLite, and it's an issue when trying to tween filters on TextFields which do actually have a "type" property.
+				//if (p == "ease" || p == "delay" || p == "onComplete" || p == "onUpdate" || p == "onStart" ) //"type" is for TweenFilterLite, and it's an issue when trying to tween filters on TextFields which do actually have a "type" property.
+				if( p in special_types )
 				{
 					
 				}
