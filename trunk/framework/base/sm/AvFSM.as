@@ -80,9 +80,11 @@ package base.sm
 				CurrentState.DoUpdate(ms);
 		}
 		// ============================================================
-		public function HandleEvent(event:String):void
+		public function HandleEvent(event:String, force:Boolean = false):void
 		{
 			Events.push(event);
+			if ( force )
+				Process();
 		}
 		// ============================================================
 		public function Process():void

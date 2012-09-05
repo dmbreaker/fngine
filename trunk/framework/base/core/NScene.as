@@ -559,7 +559,7 @@
 				DefaultOk = scene[0].@ok.toString();
 				DefaultYes = scene[0].@yes.toString();
 				DefaultNo = scene[0].@no.toString();
-				DefaultNextScene = scene[0].@next_scene.toString();
+				DefaultNextScene = scene[0].@next_dialog.toString();
 				
 				mWidgets.ParseXMLScene( xml, mSceneName );
 				OnSceneEvent( NSceneEvent.evtControlsLoaded, null );	// чтобы известить об окончании инициализации контролов
